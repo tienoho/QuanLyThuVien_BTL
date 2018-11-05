@@ -1,4 +1,4 @@
--- auto-generated definition
+-- Bảng BIB
 CREATE TABLE Z00
 (
   Z00_DOC_NUMBER CHAR(9) NOT NULL,

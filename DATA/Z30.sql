@@ -1,4 +1,4 @@
--- auto-generated definition
+-- bảng ITEM
 create table Z30
 (
   Z30_REC_KEY                CHAR(15) not null,
