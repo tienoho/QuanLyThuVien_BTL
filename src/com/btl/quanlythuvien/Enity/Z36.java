@@ -22,11 +22,8 @@ public class Z36 {
     private String Z36_NOTE_1;
     private String Z36_NOTE_2;
     private String Z36_LOAN_CATALOGER_NAME;
-    private String Z36_LOAN_CATALOGER_IP;
     private String Z36_RETURN_CATALOGER_NAME;
-    private String Z36_RETURN_CATALOGER_IP;
     private String Z36_RENEW_CATALOGER_NAME;
-    private String Z36_RENEW_CATALOGER_IP;
     private String Z36_RENEW_MODE;
     private String Z36_BOR_TYPE;
     private String Z36_NOTE_ALPHA;
