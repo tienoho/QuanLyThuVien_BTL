@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
 public class HomePanel extends BasePanel {
-    GridBagConstraints gridBagConstraints;
-    GridBagLayout gridBagLayout;
+    private GridBagConstraints gridBagConstraints;
+    private GridBagLayout gridBagLayout;
+    private JButton bttquanli, btxoa, btcapnhat, btmuonts, bttqlnxb, btdocgia, bttimkiem, btttacgia1;
+    private JTextField tftimkiem;
 
     @Override
     public void initComponents() {
@@ -24,6 +27,12 @@ public class HomePanel extends BasePanel {
 
         KeyAdapter keyAdapter;
 
+        btdocgia.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        });
     }
 
     @Override
@@ -32,23 +41,22 @@ public class HomePanel extends BasePanel {
     }
 
     private void addButton() {
-        JButton bttquanli = new JButton("Quản lí sách", new ImageIcon(
+        bttquanli = new JButton("Quản lí sách", new ImageIcon(
                 "image/qls2.png"));
-        JButton btxoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
-        JButton btcapnhat = new JButton("Cập nhật thông tin....", new ImageIcon(
+        btxoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
+        btcapnhat = new JButton("Cập nhật thông tin....", new ImageIcon(
                 "image/cn.png"));
 
-        JButton btmuonts = new JButton("Quản lí mượn trả sách....", new ImageIcon(
+        btmuonts = new JButton("Quản lí mượn trả sách....", new ImageIcon(
                 "image/mt.png"));
-        JButton bttqlnxb = new JButton("Quản lí NXB....", new ImageIcon(
+        bttqlnxb = new JButton("Quản lí NXB....", new ImageIcon(
                 "image/nxb.png"));
-        JButton btdocgia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
+        btdocgia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
 
-        JButton bttimkiem = new JButton("Tìm kiếm", new ImageIcon("image/tk2.png"));
-        JTextField tftimkiem = new JTextField();
-        JTextField tfmapt = new JTextField();
+        bttimkiem = new JButton("Tìm kiếm", new ImageIcon("image/tk2.png"));
+        tftimkiem = new JTextField();
 
-        JButton btttacgia1 = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
+        btttacgia1 = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
 
         gridBagLayout = new GridBagLayout();
         gridBagConstraints = new GridBagConstraints();
