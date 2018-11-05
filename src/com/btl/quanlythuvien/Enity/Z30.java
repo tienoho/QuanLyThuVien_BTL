@@ -6,17 +6,12 @@ public class Z30 {
     private String Z30_SUB_LIBRARY;
     private String Z30_MATERIAL;
     private String Z30_ITEM_STATUS;
-    private String Z30_OPEN_DATE;
     private String Z30_UPDATE_DATE;
     private String Z30_CATALOGER;
     private String Z30_DATE_LAST_RETURN;
     private String Z30_HOUR_LAST_RETURN;
     private int Z30_NO_LOANS;
-    private String Z30_ALPHA;
     private String Z30_COLLECTION;
-    private String Z30_CALL_NO_TYPE;
-    private String Z30_CALL_NO;
-    private String Z30_CALL_NO_KEY;
     private String Z30_DESCRIPTION;
     private String Z30_NOTE_OPAC;
     private String Z30_NOTE_CIRCULATION;
@@ -38,23 +33,18 @@ public class Z30 {
     public Z30() {
     }
 
-    public Z30(String z30_REC_KEY, String z30_BARCODE, String z30_SUB_LIBRARY, String z30_MATERIAL, String z30_ITEM_STATUS, String z30_OPEN_DATE, String z30_UPDATE_DATE, String z30_CATALOGER, String z30_DATE_LAST_RETURN, String z30_HOUR_LAST_RETURN, int z30_NO_LOANS, String z30_ALPHA, String z30_COLLECTION, String z30_CALL_NO_TYPE, String z30_CALL_NO, String z30_CALL_NO_KEY, String z30_DESCRIPTION, String z30_NOTE_OPAC, String z30_NOTE_CIRCULATION, String z30_NOTE_INTERNAL, String z30_ORDER_NUMBER, String z30_INVENTORY_NUMBER, String z30_INVENTORY_NUMBER_DATE, String z30_LAST_SHELF_REPORT_DATE, String z30_PRICE, String z30_REC_KEY_2, String z30_REC_KEY_3, String z30_PAGES, String z30_ISSUE_DATE, String z30_EXPECTED_ARRIVAL_DATE, String z30_ARRIVAL_DATE, String z30_ITEM_STATISTIC, String z30_ITEM_PROCESS_STATUS) {
+    public Z30(String z30_REC_KEY, String z30_BARCODE, String z30_SUB_LIBRARY, String z30_MATERIAL, String z30_ITEM_STATUS, String z30_UPDATE_DATE, String z30_CATALOGER, String z30_DATE_LAST_RETURN, String z30_HOUR_LAST_RETURN, int z30_NO_LOANS, String z30_COLLECTION, String z30_DESCRIPTION, String z30_NOTE_OPAC, String z30_NOTE_CIRCULATION, String z30_NOTE_INTERNAL, String z30_ORDER_NUMBER, String z30_INVENTORY_NUMBER, String z30_INVENTORY_NUMBER_DATE, String z30_LAST_SHELF_REPORT_DATE, String z30_PRICE, String z30_REC_KEY_2, String z30_REC_KEY_3, String z30_PAGES, String z30_ISSUE_DATE, String z30_EXPECTED_ARRIVAL_DATE, String z30_ARRIVAL_DATE, String z30_ITEM_STATISTIC, String z30_ITEM_PROCESS_STATUS) {
         Z30_REC_KEY = z30_REC_KEY;
         Z30_BARCODE = z30_BARCODE;
         Z30_SUB_LIBRARY = z30_SUB_LIBRARY;
         Z30_MATERIAL = z30_MATERIAL;
         Z30_ITEM_STATUS = z30_ITEM_STATUS;
-        Z30_OPEN_DATE = z30_OPEN_DATE;
         Z30_UPDATE_DATE = z30_UPDATE_DATE;
         Z30_CATALOGER = z30_CATALOGER;
         Z30_DATE_LAST_RETURN = z30_DATE_LAST_RETURN;
         Z30_HOUR_LAST_RETURN = z30_HOUR_LAST_RETURN;
         Z30_NO_LOANS = z30_NO_LOANS;
-        Z30_ALPHA = z30_ALPHA;
         Z30_COLLECTION = z30_COLLECTION;
-        Z30_CALL_NO_TYPE = z30_CALL_NO_TYPE;
-        Z30_CALL_NO = z30_CALL_NO;
-        Z30_CALL_NO_KEY = z30_CALL_NO_KEY;
         Z30_DESCRIPTION = z30_DESCRIPTION;
         Z30_NOTE_OPAC = z30_NOTE_OPAC;
         Z30_NOTE_CIRCULATION = z30_NOTE_CIRCULATION;
@@ -114,14 +104,6 @@ public class Z30 {
         Z30_ITEM_STATUS = z30_ITEM_STATUS;
     }
 
-    public String getZ30_OPEN_DATE() {
-        return Z30_OPEN_DATE;
-    }
-
-    public void setZ30_OPEN_DATE(String z30_OPEN_DATE) {
-        Z30_OPEN_DATE = z30_OPEN_DATE;
-    }
-
     public String getZ30_UPDATE_DATE() {
         return Z30_UPDATE_DATE;
     }
@@ -162,44 +144,12 @@ public class Z30 {
         Z30_NO_LOANS = z30_NO_LOANS;
     }
 
-    public String getZ30_ALPHA() {
-        return Z30_ALPHA;
-    }
-
-    public void setZ30_ALPHA(String z30_ALPHA) {
-        Z30_ALPHA = z30_ALPHA;
-    }
-
     public String getZ30_COLLECTION() {
         return Z30_COLLECTION;
     }
 
     public void setZ30_COLLECTION(String z30_COLLECTION) {
         Z30_COLLECTION = z30_COLLECTION;
-    }
-
-    public String getZ30_CALL_NO_TYPE() {
-        return Z30_CALL_NO_TYPE;
-    }
-
-    public void setZ30_CALL_NO_TYPE(String z30_CALL_NO_TYPE) {
-        Z30_CALL_NO_TYPE = z30_CALL_NO_TYPE;
-    }
-
-    public String getZ30_CALL_NO() {
-        return Z30_CALL_NO;
-    }
-
-    public void setZ30_CALL_NO(String z30_CALL_NO) {
-        Z30_CALL_NO = z30_CALL_NO;
-    }
-
-    public String getZ30_CALL_NO_KEY() {
-        return Z30_CALL_NO_KEY;
-    }
-
-    public void setZ30_CALL_NO_KEY(String z30_CALL_NO_KEY) {
-        Z30_CALL_NO_KEY = z30_CALL_NO_KEY;
     }
 
     public String getZ30_DESCRIPTION() {
