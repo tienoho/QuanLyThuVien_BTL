@@ -2,7 +2,7 @@ package com.btl.quanlythuvien.controler;
 
 import java.util.ArrayList;
 
-public class Marc {
+public class Marc2 {
 
     private static final String mA = "$$a";
     private static final String mB = "$$b";
