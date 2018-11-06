@@ -12,7 +12,7 @@ public class DBConnection {
     public DBConnection() {
         try {
             //nap driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(cs, user, pass);
             System.out.println("Connecting");
         } catch (Exception ex) {

@@ -16,16 +16,14 @@ import java.util.Vector;
 
 
 public class HomePanel extends BasePanel {
+
+    public static final int SIZE_BUTTON_WIDTH = 220;
+    public static final int SIZE_BUTTON_HEIGHT = 50;
     private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia;
     private JTextField txtTimKiem;
-    private JTable menu;
-    private JTable jTable;
-    private Vector vData = new Vector();
-    private Vector vTitle = new Vector();
     private Connection connection;
     private PreparedStatement statement;
-    private DefaultTableModel model;
-    private JTable tb = new JTable();
+    private JLabel label;
     private JScrollPane tableResult;
 
 
@@ -40,9 +38,19 @@ public class HomePanel extends BasePanel {
         MouseListener clickQuanLy = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                remove(tableResult);
+                remove(label);
+                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                        "Z00R_TITLE AS 'Nhan đề'," +
+                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
+                String title = "Xem chi tiết";
+                tableResult = makeTable(sql, title);
+                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+
             }
         };
+        btnQuanLy.addMouseListener(clickQuanLy);
+
 
     }
 
@@ -69,22 +77,34 @@ public class HomePanel extends BasePanel {
         btnTacGia = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
 
         txtTimKiem = new JTextField();
+        label = new JLabel();
 
-        makeComp(btnQuanLy, 100, 30, 200, 50);
-        makeComp(btnDocGia, btnQuanLy.getX() + btnQuanLy.getWidth() + 25, 30, 200, 50);
-        makeComp(btnQuanLyNXB, btnDocGia.getX() + btnDocGia.getWidth() + 25, 30, 200, 50);
-        makeComp(btnMuon, btnQuanLyNXB.getX() + btnQuanLyNXB.getWidth() + 25, 30, 200, 50);
+        makeComp(btnQuanLy, 40, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
+        makeComp(btnDocGia, btnQuanLy.getX() + btnQuanLy.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
+        makeComp(btnQuanLyNXB, btnDocGia.getX() + btnDocGia.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
+        makeComp(btnMuon, btnQuanLyNXB.getX() + btnQuanLyNXB.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
 
-        makeComp(btnCapNhat, btnQuanLy.getX(), btnQuanLy.getY() + btnQuanLy.getHeight() + 25, 200, 50);
+        makeComp(btnCapNhat, btnQuanLy.getX(), btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        makeComp(btnTimkKiem, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, 200, 50);
+        makeComp(btnTimkKiem, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        reload();
-        model = new DefaultTableModel(vData, vTitle);
-        tb = new JTable(model);
-        tableResult = new JScrollPane(tb);
-        tb.setFillsViewportHeight(true);
-        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 25, 650, 400);
+        makeComp(txtTimKiem, btnTimkKiem.getX(), btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 20);
+
+        makeComp(btnXoa, txtTimKiem.getX(), txtTimKiem.getY() + txtTimKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+
+        makeComp(btnTacGia, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+
+        String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                "Z00R_TITLE AS 'Nhan đề'," +
+                "Z00R_AUTHOR AS 'Tác giả' From z00r";
+        String title = "Xem chi tiết";
+        tableResult = makeTable(sql, title);
+        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+
+//        String sql = "Select * From z00";
+//        String title = "";
+//        tableResult = makeTable(sql, title);
+//        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH * 3 + 50, 420);
 
     }
 
@@ -96,19 +116,23 @@ public class HomePanel extends BasePanel {
 
     }
 
-    public void reload() {
+    public JScrollPane makeTable(String sql, String title) {
+        Vector<String> vTitle = new Vector<String>();
+        Vector<Vector<String>> vData = new Vector<>();
         try {
+            vTitle.clear();
+            vData.clear();
             connection = new DBConnection().getConnection();
-            statement = connection.prepareStatement("Select Z00_DOC_NUMBER,Z00_NO_LINES,Z00_DATA_LEN,Z00_DATA From z00");
+            statement = connection.prepareStatement(sql);
             ResultSet rst = statement.executeQuery();
             ResultSetMetaData metaData = statement.getMetaData();
             int column = metaData.getColumnCount();
             for (int i = 1; i <= column; i++) {
-                vTitle.add(metaData.getColumnName(i));
+                vTitle.add(metaData.getColumnLabel(i));
             }
 
             while (rst.next()) {
-                Vector row = new Vector(column);
+                Vector<String> row = new Vector<String>(column);
                 for (int i = 1; i <= column; i++)
                     row.add(rst.getString(i));
                 vData.add(row);
@@ -118,5 +142,13 @@ public class HomePanel extends BasePanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JLabel jLabel = new JLabel(title);
+        makeComp(jLabel, 600, 90, 400, 30);
+        jLabel.setVisible(true);
+        DefaultTableModel defaultTableModel = new DefaultTableModel(vData, vTitle);
+        JTable jTable = new JTable(defaultTableModel);
+        JScrollPane jScrollPane = new JScrollPane(jTable);
+        jTable.setFillsViewportHeight(true);
+        return jScrollPane;
     }
 }
