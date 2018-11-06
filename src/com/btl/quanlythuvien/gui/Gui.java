@@ -19,8 +19,8 @@ public class Gui extends JFrame implements Setup {
         int height = graphicsDevice.getDisplayMode().getHeight();
         setTitle("Quản lý thư viện");
         setLayout(new GridLayout());
-        setSize(2 * width / 3, 2 * height / 3);
-        setResizable(false);
+        setSize(1050, 600);
+        setResizable(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

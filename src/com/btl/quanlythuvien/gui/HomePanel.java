@@ -46,11 +46,54 @@ public class HomePanel extends BasePanel {
                 String title = "Xem chi tiết";
                 tableResult = makeTable(sql, title);
                 makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
-
+                MouseListener clickRow = new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        JTable table = (JTable) e.getSource();
+                        Point point = e.getPoint();
+                        int row = table.rowAtPoint(point);
+                        if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                            // your valueChanged overridden method
+                            int selectedRow = table.getSelectedRow();
+                            String value = (String) table.getModel().getValueAt(selectedRow, 0);
+                            add(new SachPanel(), value);
+                        }
+                    }
+                };
             }
         };
         btnQuanLy.addMouseListener(clickQuanLy);
 
+        MouseListener clickDocGia = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                remove(tableResult);
+                remove(label);
+                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                        "Z00R_TITLE AS 'Nhan đề'," +
+                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
+                String title = "Chi tiết độc giả";
+                tableResult = makeTable(sql, title);
+                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+            }
+        };
+        btnDocGia.addMouseListener(clickDocGia);
+
+        MouseListener clickQuanLyNXB = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                remove(tableResult);
+                remove(label);
+                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                        "Z00R_TITLE AS 'Nhan đề'," +
+                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
+                String title = "Chi tiết nhà xuất bản";
+                tableResult = makeTable(sql, title);
+                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+
+            }
+        };
+        btnQuanLyNXB.addMouseListener(clickQuanLyNXB);
 
     }
 
@@ -148,6 +191,7 @@ public class HomePanel extends BasePanel {
         DefaultTableModel defaultTableModel = new DefaultTableModel(vData, vTitle);
         JTable jTable = new JTable(defaultTableModel);
         JScrollPane jScrollPane = new JScrollPane(jTable);
+        jTable.setShowGrid(true);
         jTable.setFillsViewportHeight(true);
         return jScrollPane;
     }
