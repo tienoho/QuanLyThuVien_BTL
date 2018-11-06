@@ -20,7 +20,7 @@ public class Gui extends JFrame implements Setup {
         setTitle("Quản lý thư viện");
         setLayout(new GridLayout());
         setSize(2 * width / 3, 2 * height / 3);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
