@@ -24,13 +24,11 @@ public class Z303 {
     private String Z303_BIRTH_DATE;
     private String Z303_GENDER;
     private String Z303_UPD_TIME_STAMP;
-    private String Z303_LAST_NAME;
-    private String Z303_FIRST_NAME;
 
     public Z303() {
     }
 
-    public Z303(String z303_REC_KEY, String z303_NAME_KEY, String z303_USER_TYPE, String z303_USER_LIBRARY, String z303_OPEN_DATE, String z303_UPDATE_DATE, String z303_CON_LNG, String z303_NAME, String z303_TITLE, String z303_DELINQ_1, String z303_DELINQ_N_1, String z303_DELINQ_1_UPDATE_DATE, String z303_DELINQ_1_CAT_NAME, String z303_PROFILE_ID, String z303_FIELD_1, String z303_FIELD_2, String z303_FIELD_3, String z303_NOTE_1, String z303_NOTE_2, String z303_SALUTATION, String z303_BIRTH_DATE, String z303_GENDER, String z303_UPD_TIME_STAMP, String z303_LAST_NAME, String z303_FIRST_NAME) {
+    public Z303(String z303_REC_KEY, String z303_NAME_KEY, String z303_USER_TYPE, String z303_USER_LIBRARY, String z303_OPEN_DATE, String z303_UPDATE_DATE, String z303_CON_LNG, String z303_NAME, String z303_TITLE, String z303_DELINQ_1, String z303_DELINQ_N_1, String z303_DELINQ_1_UPDATE_DATE, String z303_DELINQ_1_CAT_NAME, String z303_PROFILE_ID, String z303_FIELD_1, String z303_FIELD_2, String z303_FIELD_3, String z303_NOTE_1, String z303_NOTE_2, String z303_SALUTATION, String z303_BIRTH_DATE, String z303_GENDER, String z303_UPD_TIME_STAMP) {
         Z303_REC_KEY = z303_REC_KEY;
         Z303_NAME_KEY = z303_NAME_KEY;
         Z303_USER_TYPE = z303_USER_TYPE;
@@ -54,8 +52,6 @@ public class Z303 {
         Z303_BIRTH_DATE = z303_BIRTH_DATE;
         Z303_GENDER = z303_GENDER;
         Z303_UPD_TIME_STAMP = z303_UPD_TIME_STAMP;
-        Z303_LAST_NAME = z303_LAST_NAME;
-        Z303_FIRST_NAME = z303_FIRST_NAME;
     }
 
     public String getZ303_REC_KEY() {
@@ -242,19 +238,4 @@ public class Z303 {
         Z303_UPD_TIME_STAMP = z303_UPD_TIME_STAMP;
     }
 
-    public String getZ303_LAST_NAME() {
-        return Z303_LAST_NAME;
-    }
-
-    public void setZ303_LAST_NAME(String z303_LAST_NAME) {
-        Z303_LAST_NAME = z303_LAST_NAME;
-    }
-
-    public String getZ303_FIRST_NAME() {
-        return Z303_FIRST_NAME;
-    }
-
-    public void setZ303_FIRST_NAME(String z303_FIRST_NAME) {
-        Z303_FIRST_NAME = z303_FIRST_NAME;
-    }
 }

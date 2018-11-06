@@ -1,5 +1,4 @@
--- bảng mượn trả sách --
--- auto-generated definition
+-- bảng mượn trả sách
 create table Z36
 (
   Z36_REC_KEY                CHAR(15) not null,
