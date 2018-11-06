@@ -33,10 +33,24 @@ public class Marc2 {
     private static final String m0 = "$$0";
     private static final String sp = "  ";
 
-    private static final String fi005 = "005  L";
+    private static final String fiLDR = "LDR  L";
+    private static final String fi008 = "008  L";
     private static final String fi927 = "927  L";
     private static final String fi911 = "911  L";
     private static final String fi925 = "925  L";
+    //
+
+    private static ArrayList<String> fi041() {
+        String z = "041";
+        String x = "L";
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        arrayList.add(z + "  " + x);
+        arrayList.add(z + "0 " + x);
+        arrayList.add(z + "1 " + x);
+
+        return arrayList;
+    }
 
     private static ArrayList<String> fi082() {
         String z = "082";
@@ -56,7 +70,8 @@ public class Marc2 {
 
         return arrayList;
     }
-    private static ArrayList<String> fi100() {
+
+    public static ArrayList<String> fi100() {
         String z = "100";
         String x = "L";
         ArrayList<String> arrayList = new ArrayList<>();
@@ -69,7 +84,7 @@ public class Marc2 {
         return arrayList;
     }
 
-    private static ArrayList<String> fi245() {
+    public static ArrayList<String> fi245() {
         ArrayList<String> arrayList = new ArrayList<>();
         String z = "245";
         String x = "L";
@@ -118,6 +133,7 @@ public class Marc2 {
         arrayList.add(z + "3 " + x);
         return arrayList;
     }
+
     private static ArrayList<String> fi300() {
         String z = "300";
         String x = "L";
@@ -127,6 +143,7 @@ public class Marc2 {
 
         return arrayList;
     }
+
     private static ArrayList<String> fi650() {
         String z = "650";
         String x = "L";
@@ -166,6 +183,7 @@ public class Marc2 {
         arrayList.add(z + "27" + x);
         return arrayList;
     }
+
     private static ArrayList<String> fi852() {
         ArrayList<String> arrayList = new ArrayList<>();
         String a = "852";
@@ -218,100 +236,21 @@ public class Marc2 {
         return arrayList;
     }
 
-    private static ArrayList<String> sp005(String data) {
-        //0008FMT  LBK0030LDR  L00695nam^a2200265^p^45000015001  L0000301490011003  L364940019005  L20173101029.00046008  L170310s2011^^^^vm^^^^^^^^^^^^000^^^vie^^0013040  L$$aLTDT0012041  L$$avie00421001 L$$aBùi, Duy Khánh,$$eđạo diễn012024510L$$aKhám phá Việt Nam,$$nT.27,$$pĐỉnh Tây Côn Lĩnh :$$bPhim tài liệu /$$cĐạo diễn Bùi Duy Khánh0050260  L$$aViệt Nam :$$bDolphinMedia ; VTV,$$c20110017300  L$$a15 min ;0031347  L$$b.flv.$$c40.4 Mb.$$2rda0019653  L$$aViệt Nam0020653  L$$aĐịa danh0023653  L$$aĐất nước0018653  L$$aDu lịch0025916  L$$aPhim tài liệu0038916  L$$aĐất nước - con người0007925  LF0007926  L00008927  LFM0012OWN  L$$aTDT0032CAT  L$$c20170310$$lTDT01$$h15380045CAT  L$$aBATCH$$b00$$c20170311$$lTDT01$$h13430032CAT  L$$c20170411$$lTDT01$$h16290045CAT  L$$aBATCH$$b00$$c20170421$$lTDT01$$h17210032CAT  L$$c20170623$$lTDT01$$h13380032CAT  L$$c20170627$$lTDT01$$h10250032CAT  L$$c20170627$$lTDT01$$h11170017911  LTo Minh Kha
-        ArrayList<String> a = new ArrayList<>();
-        if (data.contains(fi005)) {
-            data = data.substring(data.indexOf(fi005) + 6);
-            data = data.substring(0, 8);
-            a.add(data.substring(0, 4));
-            a.add(data.substring(4, 6));
-            a.add(data.substring(6, 8));
-        } else {
-            data = null;
-            a.add(data);
-        }
-        return a;
+    public static String sp100(String data) {
+        int i = 0;
+        String author = null;
+        for (String f : fi100())
+            if (data.indexOf(f) > 0)
+                i = data.indexOf(f);
+        data = data.substring(i + 9);
+        if (data.contains("$$"))
+            author = data.substring(0, data.indexOf("$$"));
+        else if (data.contains("L$$"))
+            author = data.substring(0, data.indexOf("L$$") - 9);
+        return author;
     }
 
-    private static ArrayList<String> sp082(String data) {
-        ArrayList<String> s082 = new ArrayList<>();
-        String cn082 = null;
-        String in082 = null;
-        int i = 0;
-        for (String f : fi082()) {
-            if (data.indexOf(f) > 0) {
-                i = data.indexOf(f);
-            }
-        }
-        if (i == 0) {
-            cn082 = null;
-            in082 = null;
-        } else {
-            data = data.substring(i+5);
-            data = data.substring(0, i);
-            if (data.indexOf(mQ) > 0) {
-                i = data.indexOf(mQ);
-                data = data.substring(0, i);
-            } else if (data.indexOf(mM) > 0) {
-                i = data.indexOf(mM);
-                data = data.substring(0, i);
-            } else if (data.indexOf(m2) > 0) {
-                i = data.indexOf(m2);
-                data = data.substring(0, i);
-            } else if (data.indexOf(m6) > 0) {
-                i = data.indexOf(m6);
-                data = data.substring(0, i);
-            } else if (data.indexOf(m8) > 0) {
-                i = data.indexOf(m8);
-                data = data.substring(0, i);
-            }
-            if (data.contains(mA) && data.contains(mB)) {
-                i = data.indexOf(mB);
-                in082 = data.substring(i + 3);
-                if (in082.contains("L$$")){
-                    in082 = in082.substring(0,in082.indexOf("L$$")-7);
-                }
-                cn082 = data.substring(4, i);
-            } else if (!data.contains(mA) && data.contains(mB)) {
-                i = data.indexOf(mB);
-                in082 = data.substring(4);
-                cn082 = null;
-            } else {
-                if (data.length() > 5) {
-                    cn082 = data.substring(4);
-                    in082 = null;
-                } else {
-                    cn082 = null;
-                    in082 = null;
-                }
-
-            }
-        }
-        s082.add(cn082);
-        s082.add(in082);
-        return s082;
-    }
-    private static String sp100(String data) {
-        String s100=null;
-        int i = 0;
-        for (String f : fi100()) {
-            if (data.indexOf(f) > 0) {
-                i = data.indexOf(f);
-            }
-        }
-        if (i == 0) {
-            s100=null;
-        } else {
-            data = data.substring(i + 5);
-            data = data.substring(1, i);
-            if (data.contains("L$$")) {
-                s100 = data.substring(0, data.indexOf("L$$") - 9);
-            }
-        }
-        return s100;
-    }
-    private static ArrayList<String> sp245(String data) {
+    public static String sp245(String data) {
         ArrayList<String> s245 = new ArrayList<>();
         int i = 0;
         String title;
@@ -372,176 +311,7 @@ public class Marc2 {
         }
         s245.add(title);
         s245.add(author);
-        return s245;
-    }
-
-    private static ArrayList<String> sp260(String data) {
-        ArrayList<String> s260 = new ArrayList<>();
-        int i = 0;
-        String imprint;
-        String year = null;
-        for (String s : fi260()) {
-            if (data.indexOf(s) > 0) {
-                i = data.indexOf(s);
-            }
-        }
-        if (i == 0) {
-            imprint = null;
-            year = null;
-        } else {
-            data = data.substring(i + 6);
-            data = data.substring(0, data.indexOf(sp) - 7);
-
-            if (data.contains(mC)) {
-                year = data.substring(data.indexOf(mC) + 3, data.indexOf(mC) + 7);
-            }
-            imprint = data.replace(mC + year, "");
-            if (data.contains(mA)) {
-                imprint = imprint.replace(mA, "");
-            }
-            if (data.contains(mB)) {
-                imprint = imprint.replace(mB, "");
-            }
-            if (data.contains(mE)) {
-                imprint = imprint.replace(mE, "");
-            }
-            if (data.contains(mF)) {
-                imprint = imprint.replace(mF, "");
-            }
-            if (data.contains(mG)) {
-                imprint = imprint.replace(mG, "");
-            }
-            if (data.contains(m3)) {
-                imprint = imprint.replace(m3, "");
-            }
-            if (data.contains(m6)) {
-                imprint = imprint.replace(m6, "");
-            }
-            if (data.contains(m8)) {
-                imprint = imprint.replace(m8, "");
-            }
-        }
-        s260.add(imprint);
-        s260.add(year);
-        return s260;
-    }
-
-    private static String sp852(String data) {
-        int i = 0;
-        String location;
-        for (String f : fi852()) {
-            if (data.indexOf(f) > 0) {
-                i = data.indexOf(f);
-            }
-        }
-        if (i == 0) {
-            location = null;
-        } else {
-            data = data.substring(i + 6);
-            data = data.substring(0, data.indexOf(sp) - 7);
-
-            if (data.contains(mB)) {
-                location = data.substring(data.indexOf(mB));
-                if (location.contains(mB)) {
-                    location = location.replace(mB, "");
-                }
-                if (location.contains(mC)) {
-                    i = location.indexOf(mC);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mD)) {
-                    i = location.indexOf(mD);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mE)) {
-                    i = location.indexOf(mE);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mF)) {
-                    i = location.indexOf(mF);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mG)) {
-                    i = location.indexOf(mG);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mH)) {
-                    i = location.indexOf(mH);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mI)) {
-                    i = location.indexOf(mI);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mJ)) {
-                    i = location.indexOf(mJ);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mK)) {
-                    i = location.indexOf(mK);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mL)) {
-                    i = location.indexOf(mL);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mM)) {
-                    i = location.indexOf(mM);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mN)) {
-                    i = location.indexOf(mN);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mP)) {
-                    i = location.indexOf(mP);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mS)) {
-                    i = location.indexOf(mS);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mQ)) {
-                    i = location.indexOf(mQ);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mT)) {
-                    i = location.indexOf(mT);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mU)) {
-                    i = location.indexOf(mU);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mX)) {
-                    i = location.indexOf(mX);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(mZ)) {
-                    i = location.indexOf(mZ);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(m2)) {
-                    i = location.indexOf(m2);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(m4)) {
-                    i = location.indexOf(m4);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(m6)) {
-                    i = location.indexOf(m6);
-                    location = location.substring(0, i);
-                }
-                if (location.contains(m8)) {
-                    i = location.indexOf(m8);
-                    location = location.substring(0, i);
-                }
-            } else {
-                location = null;
-            }
-        }
-        return location;
+        return s245.get(0);
     }
 
     private static String sp916(String data) {
@@ -575,6 +345,34 @@ public class Marc2 {
         return type;
     }
 
+    private static String spLDR(String data) {
+        String linhvuc;
+        if (data.contains(fiLDR)) {
+            data = data.substring(data.indexOf(fiLDR) + 6);
+            linhvuc = data.substring(0, data.indexOf(sp) - 7);
+            if (linhvuc.contains("$$")) {
+                linhvuc = linhvuc.replaceAll("$/$_", "");
+            }
+        } else {
+            linhvuc = null;
+        }
+        return linhvuc;
+    }
+
+    private static String sp008(String data) {
+        String linhvuc;
+        if (data.contains(fi008)) {
+            data = data.substring(data.indexOf(fi008) + 6);
+            linhvuc = data.substring(0, data.indexOf(sp) - 7);
+            if (linhvuc.contains("$$")) {
+                linhvuc = linhvuc.replaceAll("$/$_", "");
+            }
+        } else {
+            linhvuc = null;
+        }
+        return linhvuc;
+    }
+
     private static String sp927(String data) {
         String linhvuc;
         if (data.contains(fi927)) {
@@ -588,10 +386,11 @@ public class Marc2 {
         }
         return linhvuc;
     }
+
     private static String sp911(String data) {
         String linhvuc;
         if (data.contains(fi911)) {
-            data = data.substring(data.indexOf(fi927) + 6);
+            data = data.substring(data.indexOf(fi911) + 6);
             linhvuc = data.substring(0, data.indexOf(sp) - 7);
             if (linhvuc.contains("$$")) {
                 linhvuc = linhvuc.replaceAll("$/$_", "");
@@ -601,10 +400,11 @@ public class Marc2 {
         }
         return linhvuc;
     }
+
     private static String sp925(String data) {
         String linhvuc;
         if (data.contains(fi925)) {
-            data = data.substring(data.indexOf(fi927) + 6);
+            data = data.substring(data.indexOf(fi925) + 6);
             linhvuc = data.substring(0, data.indexOf(sp) - 7);
             if (linhvuc.contains("$$")) {
                 linhvuc = linhvuc.replaceAll("$/$_", "");
@@ -614,8 +414,9 @@ public class Marc2 {
         }
         return linhvuc;
     }
-    private static String spCut(String data,ArrayList<String> fi) {
-        String outStr=null;
+
+    private static String spCut(String data, ArrayList<String> fi) {
+        String outStr = null;
         int i = 0;
         for (String f : fi) {
             if (data.indexOf(f) > 0) {
@@ -623,7 +424,7 @@ public class Marc2 {
             }
         }
         if (i == 0) {
-            outStr=null;
+            outStr = null;
         } else {
             data = data.substring(i + 5);
             data = data.substring(1, i);
@@ -635,39 +436,31 @@ public class Marc2 {
     }
 
 
-
     public static MarcBean2 marcBeans(String id, String data) {
-        if (data.contains("DEL")) {
-            return new MarcBean2(id,
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "");
-        } else {
-            ArrayList<String> s082 = sp082(data);
-            String sp082 = spCut(data,fi082());
-            String sp100 = spCut(data,fi100()).toString();
-            String sp245 = spCut(data,fi245()).toString();
-            String sp260 = spCut(data,fi260()).toString();
-            String sp300 = spCut(data,fi300()).toString();
-            String sp650 = spCut(data,fi650()).toString();
-            ArrayList<String> s245 = sp245(data);
-            ArrayList<String> s260 = sp260(data);
-            ArrayList<String> s005 = sp005(data);
-            String s852 = sp852(data);
-            String s916 = sp916(data);
-            String s927 = sp927(data);
-            return new MarcBean2(id,
-                    sp082,
-                    sp100,
-                    sp245,
-                    sp260,
-                    sp300,
-                    sp650,
-                    s927);
-        }
+        String lDR = spLDR(data);
+        String sp008 = sp008(data);
+        String sp041 = spCut(data, fi041());
+        String sp082 = spCut(data, fi082());
+        String sp100 = spCut(data, fi100()).toString();
+        String sp245 = spCut(data, fi245()).toString();
+        String sp260 = spCut(data, fi260()).toString();
+        String sp300 = spCut(data, fi300()).toString();
+        String sp650 = spCut(data, fi650()).toString();
+        String s911 = sp911(data);
+        String s925 = sp925(data);
+        String s927 = sp927(data);
+        return new MarcBean2(id,
+                lDR,
+                sp008,
+                sp041,
+                sp082,
+                sp100,
+                sp245,
+                sp260,
+                sp300,
+                sp650,
+                s911,
+                s925,
+                s927);
     }
 }
