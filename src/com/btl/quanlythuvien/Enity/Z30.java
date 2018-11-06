@@ -5,7 +5,7 @@ public class Z30 {
     private String Z30_BARCODE;
     private String Z30_SUB_LIBRARY;
     private String Z30_MATERIAL;
-    private String Z30_ITEM_STATUS;
+    private String Z30_ITEM_STATUS;//01 mượn 20 ngày, 02 mượn 1 khóa học.03 chỉ được đọc trong thư viện
     private String Z30_UPDATE_DATE;
     private String Z30_CATALOGER;
     private String Z30_DATE_LAST_RETURN;
