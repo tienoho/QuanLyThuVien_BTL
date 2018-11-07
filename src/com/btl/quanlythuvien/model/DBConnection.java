@@ -6,13 +6,14 @@ import java.sql.DriverManager;
 public class DBConnection {
     private Connection conn = null;
     private final String user = "root";
-    private final String pass = "root";
-    private final String cs = "jdbc:mysql://192.168.1.221:3306/QuanLyThuVien";
+    private final String pass = "";
+    //private final String cs = "jdbc:mysql://192.168.1.221:3306/QuanLyThuVien";
+    private final String cs = "jdbc:mysql://localhost:3306/QuanLyThuVien";
 
     public DBConnection() {
         try {
             //nap driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(cs, user, pass);
         } catch (Exception ex) {
             ex.printStackTrace();
