@@ -1,6 +1,7 @@
 package com.btl.quanlythuvien.gui;
 
 import com.btl.quanlythuvien.Business.BusALl;
+import com.btl.quanlythuvien.gui.bib.InsertBibFrame;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -77,6 +78,8 @@ public class HomePanel extends BasePanel {
                         int index = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xóa độc giả", JOptionPane.YES_NO_OPTION);
                         if (index == JOptionPane.YES_OPTION) {
                             new BusALl(new DBConnection()).deleteTable(dTable.getText(), colunm.getText(), txtData.getText());
+                            JOptionPane.showMessageDialog(null, "Xóa thành công!!!");
+
                         }
                     }
                 }
@@ -84,7 +87,27 @@ public class HomePanel extends BasePanel {
         };
         btnXoa.addMouseListener(clickXoa);
 
+        MouseListener clickTimKiem = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (txtTimKiem.getText().equals("") || txtTimKiem.getText() == null) {
+                    JOptionPane.showMessageDialog(null, "Bạn cần nhâp giá trị tìm kiếm!!!");
+                } else {
 
+
+                }
+            }
+        };
+        btnTimkKiem.addMouseListener(clickTimKiem);
+
+        MouseListener clickThem = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
+                add(insertBibFrame);
+            }
+        };
+        btnThem.addMouseListener(clickThem);
     }
 
     @Override
@@ -99,7 +122,7 @@ public class HomePanel extends BasePanel {
                 "image/nxb.png"));
         btnDocGia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
 
-        btnThem = new JButton("Thêm thông in...");
+        btnThem = new JButton("Thêm thông tin...");
 
         btnXoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
 
@@ -139,13 +162,13 @@ public class HomePanel extends BasePanel {
 
         String title = "Xem chi tiết";
         label = new JLabel(title);
-        makeComp(label, 600, 90, 400, 30);
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
                 "Z00R_TITLE AS 'Nhan đề'," +
                 "Z00R_AUTHOR AS 'Tác giả' From z00r";
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
 
+        makeComp(label, 600, 90, 400, 30);
 
     }
 
@@ -189,7 +212,8 @@ public class HomePanel extends BasePanel {
         }
         remove(label);
         label.setText(title);
-        label.paintImmediately(label.getVisibleRect());
+        makeComp(label, 600, 90, 400, 30);
+        repaint();
         DefaultTableModel defaultTableModel = new DefaultTableModel(vData, vTitle);
         table = new JTable(defaultTableModel);
         tableResult = new JScrollPane(table);
