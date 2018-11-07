@@ -1,5 +1,6 @@
 package com.btl.quanlythuvien.gui;
 
+import com.btl.quanlythuvien.gui.bib.InsertFormBib;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.Vector;
+
 
 
 public class HomePanel extends BasePanel {
@@ -94,9 +96,14 @@ public class HomePanel extends BasePanel {
             }
         };
         btnQuanLyNXB.addMouseListener(clickQuanLyNXB);
-
+        MouseListener click = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //new InsertFormBib("Insert form", "", "", "", "", "", "", "");
+            }
+        };
+        btnTacGia.addMouseListener(click);
     }
-
     @Override
     public void addComponents() {
         addButton();

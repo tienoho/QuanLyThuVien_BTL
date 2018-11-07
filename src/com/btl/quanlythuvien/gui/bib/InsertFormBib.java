@@ -1,6 +1,8 @@
 package com.btl.quanlythuvien.gui.bib;
 
-import com.btl.quanlythuvien.gui.QuanLyPanel;
+import com.btl.quanlythuvien.Business.BusZ00;
+import com.btl.quanlythuvien.Enity.Z00;
+import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,76 +10,61 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InsertFormBib extends JFrame implements ActionListener {
-    JLabel madocgialb;
-    JTextField madocgia;
+    JLabel lbZ00_DOC_NUMBER;
+    JTextField tfZ00_DOC_NUMBER;
+    JLabel lbZ00_DATA;
+    JTextField tfZ00_DATA;
+    //field
+    JLabel lb008;
+    JTextField tf008;
+    JLabel lb041;
+    JTextField tf041;
+    JLabel lb082;
+    JTextField tf082;
+    JLabel lb100;
+    JTextField tf100;
+    JLabel lb245;
+    JTextField tf245;
+    JLabel lb260;
+    JTextField tf260;
+    JLabel lb300;
+    JTextField tf300;
+    JLabel lb650;
+    JTextField tf650;
+    JLabel lb911;
+    JTextField tf911;
+    JLabel lb925;
+    JTextField tf925;
+    JLabel lb927;
+    JTextField tf927;
 
-    JLabel tendocgialb;
-    JTextField tendocgia;
 
-    JLabel ngaysinhlb;
-    JTextField ngaysinh;
-
-    JLabel noisinhlb;
-    JTextField noisinh;
-
-    JLabel diachilb;
-    JTextField diachi;
-
-    JLabel dienthoailb;
-    JTextField dienthoai;
-
-    JLabel maloaidocgialb;
-    JTextField maloaidocgia;
 
     JLabel errorlb;
     JLabel errordetails;
 
     JButton ok;
     JButton cancel;
+    Z00 z = null;
+    DBConnection dbConn = null;;
 
-    QuanLyPanel mst;
-    String id;
-
-    public InsertFormBib(String dg, QuanLyPanel bb, String mdg, String tdg, String ns, String nois, String dc, String dt, String mldg) {
-        super(dg);
-        mst = bb;
+    public InsertFormBib() {
+        super("Thêm BIB");
+        z=new Z00();
+        dbConn = new DBConnection();
+        //mst = bb;
         Container cont = this.getContentPane();
-        cont.setLayout(new GridLayout(24, 2));
+        cont.setLayout(new GridLayout(24, 3,5,2));
 
-        madocgialb = new JLabel("madocgia");
-        madocgia = new JTextField(mdg);
-        cont.add(madocgialb);
-        cont.add(madocgia);
+        lbZ00_DOC_NUMBER = new JLabel("Z00_DOC_NUMBER");
+        tfZ00_DOC_NUMBER = new JTextField(z.getZ00_DOC_NUMBER());
+        cont.add(lbZ00_DOC_NUMBER);
+        cont.add(tfZ00_DOC_NUMBER);
 
-        tendocgialb = new JLabel("tendocgia");
-        tendocgia = new JTextField(tdg);
-        cont.add(tendocgialb);
-        cont.add(tendocgia);
-
-        ngaysinhlb = new JLabel("ngaysinh");
-        ngaysinh = new JTextField(ns);
-        cont.add(ngaysinhlb);
-        cont.add(ngaysinh);
-
-        noisinhlb = new JLabel("noisinh");
-        noisinh = new JTextField(nois);
-        cont.add(noisinhlb);
-        cont.add(noisinh);
-
-        diachilb = new JLabel("diachi");
-        diachi = new JTextField(dc);
-        cont.add(diachilb);
-        cont.add(diachi);
-
-        dienthoailb = new JLabel("dienthoai");
-        dienthoai = new JTextField(dt);
-        cont.add(dienthoailb);
-        cont.add(dienthoai);
-
-        maloaidocgialb = new JLabel("maloaidocgia");
-        maloaidocgia = new JTextField(mldg);
-        cont.add(maloaidocgialb);
-        cont.add(maloaidocgia);
+        lbZ00_DATA = new JLabel("Z00_DATA");
+        tfZ00_DATA = new JTextField(z.getZ00_DATA());
+        cont.add(lbZ00_DATA);
+        cont.add(tfZ00_DATA);
 
         errorlb = new JLabel("");
         errordetails = new JLabel("");
@@ -91,10 +78,17 @@ public class InsertFormBib extends JFrame implements ActionListener {
         cont.add(cancel);
         ok.addActionListener(this);
         cancel.addActionListener(this);
-        this.setSize(430, 500);
-        this.setLocation(250, 100);
+        //set size full màn hình
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //set kích thước thu nhỏ của form
+        this.setMinimumSize(new Dimension(480, 680));
+        //set vào chính giữa màn hình
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
-        id = mdg;
+    }
+
+    public static void main(String[] args) {
+        new InsertFormBib();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -106,7 +100,7 @@ public class InsertFormBib extends JFrame implements ActionListener {
     }
 
     public void insertDB() {
-        if (madocgia.getText().equals("") || tendocgia.getText().equals("") || ngaysinh.getText().equals("") || noisinh.getText().equals("") || diachi.getText().equals("") || dienthoai.getText().equals("") || maloaidocgia.getText().equals("")) {
+        if (tfZ00_DOC_NUMBER.getText().equals("") || tfZ00_DATA.getText().equals("")) {
             errorlb.setText("Error");
             errordetails.setText("empty value");
             errorlb.setForeground(Color.RED);
@@ -117,31 +111,15 @@ public class InsertFormBib extends JFrame implements ActionListener {
 
         } else {
             try {
-                String mdg = madocgia.getText();
-                String tdg = tendocgia.getText();
-                String ns = ngaysinh.getText();
-                String nois = noisinh.getText();
-                String dc = diachi.getText();
-                Integer dt = Integer.parseInt(dienthoai.getText());
-                String mldg = maloaidocgia.getText();
-
-                String sql = " ";
-
-                if (this.getTitle().equals("Insert form")) {
-                    sql = "insert into docgia (MADOCGIA,TENDOCGIA,NGAYSINH,NOISINH,DIACHI,DIENTHOAI,MALOAIDOCGIA)"
-                            + " values ('" + mdg + "','" + tdg + "','" + ns + "','" + nois + "','" + dc + "'," + dt + ",'" + mldg + "')";
-                } else {
-                    sql = "update docgia set MADOCGIA= '" + mdg + "',TENDOCGIA ='" + tdg + "',NGAYSINH='" + ns + "',NOISINH='" + nois + "',DIACHI='" + dc + "',DIENTHOAI= " + dt + ",MALOAIDOCGIA='" + mldg + "' where MADOCGIA= '" + id + "'";
-                }
-
-                //mst.stm.executeUpdate(sql);
+                BusZ00 buzZ = new BusZ00(dbConn);
+                z=new Z00(tfZ00_DOC_NUMBER.getText(),0,tfZ00_DATA.getText().length(),tfZ00_DATA.getText());
+                buzZ.addTable(z);
                 //mst.reload();
                 //mst.model.fireTableDataChanged();
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Loi");
             }
-
         }
     }
 }
