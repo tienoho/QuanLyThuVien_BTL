@@ -2,12 +2,12 @@ package com.btl.quanlythuvien.gui;
 
 import javax.swing.*;
 
-public class QuanLyPanel extends BasePanel {
+public class SachPanel extends BasePanel {
 
 
     @Override
     public void initComponents() {
-
+        getParent();
     }
 
     @Override
