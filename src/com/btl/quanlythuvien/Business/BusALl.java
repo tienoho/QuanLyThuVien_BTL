@@ -13,19 +13,19 @@ public class BusALl {
         this.dbConn = dbConn;
         conn = dbConn.getConnection();
     }
-    public boolean deleteTable(String table,String column ,String KEY) {
+
+    public boolean deleteTable(String table, String column, String KEY) {
         boolean bl = false;
-        String sql = "DELETE FROM ? WHERE Z30_REC_KEY=?";
+        String sql = "DELETE FROM " + table + " WHERE " + column + "=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, table);
-            pst.setString(2, column);
-            pst.setString(2, KEY);
+
+            pst.setString(1, KEY);
             pst.executeUpdate();
             bl = true;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             dbConn.CloseConnection();
         }
         return bl;

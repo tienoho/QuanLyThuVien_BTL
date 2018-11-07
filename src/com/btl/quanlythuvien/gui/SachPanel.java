@@ -7,7 +7,7 @@ public class SachPanel extends BasePanel {
 
     @Override
     public void initComponents() {
-        getParent();
+        setVisible(true);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.btl.quanlythuvien.gui;
 
+import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.Objects;
 import java.util.Vector;
 
 
@@ -19,11 +21,15 @@ public class HomePanel extends BasePanel {
 
     public static final int SIZE_BUTTON_WIDTH = 220;
     public static final int SIZE_BUTTON_HEIGHT = 50;
-    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia;
-    private JTextField txtTimKiem;
+    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia, btnThem;
+    private JTextField txtTimKiem, txtData, dTable, colunm;
     private Connection connection;
     private PreparedStatement statement;
+    private JViewport viewport;
+    private JTable table;
     private JLabel label;
+    private Vector<String> vTitle;
+    private Vector<Vector<String>> vData;
     private JScrollPane tableResult;
 
 
@@ -35,79 +41,57 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void registerListener() {
+
         MouseListener clickQuanLy = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                remove(tableResult);
-                remove(label);
-                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
-                        "Z00R_TITLE AS 'Nhan đề'," +
-                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
-                String title = "Xem chi tiết";
-                tableResult = makeTable(sql, title);
-                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
-                MouseListener clickRow = new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        JTable table = (JTable) e.getSource();
-                        Point point = e.getPoint();
-                        int row = table.rowAtPoint(point);
-                        if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                            // your valueChanged overridden method
-                            int selectedRow = table.getSelectedRow();
-                            String value = (String) table.getModel().getValueAt(selectedRow, 0);
-                            add(new SachPanel(), value);
-                        }
-                    }
-                };
+                reloadQuanLySach();
             }
         };
         btnQuanLy.addMouseListener(clickQuanLy);
 
+
         MouseListener clickDocGia = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                remove(tableResult);
-                remove(label);
-                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
-                        "Z00R_TITLE AS 'Nhan đề'," +
-                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
-                String title = "Chi tiết độc giả";
-                tableResult = makeTable(sql, title);
-                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+                reloadDocGia();
             }
         };
         btnDocGia.addMouseListener(clickDocGia);
 
+
         MouseListener clickQuanLyNXB = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                remove(tableResult);
-                remove(label);
-                String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
-                        "Z00R_TITLE AS 'Nhan đề'," +
-                        "Z00R_AUTHOR AS 'Tác giả' From z00r";
-                String title = "Chi tiết nhà xuất bản";
-                tableResult = makeTable(sql, title);
-                makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
-
             }
         };
         btnQuanLyNXB.addMouseListener(clickQuanLyNXB);
+
+
+        MouseListener clickXoa = new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (!getDataRow()) {
+                    JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần xóa!!");
+                } else {
+                    if (!txtData.getText().equals("")) {
+                        int index = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xóa độc giả", JOptionPane.YES_NO_OPTION);
+                        if (index == JOptionPane.YES_OPTION) {
+                            new BusALl(new DBConnection()).deleteTable(dTable.getText(), colunm.getText(), txtData.getText());
+                        }
+                    }
+                }
+            }
+        };
+        btnXoa.addMouseListener(clickXoa);
+
 
     }
 
     @Override
     public void addComponents() {
-        addButton();
-    }
 
-    private void addButton() {
         btnQuanLy = new JButton("Quản lí sách", new ImageIcon(
                 "image/qls2.png"));
-        btnXoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
-        btnCapNhat = new JButton("Cập nhật thông tin....", new ImageIcon(
-                "image/cn.png"));
 
         btnMuon = new JButton("Quản lí mượn trả sách....", new ImageIcon(
                 "image/mt.png"));
@@ -115,39 +99,53 @@ public class HomePanel extends BasePanel {
                 "image/nxb.png"));
         btnDocGia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
 
+        btnThem = new JButton("Thêm thông in...");
+
+        btnXoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
+
+        btnCapNhat = new JButton("Cập nhật thông tin....", new ImageIcon(
+                "image/cn.png"));
+
         btnTimkKiem = new JButton("Tìm kiếm", new ImageIcon("image/tk2.png"));
 
         btnTacGia = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
 
         txtTimKiem = new JTextField();
-        label = new JLabel();
+        txtData = new JTextField();
+        table = new JTable();
+        tableResult = new JScrollPane();
+
+        viewport = tableResult.getViewport();
+        table = (JTable) viewport.getView();
+
+        dTable = new JTextField();
+
+        colunm = new JTextField();
 
         makeComp(btnQuanLy, 40, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
         makeComp(btnDocGia, btnQuanLy.getX() + btnQuanLy.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
         makeComp(btnQuanLyNXB, btnDocGia.getX() + btnDocGia.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
         makeComp(btnMuon, btnQuanLyNXB.getX() + btnQuanLyNXB.getWidth() + 25, 30, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT);
 
-        makeComp(btnCapNhat, btnQuanLy.getX(), btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(btnTimkKiem, btnQuanLy.getX(), btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        makeComp(btnTimkKiem, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(txtTimKiem, btnTimkKiem.getX(), btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        makeComp(txtTimKiem, btnTimkKiem.getX(), btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 20);
+        makeComp(btnThem, txtTimKiem.getX(), txtTimKiem.getY() + txtTimKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 20);
 
-        makeComp(btnXoa, txtTimKiem.getX(), txtTimKiem.getY() + txtTimKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(btnCapNhat, btnThem.getX(), btnThem.getY() + btnThem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        makeComp(btnTacGia, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(btnXoa, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
+        String title = "Xem chi tiết";
+        label = new JLabel(title);
+        makeComp(label, 600, 90, 400, 30);
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
                 "Z00R_TITLE AS 'Nhan đề'," +
                 "Z00R_AUTHOR AS 'Tác giả' From z00r";
-        String title = "Xem chi tiết";
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
 
-//        String sql = "Select * From z00";
-//        String title = "";
-//        tableResult = makeTable(sql, title);
-//        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH * 3 + 50, 420);
 
     }
 
@@ -160,8 +158,11 @@ public class HomePanel extends BasePanel {
     }
 
     public JScrollPane makeTable(String sql, String title) {
-        Vector<String> vTitle = new Vector<String>();
-        Vector<Vector<String>> vData = new Vector<>();
+        if (tableResult != null) {
+            remove(tableResult);
+        }
+        vTitle = new Vector<String>();
+        vData = new Vector<>();
         try {
             vTitle.clear();
             vData.clear();
@@ -180,19 +181,55 @@ public class HomePanel extends BasePanel {
                     row.add(rst.getString(i));
                 vData.add(row);
             }
-
             rst.close();
+            statement.close();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JLabel jLabel = new JLabel(title);
-        makeComp(jLabel, 600, 90, 400, 30);
-        jLabel.setVisible(true);
+        remove(label);
+        label.setText(title);
+        label.paintImmediately(label.getVisibleRect());
         DefaultTableModel defaultTableModel = new DefaultTableModel(vData, vTitle);
-        JTable jTable = new JTable(defaultTableModel);
-        JScrollPane jScrollPane = new JScrollPane(jTable);
-        jTable.setShowGrid(true);
-        jTable.setFillsViewportHeight(true);
-        return jScrollPane;
+        table = new JTable(defaultTableModel);
+        tableResult = new JScrollPane(table);
+        table.setShowGrid(true);
+        table.setFillsViewportHeight(true);
+        return tableResult;
+    }
+
+    private void reloadQuanLySach() {
+        String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                "Z00R_TITLE AS 'Nhan đề'," +
+                "Z00R_AUTHOR AS 'Tác giả' From z00r";
+        String title = "Xem chi tiết";
+        dTable.setText("z00r");
+        colunm.setText("Z00R_DOC_NUMBER");
+        tableResult = makeTable(sql, title);
+        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+    }
+
+    private void reloadDocGia() {
+        String sql = "Select Z303_REC_Key AS 'Mã độc giả'," +
+                "Z303_NAME AS 'Tên độc giả'," +
+                "Z303_BIRTH_DATE AS 'Ngày sinh'," +
+                "Z303_GENDER AS 'Giới tính'," +
+                "Z303_DELINQ_1 AS 'Trạng thái' From z303";
+        String title = "Chi tiết độc giả";
+        dTable.setText("z303");
+        colunm.setText("Z303_REC_KEY");
+        tableResult = makeTable(sql, title);
+        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+    }
+
+    private boolean getDataRow() {
+        int selectedrow = table.getSelectedRow();
+        if (selectedrow != -1) {
+            Vector hs = vData.elementAt(selectedrow);
+            String value = hs.elementAt(0).toString();
+            txtData.setText(value);
+            return true;
+        }
+        return false;
     }
 }
