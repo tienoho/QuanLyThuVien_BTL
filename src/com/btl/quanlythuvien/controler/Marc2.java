@@ -149,6 +149,7 @@ public class Marc2 {
         String x = "L";
         ArrayList<String> arrayList = new ArrayList<>();
 
+        arrayList.add(z + "  " + x);
         arrayList.add(z + " 0" + x);
         arrayList.add(z + "00" + x);
         arrayList.add(z + "10" + x);
