@@ -218,4 +218,27 @@ public class BibBean {
     public void setField927(String field927) {
         this.field927 = field927;
     }
+    public String toString(){
+        return "BibBean={"+filedLDR+","+
+                field001+","+
+                field008+","+
+                field041a+","+
+                field082a+","+
+                field082b+","+
+                field100a+","+
+                field100e+","+
+                field245a+","+
+                field245b+","+
+                field260a+","+
+                field260b+","+
+                field260c+","+
+                field300a+","+
+                field300b+","+
+                field300c+","+
+                field650a+","+
+                field650v+","+
+                field911+","+
+                field925+","+
+                field927+"}";
+    }
 }
