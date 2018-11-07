@@ -8,8 +8,8 @@ public class Gui extends JFrame implements Setup {
 
     public Gui() {
         initComponents();
-        registerListener();
         addComponents();
+        registerListener();
     }
 
     @Override
