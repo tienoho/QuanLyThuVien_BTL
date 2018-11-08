@@ -207,9 +207,12 @@ public class InsertBibFrame extends javax.swing.JFrame {
         jtf_082_b = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-
-        reload();
-        jButton2.setText("Thêm");
+        view();
+        if (value.equals("")) {
+            reloadInsert();
+        } else {
+            reloadUpdate();
+        }
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -227,14 +230,69 @@ public class InsertBibFrame extends javax.swing.JFrame {
         jButton1.setText("Làm mới");
         jButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                reload();
+                if (value.equals("")) {
+                    reloadInsert();
+                } else {
+                    reloadUpdate();
+                }
             }
         });
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void reload() {
+    private void reloadUpdate() {
+        jButton2.setText("Cập nhật");
+        BibBean b = new BibBean();
+        BusZ00 busZ00 = new BusZ00(dbConn);
+        List<Z00> z00s = busZ00.getOneTable(value);
+        String data = z00s.get(0).getZ00_DATA();
+        Marc2 marc2 = new Marc2();
+        MarcBean2 marcBean2 = marc2.marcBeans(value, data);
+        System.out.println(marcBean2);
+        jtf_008.setText(value);
+        jtf_082_a.setText(marc2.getData008(marcBean2.getSp082()).get(0));
+        jtf_082_b.setText(marc2.getData008(marcBean2.getSp082()).get(1));
+
+        jtf_100_a.setText(marc2.getData100(marcBean2.getSp100()).get(0));
+        jtf_100_e.setText(marc2.getData100(marcBean2.getSp100()).get(1));
+
+        jtf_245_a.setText(marc2.getData008(marcBean2.getSp245()).get(0));
+        jtf_245_b.setText(marc2.getData008(marcBean2.getSp245()).get(1));
+
+        jtf_260_a.setText(marc2.getData260(marcBean2.getSp260()).get(0));
+        jtf_260_b.setText(marc2.getData260(marcBean2.getSp260()).get(1));
+        jtf_260_c.setText(marc2.getData260(marcBean2.getSp260()).get(2));
+
+        jtf_300_a.setText(marc2.getData260(marcBean2.getSp300()).get(0));
+        jtf_300_b.setText(marc2.getData260(marcBean2.getSp300()).get(1));
+        jtf_300_c.setText(marc2.getData260(marcBean2.getSp300()).get(2));
+
+        jtf_650_a.setText(marc2.getData650(marcBean2.getSp650()).get(0));
+        jtf_650_v.setText(marc2.getData650(marcBean2.getSp650()).get(1));
+
+        //   jcb_041.setSelectedIndex(selectJCombo(marcBean2.getSp041().replace("$$a",""),list041));
+    }
+
+    private void reloadInsert() {
+        jButton2.setText("Thêm");
+        jtf_082_a.setText("jTextField11");
+        jtf_082_b.setText("jTextField11");
+        jtf_100_a.setText("tên tác giả");
+        jtf_100_e.setText("vai trò");
+        jtf_245_a.setText("Tên nhan đề");
+        jtf_245_b.setText("Phần còn lại cua nhan đề");
+        jtf_260_a.setText("Nơi xuất bản");
+        jtf_260_b.setText("Nhà sản xuất");
+        jtf_260_c.setText("Năm sản xuất");
+        jtf_300_a.setText("Khối lượng");
+        jtf_300_b.setText("Các đặc điểm khác");
+        jtf_300_c.setText("Kích thước");
+        jtf_650_a.setText("Thuật ngữ chủ đề tiêu đề ");
+        jtf_650_v.setText("Đề mục con hình thức, thể loại");
+    }
+
+    private void view() {
         jLabel1.setText("008");
         jLabel2.setText("Ngôn ngữ");
         jLabel3.setText("082");
@@ -479,55 +537,6 @@ public class InsertBibFrame extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        if (value.equals("")) {
-            jtf_082_a.setText("jTextField11");
-            jtf_082_b.setText("jTextField11");
-            jtf_100_a.setText("tên tác giả");
-            jtf_100_e.setText("vai trò");
-            jtf_245_a.setText("Tên nhan đề");
-            jtf_245_b.setText("Phần còn lại cua nhan đề");
-            jtf_260_a.setText("Nơi xuất bản");
-            jtf_260_b.setText("Nhà sản xuất");
-            jtf_260_c.setText("Năm sản xuất");
-            jtf_300_a.setText("Khối lượng");
-            jtf_300_b.setText("Các đặc điểm khác");
-            jtf_300_c.setText("Kích thước");
-            jtf_650_a.setText("Thuật ngữ chủ đề tiêu đề ");
-            jtf_650_v.setText("Đề mục con hình thức, thể loại");
-
-        } else {
-            BibBean b = new BibBean();
-            BusZ00 busZ00 = new BusZ00(dbConn);
-            List<Z00> z00s = busZ00.getOneTable(value);
-            String data = z00s.get(0).getZ00_DATA();
-            Marc2 marc2 = new Marc2();
-            MarcBean2 marcBean2 = marc2.marcBeans(value, data);
-            System.out.println(marcBean2);
-            jtf_008.setText(value);
-            jtf_082_a.setText(marc2.getData008(marcBean2.getSp082()).get(0));
-            jtf_082_b.setText(marc2.getData008(marcBean2.getSp082()).get(1));
-
-            jtf_100_a.setText(marc2.getData100(marcBean2.getSp100()).get(0));
-            jtf_100_e.setText(marc2.getData100(marcBean2.getSp100()).get(1));
-
-            jtf_245_a.setText(marc2.getData008(marcBean2.getSp245()).get(0));
-            jtf_245_b.setText(marc2.getData008(marcBean2.getSp245()).get(1));
-
-            jtf_260_a.setText(marc2.getData260(marcBean2.getSp260()).get(0));
-            jtf_260_b.setText(marc2.getData260(marcBean2.getSp260()).get(1));
-            jtf_260_c.setText(marc2.getData260(marcBean2.getSp260()).get(2));
-
-            jtf_300_a.setText(marc2.getData260(marcBean2.getSp300()).get(0));
-            jtf_300_b.setText(marc2.getData260(marcBean2.getSp300()).get(1));
-            jtf_300_c.setText(marc2.getData260(marcBean2.getSp300()).get(2));
-
-            jtf_650_a.setText(marc2.getData650(marcBean2.getSp650()).get(0));
-            jtf_650_v.setText(marc2.getData650(marcBean2.getSp650()).get(1));
-
-         //   jcb_041.setSelectedIndex(selectJCombo(marcBean2.getSp041().replace("$$a",""),list041));
-
-
-        }
     }
 
     private String selectJCombo(String key, List<type> types) {
