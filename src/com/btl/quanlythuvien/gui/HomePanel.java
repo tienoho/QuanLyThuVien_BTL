@@ -29,6 +29,7 @@ public class HomePanel extends BasePanel {
     private JViewport viewport;
     private JTable table;
     private JLabel label;
+    private JFrame jFrame;
     private Vector<String> vTitle;
     private Vector<Vector<String>> vData;
     private JScrollPane tableResult;
@@ -103,11 +104,21 @@ public class HomePanel extends BasePanel {
         MouseListener clickThem = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
-                add(insertBibFrame);
+                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), "");
+                insertBibFrame.show();
             }
         };
         btnThem.addMouseListener(clickThem);
+
+        MouseListener clickCapNhat = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                getDataRow();
+                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
+                insertBibFrame.show();
+            }
+        };
+        btnCapNhat.addMouseListener(clickCapNhat);
     }
 
     @Override
