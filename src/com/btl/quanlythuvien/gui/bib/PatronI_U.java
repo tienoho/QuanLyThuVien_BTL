@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Admin
@@ -24,7 +26,7 @@ import java.util.Calendar;
 public class PatronI_U extends javax.swing.JFrame {
     DBConnection dbConn = null;
     BusALl bus = null;
-    BusZ303 busZ303=null;
+    BusZ303 busZ303 = null;
     int patronId = 0;
     String patron = "";
     String language = "";
@@ -88,9 +90,9 @@ public class PatronI_U extends javax.swing.JFrame {
     /**
      * Creates new form PatronI_U
      */
-    public PatronI_U(String table,String value) {
+    public PatronI_U(String table, String value) {
         initComponents();
-        this.value=value;
+        this.value = value;
         dbConn = new DBConnection();
         bus = new BusALl(dbConn);
         busZ303 = new BusZ303(dbConn);
@@ -109,31 +111,30 @@ public class PatronI_U extends javax.swing.JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-    private void Default()
-    {
+
+    private void Default() {
         language = listLag.get(0).getSymbol();
         title = listTitle.get(0).getSymbol();
         block = listBlock.get(0).getSymbol();
         gender = listGender.get(0).getSymbol();
-
-
         timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
-        String str =timeStamp;
-        str = new StringBuilder(str).insert(str.length()-4, "/").toString();
-        str = new StringBuilder(str).insert(str.length()-7, "/").toString();
-
-        if(value.equals(""))
-        {
+        String str = timeStamp;
+        str = new StringBuilder(str).insert(str.length() - 4, "/").toString();
+        str = new StringBuilder(str).insert(str.length() - 7, "/").toString();
+        if (value.equals("")) {
             jtf_opendate.setText(str);
             jtf_opendate.enable(false);
+            jbtn_Insert.enable(true);
+            jbtn_Update.enable(false);
+            jtf_PatronID.setText(patron);
+            jtf_barcode.setText("Haui-" + patron);
+        }else {
+            jbtn_Insert.enable(false);
+            jbtn_Update.enable(true);
         }
         jtf_updateDate.setText(str);
         jtf_updateDate.enable(false);
-
-        jtf_PatronID.setText(patron);
         jtf_PatronID.enable(false);
-
-        jtf_barcode.setText("Haui-"+patron);
         jtf_barcode.enable(false);
     }
 
@@ -167,7 +168,7 @@ public class PatronI_U extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PatronI_U("","").setVisible(true);
+                new PatronI_U("", "").setVisible(true);
             }
         });
     }
@@ -491,6 +492,7 @@ public class PatronI_U extends javax.swing.JFrame {
         jbtn_Insert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtn_InsertActionPerformed(evt);
+                InsertUpdate();
             }
         });
 
@@ -498,6 +500,7 @@ public class PatronI_U extends javax.swing.JFrame {
         jbtn_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtn_UpdateActionPerformed(evt);
+                InsertUpdate();
             }
         });
 
@@ -651,27 +654,41 @@ public class PatronI_U extends javax.swing.JFrame {
             }
         });
     }
-private void reloadUpdate()
-{
-    ArrayList<Z303> listZ303 = busZ303.getOneTable(value);
-    String data = listZ303.get(0).getZ303_NAME_KEY();
-    jtf_DateBirth.setText("");
-    jtf_Field1.setText("");
-    jtf_Field2.setText("");
-    jtf_Field3.setText("");
-    jtf_Note1.setText("");
-    jtf_Note2.setText("");
-    jtf_PatronID.setText("");
-    jtf_PlaceBirth.setText("");
-    jtf_barcode.setText("");
-    jtf_name.setText("");
-    jtf_opendate.setText("");
-    jtf_profile.setText("");
-    jtf_updateDate.setText("");
 
-}
+    private void reloadUpdate() {
+        ArrayList<Z303> listZ303 = busZ303.getOneTable(value);
+        String data = listZ303.get(0).getZ303_NAME_KEY();
+        jtf_DateBirth.setText(listZ303.get(0).getZ303_BIRTH_DATE());
+        jtf_Field1.setText(listZ303.get(0).getZ303_FIELD_1());
+        jtf_Field2.setText(listZ303.get(0).getZ303_FIELD_2());
+        jtf_Field3.setText(listZ303.get(0).getZ303_FIELD_3());
+        jtf_Note1.setText(listZ303.get(0).getZ303_NOTE_1());
+        jtf_Note2.setText(listZ303.get(0).getZ303_FIELD_2());
+        jtf_PatronID.setText(value);
+        jtf_PlaceBirth.setText(listZ303.get(0).getZ303_PLACE_BIRTH());
+        jtf_barcode.setText("");
+        jtf_name.setText(listZ303.get(0).getZ303_NAME());
+        jtf_profile.setText(listZ303.get(0).getZ303_PROFILE_ID());
+        jtf_opendate.setText(listZ303.get(0).getZ303_OPEN_DATE());
+
+        jcb_block.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_DELINQ_1(), listBlock));
+        jcb_gender.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_GENDER(), listGender));
+        jcb_language.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_CON_LNG(), listLag));
+        jcb_title.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_TITLE(), listTitle));
+    }
+
+    private String selectJCombo(String key, List<type> types) {
+        String value = "";
+        for (com.btl.quanlythuvien.Enity.type type : types) {
+            if (Objects.equals(key, type.getSymbol())) {
+                value = type.getContent();
+            }
+        }
+        return value;
+    }
+
     private void InsertUpdate() {
-        Z303 z303=new Z303();
+        Z303 z303 = new Z303();
         z303.setZ303_REC_KEY(jtf_PatronID.getText());
         z303.setZ303_NAME_KEY(jtf_name.getText());
         z303.setZ303_USER_TYPE("REG");
@@ -695,11 +712,12 @@ private void reloadUpdate()
         String timeStampa = new SimpleDateFormat("ddMMyyyyhhmmss").format(Calendar.getInstance().getTime());
         z303.setZ303_UPD_TIME_STAMP(timeStampa);
 
-        if(value.equals(""))
-        {
+        if (value.equals("")) {
             busZ303.addTable(z303);
-        }else {
-            busZ303.updateTable(z303);;
+            System.out.println(z303);
+        } else {
+            busZ303.updateTable(z303);
+            System.out.println(z303);
         }
 
     }

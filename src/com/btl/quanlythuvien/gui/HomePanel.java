@@ -115,7 +115,7 @@ public class HomePanel extends BasePanel {
                     insertBibFrame.show();
                 }
                 if (dTable.getText().equals("z303")) {
-                    PatronI_U patronI_u = new PatronI_U();
+                    PatronI_U patronI_u = new PatronI_U("","");
                     patronI_u.show();
                 }
 
@@ -135,7 +135,7 @@ public class HomePanel extends BasePanel {
                         insertBibFrame.show();
                     }
                     if (dTable.getText().equals("z303")) {
-                        PatronI_U patronI_u = new PatronI_U();
+                        PatronI_U patronI_u = new PatronI_U("","");
                         patronI_u.show();
                     }
                 }
