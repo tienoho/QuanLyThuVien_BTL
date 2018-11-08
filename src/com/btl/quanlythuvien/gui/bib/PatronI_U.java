@@ -93,7 +93,7 @@ public class PatronI_U extends javax.swing.JFrame {
         this.value=value;
         dbConn = new DBConnection();
         bus = new BusALl(dbConn);
-
+        busZ303 = new BusZ303(dbConn);
 
         patronId = bus.getCountZ00("SELECT count(*) FROM z303") + 1;
         listLag = listShowComm(jcb_language, "SELECT * FROM Language", listLag);
@@ -651,7 +651,25 @@ public class PatronI_U extends javax.swing.JFrame {
             }
         });
     }
+private void reloadUpdate()
+{
+    ArrayList<Z303> listZ303 = busZ303.getOneTable(value);
+    String data = listZ303.get(0).getZ303_NAME_KEY();
+    jtf_DateBirth.setText("");
+    jtf_Field1.setText("");
+    jtf_Field2.setText("");
+    jtf_Field3.setText("");
+    jtf_Note1.setText("");
+    jtf_Note2.setText("");
+    jtf_PatronID.setText("");
+    jtf_PlaceBirth.setText("");
+    jtf_barcode.setText("");
+    jtf_name.setText("");
+    jtf_opendate.setText("");
+    jtf_profile.setText("");
+    jtf_updateDate.setText("");
 
+}
     private void InsertUpdate() {
         Z303 z303=new Z303();
         z303.setZ303_REC_KEY(jtf_PatronID.getText());
@@ -677,7 +695,6 @@ public class PatronI_U extends javax.swing.JFrame {
         String timeStampa = new SimpleDateFormat("ddMMyyyyhhmmss").format(Calendar.getInstance().getTime());
         z303.setZ303_UPD_TIME_STAMP(timeStampa);
 
-        busZ303 = new BusZ303(dbConn);
         if(value.equals(""))
         {
             busZ303.addTable(z303);
