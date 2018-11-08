@@ -103,9 +103,6 @@ public class BusZ30 {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        finally {
-            dbConn.CloseConnection();
-        }
         return bl;
     }
 
@@ -119,8 +116,6 @@ public class BusZ30 {
             bl = true;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return bl;
     }
@@ -171,8 +166,6 @@ public class BusZ30 {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return list;
     }
@@ -224,8 +217,6 @@ public class BusZ30 {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return list;
     }
