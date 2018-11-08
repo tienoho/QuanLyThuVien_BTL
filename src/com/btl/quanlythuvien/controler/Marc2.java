@@ -1,6 +1,8 @@
 package com.btl.quanlythuvien.controler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Marc2 {
 
@@ -39,6 +41,7 @@ public class Marc2 {
     private static final String fi927 = "927  L";
     private static final String fi911 = "911  L";
     private static final String fi925 = "925  L";
+    private static String id = "";
     //
 
     private static ArrayList<String> fi041() {
@@ -139,7 +142,39 @@ public class Marc2 {
         String z = "300";
         String x = "L";
         ArrayList<String> arrayList = new ArrayList<>();
-
+        arrayList.add(z + "  " + x);
+        arrayList.add(z + " 0" + x);
+        arrayList.add(z + "00" + x);
+        arrayList.add(z + "10" + x);
+        arrayList.add(z + "20" + x);
+        arrayList.add(z + " 1" + x);
+        arrayList.add(z + "01" + x);
+        arrayList.add(z + "11" + x);
+        arrayList.add(z + "21" + x);
+        arrayList.add(z + " 2" + x);
+        arrayList.add(z + "02" + x);
+        arrayList.add(z + "12" + x);
+        arrayList.add(z + "22" + x);
+        arrayList.add(z + " 3" + x);
+        arrayList.add(z + "03" + x);
+        arrayList.add(z + "13" + x);
+        arrayList.add(z + "23" + x);
+        arrayList.add(z + " 4" + x);
+        arrayList.add(z + "04" + x);
+        arrayList.add(z + "14" + x);
+        arrayList.add(z + "24" + x);
+        arrayList.add(z + " 5" + x);
+        arrayList.add(z + "05" + x);
+        arrayList.add(z + "15" + x);
+        arrayList.add(z + "25" + x);
+        arrayList.add(z + " 6" + x);
+        arrayList.add(z + "06" + x);
+        arrayList.add(z + "16" + x);
+        arrayList.add(z + "26" + x);
+        arrayList.add(z + " 7" + x);
+        arrayList.add(z + "07" + x);
+        arrayList.add(z + "17" + x);
+        arrayList.add(z + "27" + x);
         arrayList.add(z + "  " + x);
 
         return arrayList;
@@ -418,7 +453,7 @@ public class Marc2 {
     }
 
     private static String spCut(String data, ArrayList<String> fi) {
-        String outStr = null;
+        String outStr = "";
         int i = 0;
         for (String f : fi) {
             if (data.indexOf(f) > 0) {
@@ -426,7 +461,7 @@ public class Marc2 {
             }
         }
         if (i == 0) {
-            outStr = null;
+            outStr = "";
         } else {
             data = data.substring(i + 5);
             data = data.substring(1, i);
@@ -464,5 +499,122 @@ public class Marc2 {
                 s911,
                 s925,
                 s927);
+    }
+
+    public List<String> getData008(String data) {
+        List<String> strings = new ArrayList<>();
+        String a = "", b = "", c = "", v = "";
+        String[] word = {mC, mD, mE, mF, mG, mH, mI, mJ, mK, mN, mM, mL, mS, mP, mX, mQ, mT, mU, mV};
+        if (data.contains(mA) && data.contains(mB)) {
+            a = data.substring(data.indexOf(mA) + 3, data.indexOf(mB));
+            if (stringContainsItemFromList(data, word)) {
+                b = data.substring(data.lastIndexOf(mB) + 3, data.indexOf(id));
+            } else b = data.substring(data.lastIndexOf(mB) + 3);
+        }
+        if (data.contains(mA) && !data.contains(mB)) {
+            if (stringContainsItemFromList(data, word)) {
+                a = data.substring(data.lastIndexOf(mA) + 3, data.indexOf(id));
+            } else a = data.substring(data.lastIndexOf(mA) + 3);
+        }
+        strings.add(a);
+        strings.add(b);
+        return strings;
+    }
+
+    public List<String> getData100(String data) {
+        List<String> strings = new ArrayList<>();
+        String a = "", e = "";
+        String[] word = {mC, mD, mB, mF, mG, mH, mI, mJ, mK, mN, mM, mL, mS, mP, mX, mQ, mT, mU, mV};
+        if (data.contains(mA) && data.contains(mE)) {
+            a = data.substring(data.indexOf(mA) + 3, data.indexOf(mE));
+            if (stringContainsItemFromList(data, word)) {
+                e = data.substring(data.lastIndexOf(mE) + 3, data.indexOf(id));
+            } else e = data.substring(data.lastIndexOf(mE) + 3);
+        }
+        if (data.contains(mA) && !data.contains(mE)) {
+            if (stringContainsItemFromList(data, word)) {
+                a = data.substring(data.lastIndexOf(mA) + 3, data.indexOf(id));
+            } else a = data.substring(data.lastIndexOf(mA) + 3);
+        }
+        strings.add(a);
+        strings.add(e);
+        return strings;
+    }
+
+    public List<String> getData260(String data) {
+        List<String> strings = new ArrayList<>();
+        String a = "", b = "", c = "";
+        String[] word = {mD, mE, mF, mG, mH, mI, mJ, mK, mN, mM, mL, mS, mP, mX, mQ, mT, mU, mV};
+        if (data.contains(mA) && data.contains(mB) && data.contains(mC)) {
+            a = data.substring(data.indexOf(mA) + 3, data.indexOf(mB));
+            b = data.substring(data.indexOf(mB) + 3, data.indexOf(mC));
+            if (stringContainsItemFromList(data, word)) {
+                c = data.substring(data.lastIndexOf(mC) + 3, data.indexOf(id));
+            } else c = data.substring(data.lastIndexOf(mC) + 3);
+        }
+        if (data.contains(mA)) {
+            a = data.substring(data.indexOf(mA) + 3);
+            if (data.contains(mA) && !data.contains(mB) && data.contains(mC)) {
+                a = data.substring(data.indexOf(mA) + 3, data.indexOf(mC));
+                if (stringContainsItemFromList(data, word)) {
+                    c = data.substring(data.lastIndexOf(mC) + 3, data.indexOf(id));
+                } else a = data.substring(data.lastIndexOf(mC) + 3);
+            }
+            if (data.contains(mA) && data.contains(mB) && !data.contains(mC)) {
+                a = data.substring(data.indexOf(mA) + 3, data.indexOf(mB));
+                if (stringContainsItemFromList(data, word)) {
+                    c = data.substring(data.lastIndexOf(mB) + 3, data.indexOf(id));
+                } else a = data.substring(data.lastIndexOf(mB) + 3);
+            }
+        }
+        if (data.contains(mB) && !data.contains(mA)) {
+            b = data.substring(data.indexOf(mB) + 1);
+            if (!data.contains(mA) && data.contains(mB) && data.contains(mC)) {
+                b = data.substring(data.indexOf(mB) + 3, data.indexOf(mC));
+                if (stringContainsItemFromList(data, word)) {
+                    c = data.substring(data.lastIndexOf(mC) + 3, data.indexOf(id));
+                } else a = data.substring(data.lastIndexOf(mC) + 3);
+            }
+        }
+        if (data.contains(mC)) {
+            c = data.substring(data.indexOf(mC) + 3);
+            if (stringContainsItemFromList(data, word)) {
+                c = data.substring(data.lastIndexOf(mC) + 3, data.indexOf(id));
+            } else a = data.substring(data.lastIndexOf(mC) + 3);
+        }
+        strings.add(a);
+        strings.add(b);
+        strings.add(c);
+        return strings;
+    }
+
+    public List<String> getData650(String data) {
+        List<String> strings = new ArrayList<>();
+        String a = "", v = "";
+        String[] word = {mC, mD, mE, mF, mG, mH, mI, mJ, mK, mN, mM, mL, mS, mP, mX, mQ, mT, mU, mB};
+        if (data.contains(mA) && data.contains(mV)) {
+            a = data.substring(data.indexOf(mA) + 3, data.indexOf(mV));
+            if (stringContainsItemFromList(data, word)) {
+                v = data.substring(data.lastIndexOf(mV) + 3, data.indexOf(id));
+            } else v = data.substring(data.lastIndexOf(mV) + 3);
+        }
+        if (data.contains(mA) && !data.contains(mV)) {
+            if (stringContainsItemFromList(data, word)) {
+                a = data.substring(data.lastIndexOf(mA) + 3, data.indexOf(id));
+            } else a = data.substring(data.lastIndexOf(mA) + 3);
+        }
+        strings.add(a);
+        strings.add(v);
+        return strings;
+    }
+
+    public static boolean stringContainsItemFromList(String inputStr, String[] items) {
+        for (int i = 0; i < items.length; i++) {
+            if (inputStr.contains(items[i])) {
+                id = items[i];
+                return true;
+            }
+        }
+        return false;
     }
 }

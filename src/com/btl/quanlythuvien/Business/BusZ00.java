@@ -111,8 +111,6 @@ public class BusZ00 {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return list;
     }
