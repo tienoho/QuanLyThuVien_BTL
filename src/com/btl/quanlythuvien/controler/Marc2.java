@@ -423,6 +423,15 @@ public class Marc2 {
         }
         return linhvuc;
     }
+    private static String sp927_2(String data) {
+        String linhvuc;
+        if (data.contains(fi927)) {
+            data = data.substring(data.indexOf(fi927) + 6);
+        } else {
+            linhvuc = null;
+        }
+        return data;
+    }
 
     private static String sp911(String data) {
         String linhvuc;
@@ -458,20 +467,40 @@ public class Marc2 {
         for (String f : fi) {
             if (data.indexOf(f) > 0) {
                 i = data.indexOf(f);
+                break;
             }
         }
         if (i == 0) {
             outStr = "";
         } else {
-            data = data.substring(i + 5);
-            data = data.substring(1, i);
+            data = data.substring(i + 6);
+           // data = data.substring(1, i);
             if (data.contains("L$$")) {
                 outStr = data.substring(0, data.indexOf("L$$") - 9);
             }
         }
         return outStr;
     }
-
+    private static String spCut650(String data, ArrayList<String> fi) {
+        String outStr = "";
+        int i = 0;
+        for (String f : fi) {
+            if (data.indexOf(f) > 0) {
+                i = data.indexOf(f);
+                break;
+            }
+        }
+        if (i == 0) {
+            outStr = "";
+        } else {
+            data = data.substring(i + 6);
+            // data = data.substring(1, i);
+            if (data.contains("  L")) {
+                outStr = data.substring(0, data.indexOf("  L") - 7);
+            }
+        }
+        return outStr;
+    }
 
     public static MarcBean2 marcBeans(String id, String data) {
         String lDR = spLDR(data);
@@ -482,10 +511,10 @@ public class Marc2 {
         String sp245 = spCut(data, fi245()).toString();
         String sp260 = spCut(data, fi260()).toString();
         String sp300 = spCut(data, fi300()).toString();
-        String sp650 = spCut(data, fi650()).toString();
+        String sp650 = spCut650(data, fi650()).toString();
         String s911 = sp911(data);
         String s925 = sp925(data);
-        String s927 = sp927(data);
+        String s927 = sp927_2(data);
         return new MarcBean2(id,
                 lDR,
                 sp008,
