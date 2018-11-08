@@ -7,7 +7,9 @@ package com.btl.quanlythuvien.gui.bib;
 
 import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.Business.BusZ00;
+import com.btl.quanlythuvien.Business.BusZ00R;
 import com.btl.quanlythuvien.Enity.Z00;
+import com.btl.quanlythuvien.Enity.Z00R;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.controler.Bib;
 import com.btl.quanlythuvien.controler.BibBean;
@@ -18,7 +20,6 @@ import com.btl.quanlythuvien.model.DBConnection;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,6 +39,8 @@ public class InsertBibFrame extends javax.swing.JFrame {
     private String s925 = null;
     private String s927 = null;
     private String value;
+    private int idBib = 0;
+
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -100,16 +103,51 @@ public class InsertBibFrame extends javax.swing.JFrame {
         list041 = listShowComm(jcb_041, "SELECT * FROM Language", list041);
         list925 = listShowComm(jcb_925, "SELECT * FROM Material", list925);
         list927 = listShowComm(jcb_927, "SELECT * FROM collection", list927);
-        //selectCombox(jcb_041, list041);
-        //selectCombox(jcb_925, list925);
-        //selectCombox(jcb_927, list927);
         s041 = list041.get(0).getSymbol();
         s925 = list925.get(0).getSymbol();
         s927 = list927.get(0).getSymbol();
+        idBib = bus.getCountZ00("SELECT count(*) FROM z00");
         EventSelectCombobox();
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new InsertBibFrame("", "").setVisible(true);
+            }
+        });
     }
 
     /**
@@ -516,43 +554,6 @@ public class InsertBibFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InsertBibFrame("", "").setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     public ArrayList<type> listShowComm(JComboBox jcb, String sql, ArrayList<type> list) {
@@ -602,8 +603,9 @@ public class InsertBibFrame extends javax.swing.JFrame {
 
     public void insertDb() {
         BibBean b = new BibBean();
-        b.setField001("");
-        b.setField008(jtf_008.getText());
+        b.setFiledLDR("123456789xyz");
+        b.setField001(String.format("%09d", (idBib + 1)));
+        b.setField008("181108s2018^^^^vm^^^^^^^^n^^^000^^^" + s041 + "^^");
         b.setField041a(s041);
         b.setField082a(jtf_082_a.getText());
         b.setField082b(jtf_082_b.getText());
@@ -619,10 +621,28 @@ public class InsertBibFrame extends javax.swing.JFrame {
         b.setField300c(jtf_300_c.getText());
         b.setField650a(jtf_650_a.getText());
         b.setField650v(jtf_650_v.getText());
-        b.setField911("");
+        b.setField911("Master");
         b.setField925(s925);
         b.setField927(s927);
         System.out.println(b);
         Bib bib = new Bib(b);
+
+        Z00 z00 = new Z00();
+        z00.setZ00_DOC_NUMBER(b.getField001());
+        z00.setZ00_DATA_LEN(bib.sb.length());
+        z00.setZ00_DATA(bib.sb.toString());
+
+        Z00R z00R = new Z00R();
+        z00R.setZ00R_DOC_NUMBER(b.getField001());
+        z00R.setZ00R_TITLE(b.getField245a());
+        z00R.setZ00R_AUTHOR(b.getField100a());
+
+        BusZ00 busZ00 = new BusZ00(dbConn);
+        busZ00.addTable(z00);
+
+        BusZ00R busZ00R = new BusZ00R(dbConn);
+        busZ00R.addTable(z00R);
+
+        System.out.println(bib.sb);
     }
 }
