@@ -209,6 +209,7 @@ public class InsertBibFrame extends javax.swing.JFrame {
         MarcBean2 marcBean2 = marc2.marcBeans(value, data);
         System.out.println(marcBean2);
         jtf_008.setText(value);
+        jtf_008.enable(false);
         jtf_082_a.setText(marc2.getData008(marcBean2.getSp082()).get(0));
         jtf_082_b.setText(marc2.getData008(marcBean2.getSp082()).get(1));
 
