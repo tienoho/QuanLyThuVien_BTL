@@ -6,6 +6,10 @@
 package com.btl.quanlythuvien.gui.bib;
 
 import com.btl.quanlythuvien.Business.BusALl;
+import com.btl.quanlythuvien.Business.BusZ00;
+import com.btl.quanlythuvien.Business.BusZ00R;
+import com.btl.quanlythuvien.Enity.Z00;
+import com.btl.quanlythuvien.Enity.Z00R;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.controler.Bib;
 import com.btl.quanlythuvien.controler.BibBean;
@@ -30,25 +34,115 @@ public class InsertBibFrame extends javax.swing.JFrame {
     String s041 = null;
     String s925 = null;
     String s927 = null;
+    int idBib = 0;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcb_041;
+    private javax.swing.JComboBox<String> jcb_925;
+    private javax.swing.JComboBox<String> jcb_927;
+    private javax.swing.JTextField jtf_008;
+    private javax.swing.JTextField jtf_082_a;
+    private javax.swing.JTextField jtf_082_b;
+    private javax.swing.JTextField jtf_100_a;
+    private javax.swing.JTextField jtf_100_e;
+    private javax.swing.JTextArea jtf_245_a;
+    private javax.swing.JTextArea jtf_245_b;
+    private javax.swing.JTextField jtf_260_a;
+    private javax.swing.JTextField jtf_260_b;
+    private javax.swing.JTextField jtf_260_c;
+    private javax.swing.JTextField jtf_300_a;
+    private javax.swing.JTextField jtf_300_b;
+    private javax.swing.JTextField jtf_300_c;
+    private javax.swing.JTextField jtf_650_a;
+    private javax.swing.JTextField jtf_650_v;
 
     /**
      * Creates new form NewJFrame
      */
-    public InsertBibFrame(String table,String value) {
+    public InsertBibFrame(String table, String value) {
         initComponents();
         dbConn = new DBConnection();
         bus = new BusALl(dbConn);
         list041 = listShowComm(jcb_041, "SELECT * FROM Language", list041);
         list925 = listShowComm(jcb_925, "SELECT * FROM Material", list925);
         list927 = listShowComm(jcb_927, "SELECT * FROM collection", list927);
-        //selectCombox(jcb_041, list041);
-        //selectCombox(jcb_925, list925);
-        //selectCombox(jcb_927, list927);
+        idBib = bus.getCountZ00("SELECT count(*) FROM z00");
         s041 = list041.get(0).getSymbol();
         s925 = list925.get(0).getSymbol();
         s927 = list927.get(0).getSymbol();
         EventSelectCombobox();
         this.setLocationRelativeTo(null);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new InsertBibFrame("", "").setVisible(true);
+            }
+        });
     }
 
     /**
@@ -440,98 +534,6 @@ public class InsertBibFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsertBibFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InsertBibFrame("","").setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JComboBox<String> jcb_041;
-    private javax.swing.JComboBox<String> jcb_925;
-    private javax.swing.JComboBox<String> jcb_927;
-    private javax.swing.JTextField jtf_008;
-    private javax.swing.JTextField jtf_082_a;
-    private javax.swing.JTextField jtf_082_b;
-    private javax.swing.JTextField jtf_100_a;
-    private javax.swing.JTextField jtf_100_e;
-    private javax.swing.JTextArea jtf_245_a;
-    private javax.swing.JTextArea jtf_245_b;
-    private javax.swing.JTextField jtf_260_a;
-    private javax.swing.JTextField jtf_260_b;
-    private javax.swing.JTextField jtf_260_c;
-    private javax.swing.JTextField jtf_300_a;
-    private javax.swing.JTextField jtf_300_b;
-    private javax.swing.JTextField jtf_300_c;
-    private javax.swing.JTextField jtf_650_a;
-    private javax.swing.JTextField jtf_650_v;
-
     // End of variables declaration//GEN-END:variables
     public ArrayList<type> listShowComm(JComboBox jcb, String sql, ArrayList<type> list) {
         list = bus.getAllTable(jcb, sql);
@@ -580,8 +582,9 @@ public class InsertBibFrame extends javax.swing.JFrame {
 
     public void insertDb() {
         BibBean b = new BibBean();
-        b.setField001("");
-        b.setField008(jtf_008.getText());
+        b.setFiledLDR("123456789xyz");
+        b.setField001(String.format("%09d", (idBib + 1)));
+        b.setField008("181108s2018^^^^vm^^^^^^^^n^^^000^^^" + s041 + "^^");
         b.setField041a(s041);
         b.setField082a(jtf_082_a.getText());
         b.setField082b(jtf_082_b.getText());
@@ -597,10 +600,28 @@ public class InsertBibFrame extends javax.swing.JFrame {
         b.setField300c(jtf_300_c.getText());
         b.setField650a(jtf_650_a.getText());
         b.setField650v(jtf_650_v.getText());
-        b.setField911("");
+        b.setField911("Master");
         b.setField925(s925);
         b.setField927(s927);
         System.out.println(b);
-        Bib bib=new Bib(b);
+        Bib bib = new Bib(b);
+
+        Z00 z00 = new Z00();
+        z00.setZ00_DOC_NUMBER(b.getField001());
+        z00.setZ00_DATA_LEN(bib.sb.length());
+        z00.setZ00_DATA(bib.sb.toString());
+
+        Z00R z00R = new Z00R();
+        z00R.setZ00R_DOC_NUMBER(b.getField001());
+        z00R.setZ00R_TITLE(b.getField245a());
+        z00R.setZ00R_AUTHOR(b.getField100a());
+
+        BusZ00 busZ00 = new BusZ00(dbConn);
+        busZ00.addTable(z00);
+
+        BusZ00R busZ00R = new BusZ00R(dbConn);
+        busZ00R.addTable(z00R);
+
+        System.out.println(bib.sb);
     }
 }

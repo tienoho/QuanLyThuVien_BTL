@@ -104,7 +104,8 @@ public class HomePanel extends BasePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
-                add(insertBibFrame);
+                //new JDialog(insertBibFrame);
+                insertBibFrame.setVisible(true);
             }
         };
         btnThem.addMouseListener(clickThem);
