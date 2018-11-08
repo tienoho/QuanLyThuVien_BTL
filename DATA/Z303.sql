@@ -1,32 +1,33 @@
 -- Bảng thông tin người dùng--
 -- auto-generated definition
-create table Z303
+create table z303
 (
-  Z303_REC_KEY              CHAR(12) not null,
-  Z303_NAME_KEY             CHAR(50),
-  Z303_USER_TYPE            CHAR(5),
-  Z303_USER_LIBRARY         CHAR(5),
-  Z303_OPEN_DATE            CHAR(8),
-  Z303_UPDATE_DATE          CHAR(8),
-  Z303_CON_LNG              CHAR(3),
-  Z303_NAME                 NVARCHAR(200),
-  Z303_TITLE                CHAR(10),
-  Z303_DELINQ_1             CHAR(2),
-  Z303_DELINQ_N_1           NVARCHAR(200),
-  Z303_DELINQ_1_UPDATE_DATE CHAR(8),
-  Z303_DELINQ_1_CAT_NAME    CHAR(10),
-  Z303_PROFILE_ID           NVARCHAR(12),
-  Z303_FIELD_1              NVARCHAR(200),
-  Z303_FIELD_2              NVARCHAR(200),
-  Z303_FIELD_3              NVARCHAR(200),
-  Z303_NOTE_1               NVARCHAR(200),
-  Z303_NOTE_2               NVARCHAR(200),
-  Z303_SALUTATION           NVARCHAR(100),
-  Z303_BIRTH_DATE           CHAR(8),
-  Z303_GENDER               CHAR,
-  Z303_UPD_TIME_STAMP       CHAR(15)
-);
-CREATE UNIQUE INDEX Z303_Z303_REC_KEY_uindex ON Z303 (Z303_REC_KEY);
-ALTER TABLE Z303 COMMENT = 'Bảng Người dùng';
-
+  Z303_REC_KEY              char(12)                  not null,
+  Z303_NAME_KEY             char(50)                  null,
+  Z303_USER_TYPE            char(5)                   null,
+  Z303_USER_LIBRARY         char(5)                   null,
+  Z303_OPEN_DATE            char(10)                  null,
+  Z303_UPDATE_DATE          char(10)                  null,
+  Z303_CON_LNG              char(3)                   null,
+  Z303_NAME                 varchar(200) charset utf8 null,
+  Z303_TITLE                char(10)                  null,
+  Z303_DELINQ_1             char(2)                   null,
+  Z303_DELINQ_N_1           varchar(200) charset utf8 null,
+  Z303_DELINQ_1_UPDATE_DATE char(10)                  null,
+  Z303_DELINQ_1_CAT_NAME    char(10)                  null,
+  Z303_PROFILE_ID           varchar(12) charset utf8  null,
+  Z303_FIELD_1              varchar(200) charset utf8 null,
+  Z303_FIELD_2              varchar(200) charset utf8 null,
+  Z303_FIELD_3              varchar(200) charset utf8 null,
+  Z303_NOTE_1               varchar(200) charset utf8 null,
+  Z303_NOTE_2               varchar(200) charset utf8 null,
+  Z303_SALUTATION           varchar(100) charset utf8 null,
+  Z303_BIRTH_DATE           char(10)                  null,
+  Z303_PLACE_BIRTH          varchar(255) charset utf8 null,
+  Z303_GENDER               char(10)                  null,
+  Z303_UPD_TIME_STAMP       char(15)                  null,
+  constraint Z303_Z303_REC_KEY_uindex
+  unique (Z303_REC_KEY)
+)
+  comment 'Bảng Người dùng';
 
