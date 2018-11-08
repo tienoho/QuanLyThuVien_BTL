@@ -29,8 +29,6 @@ public class BusZ00R {
             bl = true;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return bl;
     }
@@ -47,8 +45,6 @@ public class BusZ00R {
             bl = true;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return bl;
     }
@@ -67,8 +63,6 @@ public class BusZ00R {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
-            dbConn.CloseConnection();
         }
         return list;
     }

@@ -1,6 +1,5 @@
 package com.btl.quanlythuvien.Business;
 
-import com.btl.quanlythuvien.Enity.Z00;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.model.DBConnection;
 
@@ -25,7 +24,6 @@ public class BusALl {
         String sql = "DELETE FROM " + table + " WHERE " + column + "=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-
             pst.setString(1, KEY);
             pst.executeUpdate();
             bl = true;
@@ -36,15 +34,16 @@ public class BusALl {
         }
         return bl;
     }
+
     public ArrayList<type> getAllTable(JComboBox jcb, String sql) {
-        ArrayList<type> list=new ArrayList<>();
+        ArrayList<type> list = new ArrayList<>();
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                String symbol=rs.getString(2);
-                String content=rs.getString(3);
-                type t=new type(symbol,content);
+                String symbol = rs.getString(2);
+                String content = rs.getString(3);
+                type t = new type(symbol, content);
                 list.add(t);
                 jcb.addItem(content);
             }
@@ -52,5 +51,20 @@ public class BusALl {
             ex.printStackTrace();
         }
         return list;
+    }
+
+    public int getCountZ00(String sql) {
+        //String sql = "SELECT count(*) FROM z00";
+        int count=0;
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return count;
     }
 }
