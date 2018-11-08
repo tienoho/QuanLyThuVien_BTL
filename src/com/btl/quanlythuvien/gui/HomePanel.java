@@ -2,6 +2,7 @@ package com.btl.quanlythuvien.gui;
 
 import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.gui.bib.InsertBibFrame;
+import com.btl.quanlythuvien.gui.bib.PatronI_U;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -80,7 +81,12 @@ public class HomePanel extends BasePanel {
                         if (index == JOptionPane.YES_OPTION) {
                             new BusALl(new DBConnection()).deleteTable(dTable.getText(), colunm.getText(), txtData.getText());
                             JOptionPane.showMessageDialog(null, "Xóa thành công!!!");
-
+                            if (dTable.getText().equals("z00r")) {
+                                reloadQuanLySach();
+                            }
+                            if (dTable.getText().equals("z303")) {
+                                reloadDocGia();
+                            }
                         }
                     }
                 }
@@ -104,8 +110,15 @@ public class HomePanel extends BasePanel {
         MouseListener clickThem = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), "");
-                insertBibFrame.show();
+                if (dTable.getText().equals("z00r")) {
+                    InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), "");
+                    insertBibFrame.show();
+                }
+                if (dTable.getText().equals("z303")) {
+                    PatronI_U patronI_u = new PatronI_U();
+                    patronI_u.show();
+                }
+
             }
         };
         btnThem.addMouseListener(clickThem);
@@ -116,9 +129,16 @@ public class HomePanel extends BasePanel {
                 getDataRow();
                 if (!getDataRow()) {
                     JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần cập nhật!!");
+                } else {
+                    if (dTable.getText().equals("z00r")) {
+                        InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
+                        insertBibFrame.show();
+                    }
+                    if (dTable.getText().equals("z303")) {
+                        PatronI_U patronI_u = new PatronI_U();
+                        patronI_u.show();
+                    }
                 }
-                InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
-                insertBibFrame.show();
             }
         };
         btnCapNhat.addMouseListener(clickCapNhat);
