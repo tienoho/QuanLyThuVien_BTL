@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Admin
@@ -440,7 +441,7 @@ public class InsertBibFrame extends javax.swing.JFrame {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        if (value == null) {
+        if (value.equals("")) {
             jtf_082_a.setText("jTextField11");
             jtf_082_b.setText("jTextField11");
             jtf_100_a.setText("tên tác giả");
@@ -465,8 +466,8 @@ public class InsertBibFrame extends javax.swing.JFrame {
             MarcBean2 marcBean2 = marc2.marcBeans(value, data);
             System.out.println(marcBean2);
             jtf_008.setText(value);
-            jtf_082_a.setText(marc2.getData008(marcBean2.getSp008()).get(0));
-            jtf_082_b.setText(marc2.getData008(marcBean2.getSp008()).get(1));
+            jtf_082_a.setText(marc2.getData008(marcBean2.getSp082()).get(0));
+            jtf_082_b.setText(marc2.getData008(marcBean2.getSp082()).get(1));
 
             jtf_100_a.setText(marc2.getData100(marcBean2.getSp100()).get(0));
             jtf_100_e.setText(marc2.getData100(marcBean2.getSp100()).get(1));
@@ -485,8 +486,21 @@ public class InsertBibFrame extends javax.swing.JFrame {
             jtf_650_a.setText(marc2.getData650(marcBean2.getSp650()).get(0));
             jtf_650_v.setText(marc2.getData650(marcBean2.getSp650()).get(1));
 
+         //   jcb_041.setSelectedIndex(selectJCombo(marcBean2.getSp041().replace("$$a",""),list041));
+
 
         }
+    }
+
+    private String selectJCombo(String key, List<type> types) {
+        String value = "";
+        for (com.btl.quanlythuvien.Enity.type type : types) {
+            if (Objects.equals(key, type.getSymbol())) {
+                value = type.getContent();
+                break;
+            }
+        }
+        return value;
     }
 
     private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

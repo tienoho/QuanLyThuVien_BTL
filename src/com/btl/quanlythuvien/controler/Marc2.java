@@ -503,7 +503,7 @@ public class Marc2 {
 
     public List<String> getData008(String data) {
         List<String> strings = new ArrayList<>();
-        String a = "", b = "", c = "", v = "";
+        String a = "", b = "";
         String[] word = {mC, mD, mE, mF, mG, mH, mI, mJ, mK, mN, mM, mL, mS, mP, mX, mQ, mT, mU, mV};
         if (data.contains(mA) && data.contains(mB)) {
             a = data.substring(data.indexOf(mA) + 3, data.indexOf(mB));
