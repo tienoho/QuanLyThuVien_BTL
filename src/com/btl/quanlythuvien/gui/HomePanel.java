@@ -114,6 +114,9 @@ public class HomePanel extends BasePanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 getDataRow();
+                if (!getDataRow()) {
+                    JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần cập nhật!!");
+                }
                 InsertBibFrame insertBibFrame = new InsertBibFrame(dTable.getText(), txtData.getText());
                 insertBibFrame.show();
             }
@@ -171,6 +174,9 @@ public class HomePanel extends BasePanel {
 
         makeComp(btnXoa, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
+        dTable.setText("z00r");
+        colunm.setText("Z00R_DOC_NUMBER");
+
         String title = "Xem chi tiết";
         label = new JLabel(title);
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
@@ -178,7 +184,6 @@ public class HomePanel extends BasePanel {
                 "Z00R_AUTHOR AS 'Tác giả' From z00r";
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
-
         makeComp(label, 600, 90, 400, 30);
 
     }
