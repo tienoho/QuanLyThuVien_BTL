@@ -215,7 +215,11 @@ public class InsertBibFrame extends javax.swing.JFrame {
         }
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                if (value.equals("")) {
+                    insertDb();
+                } else {
+                    reloadUpdate();
+                }
             }
         });
 
@@ -550,21 +554,6 @@ public class InsertBibFrame extends javax.swing.JFrame {
         return value;
     }
 
-    private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        insertDb();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
     public ArrayList<type> listShowComm(JComboBox jcb, String sql, ArrayList<type> list) {
         list = bus.getAllTable(jcb, sql);
         return list;
