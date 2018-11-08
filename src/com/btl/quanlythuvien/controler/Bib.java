@@ -30,7 +30,7 @@ public class Bib {
         return "";
     }
     private String subField(String field, int length) {
-        String sLength = String.format("|%9d|", length);
+        String sLength = String.format("|%4d|", length);
         return sLength + field;
     }
 
