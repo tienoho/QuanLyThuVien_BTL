@@ -20,7 +20,7 @@ public class BusZ303 {
 
     public boolean addTable(Z303 z) {
         boolean bl = false;
-        String sql = "INSERT INTO Z303 VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Z303 VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, z.getZ303_REC_KEY());
@@ -44,8 +44,9 @@ public class BusZ303 {
             pst.setString(19, z.getZ303_NOTE_2());
             pst.setString(20, z.getZ303_SALUTATION());
             pst.setString(21, z.getZ303_BIRTH_DATE());
-            pst.setString(22, z.getZ303_GENDER());
-            pst.setString(23, z.getZ303_UPD_TIME_STAMP());
+            pst.setString(22,z.getZ303_PLACE_BIRTH());
+            pst.setString(23, z.getZ303_GENDER());
+            pst.setString(24, z.getZ303_UPD_TIME_STAMP());
             pst.executeUpdate();
             pst.close();
             bl = true;
@@ -62,30 +63,31 @@ public class BusZ303 {
                 "Z303_DELINQ_1=?,Z303_DELINQ_N_1=?,Z303_DELINQ_1_UPDATE_DATE=?,\n" +
                 "Z303_DELINQ_1_CAT_NAME=?,Z303_PROFILE_ID=?,Z303_FIELD_1=?," +
                 "Z303_FIELD_2=?,Z303_FIELD_3=?,Z303_NOTE_1=?,Z303_NOTE_2=?," +
-                "Z303_SALUTATION=?,Z303_BIRTH_DATE=?,Z303_GENDER=?,Z303_UPD_TIME_STAMP=? WHERE Z303_REC_KEY=?";
+                "Z303_SALUTATION=?,Z303_BIRTH_DATE=?,Z303_PLACE_BIRTH=?,Z303_GENDER=?,Z303_UPD_TIME_STAMP=? WHERE Z303_REC_KEY=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, z.getZ303_REC_KEY());
-            pst.setString(2, z.getZ303_NAME_KEY());
-            pst.setString(3, z.getZ303_USER_TYPE());
-            pst.setString(4, z.getZ303_USER_LIBRARY());
-            pst.setString(5, z.getZ303_OPEN_DATE());
-            pst.setString(6, z.getZ303_UPDATE_DATE());
-            pst.setString(7, z.getZ303_CON_LNG());
-            pst.setString(8, z.getZ303_NAME());
-            pst.setString(9, z.getZ303_TITLE());
-            pst.setString(10, z.getZ303_DELINQ_1());
-            pst.setString(11, z.getZ303_DELINQ_N_1());
-            pst.setString(12, z.getZ303_DELINQ_1_UPDATE_DATE());
-            pst.setString(13, z.getZ303_DELINQ_1_CAT_NAME());
-            pst.setString(14, z.getZ303_PROFILE_ID());
-            pst.setString(15, z.getZ303_FIELD_1());
-            pst.setString(16, z.getZ303_FIELD_2());
-            pst.setString(17, z.getZ303_FIELD_3());
-            pst.setString(18, z.getZ303_NOTE_1());
-            pst.setString(19, z.getZ303_NOTE_2());
-            pst.setString(20, z.getZ303_SALUTATION());
-            pst.setString(21, z.getZ303_BIRTH_DATE());
+            pst.setString(24, z.getZ303_REC_KEY());
+            pst.setString(1, z.getZ303_NAME_KEY());
+            pst.setString(2, z.getZ303_USER_TYPE());
+            pst.setString(3, z.getZ303_USER_LIBRARY());
+            pst.setString(4, z.getZ303_OPEN_DATE());
+            pst.setString(5, z.getZ303_UPDATE_DATE());
+            pst.setString(6, z.getZ303_CON_LNG());
+            pst.setString(7, z.getZ303_NAME());
+            pst.setString(8, z.getZ303_TITLE());
+            pst.setString(9, z.getZ303_DELINQ_1());
+            pst.setString(10, z.getZ303_DELINQ_N_1());
+            pst.setString(11, z.getZ303_DELINQ_1_UPDATE_DATE());
+            pst.setString(12, z.getZ303_DELINQ_1_CAT_NAME());
+            pst.setString(13, z.getZ303_PROFILE_ID());
+            pst.setString(14, z.getZ303_FIELD_1());
+            pst.setString(15, z.getZ303_FIELD_2());
+            pst.setString(16, z.getZ303_FIELD_3());
+            pst.setString(17, z.getZ303_NOTE_1());
+            pst.setString(18, z.getZ303_NOTE_2());
+            pst.setString(19, z.getZ303_SALUTATION());
+            pst.setString(20, z.getZ303_BIRTH_DATE());
+            pst.setString(21,z.getZ303_PLACE_BIRTH());
             pst.setString(22, z.getZ303_GENDER());
             pst.setString(23, z.getZ303_UPD_TIME_STAMP());
             pst.executeUpdate();
@@ -125,11 +127,12 @@ public class BusZ303 {
                 String Z303_NOTE_2 = rs.getString("Z303_NOTE_2");
                 String Z303_SALUTATION = rs.getString("Z303_SALUTATION");
                 String Z303_BIRTH_DATE = rs.getString("Z303_BIRTH_DATE");
+                String Z303_PLACE_BIRTH = rs.getString("Z303_PLACE_BIRTH");
                 String Z303_GENDER = rs.getString("Z303_GENDER");
                 String Z303_UPD_TIME_STAMP = rs.getString("Z303_UPD_TIME_STAMP");
                 Z303 z = new Z303(Z303_REC_KEY, Z303_NAME_KEY, Z303_USER_TYPE, Z303_USER_LIBRARY, Z303_OPEN_DATE, Z303_UPDATE_DATE, Z303_CON_LNG, Z303_NAME, Z303_TITLE, Z303_DELINQ_1, Z303_DELINQ_N_1, Z303_DELINQ_1_UPDATE_DATE,
                         Z303_DELINQ_1_CAT_NAME, Z303_PROFILE_ID, Z303_FIELD_1, Z303_FIELD_2, Z303_FIELD_3, Z303_NOTE_1, Z303_NOTE_2, Z303_SALUTATION,
-                        Z303_BIRTH_DATE, Z303_GENDER, Z303_UPD_TIME_STAMP);
+                        Z303_BIRTH_DATE,Z303_PLACE_BIRTH, Z303_GENDER, Z303_UPD_TIME_STAMP);
                 list.add(z);
             }
             rs.close();
@@ -169,11 +172,12 @@ public class BusZ303 {
                 String Z303_NOTE_2 = rs.getString("Z303_NOTE_2");
                 String Z303_SALUTATION = rs.getString("Z303_SALUTATION");
                 String Z303_BIRTH_DATE = rs.getString("Z303_BIRTH_DATE");
+                String Z303_PLACE_BIRTH = rs.getString("Z303_PLACE_BIRTH");
                 String Z303_GENDER = rs.getString("Z303_GENDER");
                 String Z303_UPD_TIME_STAMP = rs.getString("Z303_UPD_TIME_STAMP");
                 Z303 z = new Z303(Z303_REC_KEY, Z303_NAME_KEY, Z303_USER_TYPE, Z303_USER_LIBRARY, Z303_OPEN_DATE, Z303_UPDATE_DATE, Z303_CON_LNG, Z303_NAME, Z303_TITLE, Z303_DELINQ_1, Z303_DELINQ_N_1, Z303_DELINQ_1_UPDATE_DATE,
                         Z303_DELINQ_1_CAT_NAME, Z303_PROFILE_ID, Z303_FIELD_1, Z303_FIELD_2, Z303_FIELD_3, Z303_NOTE_1, Z303_NOTE_2, Z303_SALUTATION,
-                        Z303_BIRTH_DATE, Z303_GENDER, Z303_UPD_TIME_STAMP);
+                        Z303_BIRTH_DATE,Z303_PLACE_BIRTH, Z303_GENDER, Z303_UPD_TIME_STAMP);
                 list.add(z);
             }
             rs.close();
