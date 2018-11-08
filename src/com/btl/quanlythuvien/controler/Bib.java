@@ -13,7 +13,7 @@ public class Bib {
         sb.append(getMarc21(b.getField008(), "008"));
         sb.append(getMarc21(margeField(b.getField041a(), Marc2.mA),"041"));
         sb.append(getMarc21(margeField(b.getField082a(), Marc2.mA)+margeField(b.getField082b(), Marc2.mB),"082"));
-        sb.append(getMarc21(margeField(b.getField100a(), Marc2.mA)+margeField(b.getField100e(), Marc2.mB),"100"));
+        sb.append(getMarc21(margeField(b.getField100a(), Marc2.mA)+margeField(b.getField100e(), Marc2.mE),"100"));
         sb.append(getMarc21(margeField(b.getField245a(), Marc2.mA)+margeField(b.getField245b(), Marc2.mB)+margeField(b.getField100a(), Marc2.mC),"245"));
         sb.append(getMarc21(margeField(b.getField260a(), Marc2.mA)+margeField(b.getField260b(), Marc2.mB)+margeField(b.getField260c(), Marc2.mC),"260"));
         sb.append(getMarc21(margeField(b.getField300a(), Marc2.mA)+margeField(b.getField300b(), Marc2.mB)+margeField(b.getField300c(), Marc2.mC),"300"));
