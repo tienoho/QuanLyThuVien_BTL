@@ -35,7 +35,7 @@ public class BusZ00R {
 
     public boolean updateTable(Z00R z) {
         boolean bl = false;
-        String sql = "Update Z00R SET Z00R_TITLES=?,Z00R_AUTHOR=? WHERE Z00R_DOC_NUMBER=?";
+        String sql = "Update Z00R SET Z00R_TITLE=?,Z00R_AUTHOR=? WHERE Z00R_DOC_NUMBER=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(3, z.getZ00R_DOC_NUMBER());
@@ -56,7 +56,7 @@ public class BusZ00R {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 String Z00R_DOC_NUMBER = rs.getString("Z00R_DOC_NUMBER");
-                String Z00R_TITLES = rs.getString("Z00R_TITLES");
+                String Z00R_TITLES = rs.getString("Z00R_TITLE");
                 String Z00R_AUTHOR = rs.getString("Z00R_AUTHOR");
                 Z00R z = new Z00R(Z00R_DOC_NUMBER, Z00R_TITLES, Z00R_AUTHOR);
                 list.add(z);

@@ -215,11 +215,12 @@ public class InsertBibFrame extends javax.swing.JFrame {
         }
         jButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                if (value.equals("")) {
-                    insertDb();
-                } else {
-                    reloadUpdate();
-                }
+//                if (value.equals("")) {
+//                    insertDb();
+//                } else {
+//                    reloadUpdate();
+//                }
+                insertDb();
             }
         });
 
@@ -602,7 +603,12 @@ public class InsertBibFrame extends javax.swing.JFrame {
     public void insertDb() {
         BibBean b = new BibBean();
         b.setFiledLDR("123456789xyz");
-        b.setField001(String.format("%09d", (idBib + 1)));
+        if(value.equals(""))
+        {
+            b.setField001(String.format("%09d", (idBib + 1)));
+        }else {
+            b.setField001(value);
+        }
         b.setField008("181108s2018^^^^vm^^^^^^^^n^^^000^^^" + s041 + "^^");
         b.setField041a(s041);
         b.setField082a(jtf_082_a.getText());
@@ -636,11 +642,15 @@ public class InsertBibFrame extends javax.swing.JFrame {
         z00R.setZ00R_AUTHOR(b.getField100a());
 
         BusZ00 busZ00 = new BusZ00(dbConn);
-        busZ00.addTable(z00);
-
         BusZ00R busZ00R = new BusZ00R(dbConn);
-        busZ00R.addTable(z00R);
-
+        if(value.equals(""))
+        {
+            busZ00.addTable(z00);
+            busZ00R.addTable(z00R);
+        }else {
+            busZ00.updateTable(z00);
+            busZ00R.updateTable(z00R);
+        }
         System.out.println(bib.sb);
     }
 }
