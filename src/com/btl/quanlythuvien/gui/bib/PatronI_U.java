@@ -11,14 +11,18 @@ import com.btl.quanlythuvien.Enity.Z303;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.model.DBConnection;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Admin
@@ -87,6 +91,7 @@ public class PatronI_U extends javax.swing.JFrame {
     private javax.swing.JTextField jtf_opendate;
     private javax.swing.JTextField jtf_profile;
     private javax.swing.JTextField jtf_updateDate;
+    private String fileImg;
 
     /**
      * Creates new form PatronI_U
@@ -159,19 +164,21 @@ public class PatronI_U extends javax.swing.JFrame {
         str = new StringBuilder(str).insert(str.length() - 4, "/").toString();
         str = new StringBuilder(str).insert(str.length() - 7, "/").toString();
         if (value.equals("")) {
-            jtf_opendate.setText(str);
-            jtf_opendate.enable(false);
+            jtf_updateDate.setText(str);
+            jtf_updateDate.enable(false);
             jbtn_Insert.enable(true);
-            jbtn_Update.enable(false);
+            jbtn_Update.setVisible(false);
             jtf_PatronID.setText(patron);
             jtf_barcode.setText("Haui-" + patron);
         } else {
-            jbtn_Insert.enable(false);
+            jtf_updateDate.setText(str);
+            jtf_updateDate.enable(true);
+            jtf_opendate.enable(false);
+            jbtn_Insert.setVisible(false);
             jbtn_Update.enable(true);
             reloadUpdate();
         }
-        jtf_updateDate.setText(str);
-        jtf_updateDate.enable(false);
+
         jtf_PatronID.enable(false);
         jtf_barcode.enable(false);
     }
@@ -232,69 +239,26 @@ public class PatronI_U extends javax.swing.JFrame {
         jbtn_refresh = new javax.swing.JButton();
         jbtn_pic = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        jLabel2.setText("Họ Tên / ID/Barcode");
         jLabel1.setText("OpenDate");
-
-        jtf_opendate.setText("jTextField1");
-
         jLabel3.setText("Patron ID");
-
-        jtf_PatronID.setText("jTextField1");
-
         jLabel4.setText("Barcode");
-
-        jtf_barcode.setText("jTextField1");
-
-        jtf_name.setText("jTextField1");
-
         jLabel5.setText("Name");
-
         jLabel6.setText("Title");
-
         Gender.setText("Gender");
-
         jLabel8.setText("Note 1");
-
         jLabel9.setText("Note 2");
-
         jLabel10.setText("Local Block");
-
         jLabel11.setText("Language");
-
         jLabel12.setText("Date of Birth");
-
-        jtf_DateBirth.setText("01/01/1990");
-
-        jtf_PlaceBirth.setText("jTextField1");
-
         jLabel13.setText("Place of Birth");
-
         jLabel15.setText("Profile");
-
-        jtf_profile.setText("jTextField1");
-
-        jtf_updateDate.setText("jTextField1");
-
         jLabel16.setText("Update Date");
-
-        jtf_Field1.setText("jTextField1");
-        jtf_Field1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_Field1ActionPerformed(evt);
-            }
-        });
-
         jLabel17.setText("Field 1");
-
         jLabel18.setText("Field 2");
-
-        jtf_Field2.setText("jTextField1");
-
-        jtf_Field3.setText("jTextField1");
-
         jLabel19.setText("Field 3");
-
+        imgLabel.setSize(120, 120);
+        imgLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jtf_Note1.setColumns(20);
         jtf_Note1.setLineWrap(true);
         jtf_Note1.setRows(5);
@@ -304,6 +268,26 @@ public class PatronI_U extends javax.swing.JFrame {
         jtf_Note2.setLineWrap(true);
         jtf_Note2.setRows(5);
         jScrollPane2.setViewportView(jtf_Note2);
+
+
+        jtf_opendate.setText("jTextField1");
+        jtf_PatronID.setText("jTextField1");
+        jtf_barcode.setText("jTextField1");
+        jtf_name.setText("jTextField1");
+        jtf_DateBirth.setText("01/01/1990");
+        jtf_PlaceBirth.setText("jTextField1");
+        jtf_profile.setText("jTextField1");
+        jtf_updateDate.setText("jTextField1");
+        jtf_Field1.setText("jTextField1");
+        jtf_Field2.setText("jTextField1");
+        jtf_Field3.setText("jTextField1");
+
+        jtf_Field1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_Field1ActionPerformed(evt);
+            }
+        });
+
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -471,8 +455,6 @@ public class PatronI_U extends javax.swing.JFrame {
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jLabel2.setText("Họ Tên / ID/Barcode");
-
         imgLabel.setText("imgLabel");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -517,7 +499,38 @@ public class PatronI_U extends javax.swing.JFrame {
         jbtn_pic.setText("Upload Pic");
         jbtn_pic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtn_picActionPerformed(evt);
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "JPG & GIF Images", "jpg", "png", "jpeg", "gif");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    String path = chooser.getSelectedFile().getPath();
+                    imgLabel.setText("");
+                    imgLabel.setIcon(new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_SMOOTH)));
+                    InputStream inputStream = null;
+                    OutputStream outputStream = null;
+                    try {
+                        Random random = new Random();
+                        inputStream = new FileInputStream(path);
+                        fileImg = System.getProperty("user.dir") + "\\DATA\\image" + patronId + random.nextInt(5000) + ".jpg";
+                        outputStream = new FileOutputStream(new File(fileImg));
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = inputStream.read(buffer)) > 0) {
+                            outputStream.write(buffer, 0, length);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            inputStream.close();
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         });
 
@@ -719,10 +732,14 @@ public class PatronI_U extends javax.swing.JFrame {
 
         if (value.equals("")) {
             busZ303.addTable(z303);
-            System.out.println(z303);
+            JOptionPane.showMessageDialog(null, "Thêm thông tin thành công!!");
+            setVisible(false);
+            dispose();
         } else {
             busZ303.updateTable(z303);
-            System.out.println(z303);
+            JOptionPane.showMessageDialog(null, "Cập nhật thông tin thành công!!");
+            setVisible(false);
+            dispose();
         }
 
     }
