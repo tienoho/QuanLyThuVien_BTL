@@ -1,21 +1,21 @@
--- bảng mượn trả sách
-create table Z36
+-- auto-generated definition
+create table z36
 (
-  Z36_REC_KEY                CHAR(15) not null,
-  Z36_ID                     CHAR(12) not null,
-  Z36_NUMBER                 CHAR(9)  not null,
-  Z36_MATERIAL               CHAR(5),
-  Z36_SUB_LIBRARY            CHAR(5),
-  Z36_STATUS                 CHAR,
-  Z36_LOAN_DATE              CHAR(8),
-  Z36_LOAN_HOUR              CHAR(4),
-  Z36_DUE_DATE               CHAR(8),
-  Z36_DUE_HOUR               CHAR(4),
-  Z36_RETURNED_DATE          CHAR(8),
-  Z36_RETURNED_HOUR          CHAR(4),
-  Z36_ITEM_STATUS            CHAR(2),
-  Z36_NOTE_1                 NVARCHAR(30),
-  Z36_PROCESS_STATUS         CHAR(2)
-);
-CREATE UNIQUE INDEX Z36_Z36_REC_KEY_uindex ON Z36 (Z36_REC_KEY);
-ALTER TABLE Z36 COMMENT = 'Bảng Mượn trả';
+  Z36_REC_KEY        char(15)                  not null,
+  Z36_ID             char(12)                  not null,
+  Z36_NUMBER         char(9)                   not null,
+  Z36_SUB_LIBRARY    char(5)                   null,
+  Z36_STATUS         char                      null,
+  Z36_LOAN_DATE      char(10)                  null,
+  Z36_DUE_DATE       char(10)                  null,
+  Z36_RETURNED_DATE  char(10)                  null,
+  Z36_ITEM_STATUS    char(2)                   null,
+  Z36_NOTE_1         varchar(255) charset utf8 null,
+  Z36_MONEY          decimal                   null,
+  Z36_MONEY_FINE     decimal                   null,
+  Z36_PROCESS_STATUS char(2)                   null,
+  constraint Z36_Z36_REC_KEY_uindex
+  unique (Z36_REC_KEY)
+)
+  comment 'Bảng Mượn trả';
+

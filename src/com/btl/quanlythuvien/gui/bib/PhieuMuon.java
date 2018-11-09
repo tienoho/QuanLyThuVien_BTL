@@ -5,21 +5,17 @@
  */
 package com.btl.quanlythuvien.gui.bib;
 
-import com.btl.quanlythuvien.Business.BusALl;
-import com.btl.quanlythuvien.Business.BusZ00;
-import com.btl.quanlythuvien.Business.BusZ30;
-import com.btl.quanlythuvien.Business.BusZ303;
-import com.btl.quanlythuvien.Enity.ItemOne;
-import com.btl.quanlythuvien.Enity.Z00;
-import com.btl.quanlythuvien.Enity.Z303;
-import com.btl.quanlythuvien.Enity.type;
+import com.btl.quanlythuvien.Business.*;
+import com.btl.quanlythuvien.Enity.*;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * @author Tien
@@ -39,7 +35,13 @@ public class PhieuMuon extends javax.swing.JFrame {
     ArrayList<Z303> listZ303 = null;
     ArrayList<Z00> listZ00 = null;
     ArrayList<ItemOne> listOneTableZ30 = null;
+    DefaultTableModel model = null;
+    String itemStatus = "";
+    float Z30_PRICE = 0;
+    String iD="";
+    int z = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JLabel jLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
@@ -58,8 +60,8 @@ public class PhieuMuon extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jtf_nhande;
+    private javax.swing.JTextField jtf_tacGia;
     private javax.swing.JButton jbtn_them;
     private javax.swing.JButton jbtn_themItem;
     private javax.swing.JButton jbtn_xoaItem;
@@ -67,8 +69,8 @@ public class PhieuMuon extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_madocgia;
     private javax.swing.JComboBox<String> jcb_matailieu;
     private javax.swing.JTextField jtf_maphieu;
-    private javax.swing.JTextField jtf_namxs;
-    private javax.swing.JTextField jtf_ngaymuon;
+    private javax.swing.JTextField jtf_soLuong;
+    private javax.swing.JTextField jtf_ngayTra;
     private javax.swing.JTextField jtf_tendocgia;
 
     /**
@@ -80,8 +82,8 @@ public class PhieuMuon extends javax.swing.JFrame {
         getData();
         setComboBox();
         selectCombox();
-        jTextField2.setText("Cai nao 1");
-        jTextField4.setText("Cai nao 2");
+        dateNow();
+        EventAddItem();
     }
 
     /**
@@ -119,6 +121,13 @@ public class PhieuMuon extends javax.swing.JFrame {
         });
     }
 
+    private void dateNow() {
+        timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
+        timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 4, "/").toString();
+        timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 7, "/").toString();
+        jtf_ngayTra.setText(timeStamp);
+    }
+
     private void getData() {
         dbConn = new DBConnection();
         bus = new BusALl(dbConn);
@@ -129,19 +138,21 @@ public class PhieuMuon extends javax.swing.JFrame {
         listZ303 = busZ303.getAllTable();
         listZ00 = busZ00.getAllTable();
         listOneTableZ30 = busZ30.getOneTable_REC_KEY(listZ00.get(0).getZ00_DOC_NUMBER());
+        jtf_tendocgia.setText(listZ303.get(0).getZ303_NAME());
+        int count=bus.getCountZ00("SELECT count(DISTINCT Z36_ID) FROM z36");
+        iD=String.format("%09d",count+1);
+        jtf_maphieu.setText(iD);
     }
 
     private void setDisplayTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        model = (DefaultTableModel) jTable1.getModel();
         jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(300);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(320);
         jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
-        model.addRow(new Object[]{"Column 1", "Column 2", "Column 3", "Column 4"});
-        model.addRow(new Object[]{"Column 1", "Column 2", "Column 3", "Column 4"});
-        model.addRow(new Object[]{"Column 1", "Column 2", "Column 3", "Column 4"});
-        model.addRow(new Object[]{"Column 1", "Column 2", "Column 3", "Column 4"});
+
     }
 
     private void setComboBox() {
@@ -168,7 +179,7 @@ public class PhieuMuon extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        jLabel = new JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -181,23 +192,23 @@ public class PhieuMuon extends javax.swing.JFrame {
         jbtn_them = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jtf_maphieu = new javax.swing.JTextField();
-        jtf_ngaymuon = new javax.swing.JTextField();
+        jtf_ngayTra = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jcb_matailieu = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        jtf_nhande = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        jtf_namxs = new javax.swing.JTextField();
+        jtf_soLuong = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jbtn_themItem = new javax.swing.JButton();
         jbtn_xoaItem = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jtf_tacGia = new javax.swing.JTextField();
         jcb_macabiet = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -225,7 +236,7 @@ public class PhieuMuon extends javax.swing.JFrame {
 
         jtf_maphieu.setEditable(false);
 
-        jtf_ngaymuon.setEditable(false);
+        jtf_ngayTra.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -256,7 +267,7 @@ public class PhieuMuon extends javax.swing.JFrame {
                                                                         .addComponent(jcb_madocgia, javax.swing.GroupLayout.Alignment.LEADING, 0, 166, Short.MAX_VALUE))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(jButton1))
-                                                        .addComponent(jtf_ngaymuon, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(jtf_ngayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(23, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -284,7 +295,7 @@ public class PhieuMuon extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel5)
-                                        .addComponent(jtf_ngaymuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jtf_ngayTra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jbtn_them)
@@ -298,7 +309,7 @@ public class PhieuMuon extends javax.swing.JFrame {
 
         jButton2.setText("Tìm");
 
-        jTextField2.setEditable(false);
+        jtf_nhande.setEditable(false);
 
         jLabel7.setText("Tên tài liệu");
 
@@ -307,7 +318,7 @@ public class PhieuMuon extends javax.swing.JFrame {
 
                 },
                 new String[]{
-                        "Mã", "Nhan đề", "Tác giả", "Năm Xuất Bản"
+                        "Mã", "Barcode", "Nhan đề", "Số lượng"
                 }
         ) {
             Class[] types = new Class[]{
@@ -327,11 +338,10 @@ public class PhieuMuon extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel8.setText("Nhà sản xuất");
+        jLabel8.setText("Tác giả");
+        jtf_soLuong.setEditable(true);
 
-        jtf_namxs.setEditable(false);
-
-        jLabel9.setText("Năm sản xuất");
+        jLabel9.setText("Số lượng");
 
         jbtn_themItem.setText("Thêm");
 
@@ -339,7 +349,7 @@ public class PhieuMuon extends javax.swing.JFrame {
 
         jLabel11.setText("Mã cá biệt");
 
-        jTextField4.setEditable(false);
+        jtf_tacGia.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -365,15 +375,15 @@ public class PhieuMuon extends javax.swing.JFrame {
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(jtf_nhande, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                                                 .addComponent(jLabel8)
                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                                .addComponent(jtf_tacGia, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addComponent(jLabel9)
                                                                 .addGap(18, 18, 18)
-                                                                .addComponent(jtf_namxs, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(jtf_soLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                                                 .addComponent(jLabel6)
@@ -408,12 +418,12 @@ public class PhieuMuon extends javax.swing.JFrame {
                                                 .addGap(26, 26, 26)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel9)
-                                                        .addComponent(jtf_namxs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jtf_soLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jLabel8)
-                                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(jtf_tacGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel7)
-                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(jtf_nhande, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -456,6 +466,7 @@ public class PhieuMuon extends javax.swing.JFrame {
                 maDocGia = "";
                 if (jcb_madocgia.getSelectedIndex() != -1) {
                     maDocGia = listZ303.get(jcb_madocgia.getSelectedIndex()).getZ303_REC_KEY();
+                    jtf_tendocgia.setText(listZ303.get(jcb_madocgia.getSelectedIndex()).getZ303_NAME());
                 }
                 System.out.println(maDocGia);
             }
@@ -468,6 +479,8 @@ public class PhieuMuon extends javax.swing.JFrame {
                     listOneTableZ30 = busZ30.getOneTable_REC_KEY(maTaiLieu);
                     jcb_macabiet.removeAllItems();
                     comboBoxMaCaBiet();
+                    jtf_nhande.setText(listOneTableZ30.get(0).getZ00R_TITLE());
+                    jtf_tacGia.setText(listOneTableZ30.get(0).getZ00R_AUTHOR());
 
                 }
                 System.out.println(maTaiLieu);
@@ -482,5 +495,69 @@ public class PhieuMuon extends javax.swing.JFrame {
                 System.out.println(maTaiLieuCaBiet);
             }
         });
+    }
+
+    private void EventAddItem() {
+        jbtn_themItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                addItem();
+            }
+        });
+        jbtn_xoaItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    model.removeRow(jTable1.getSelectedRow());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Không có gì để xóa");
+                }
+            }
+        });
+        jbtn_them.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                insertDb();
+            }
+        });
+//        jTable1.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int z = jTable1.getSelectedRow();
+//                if (z <= -1) {
+//                    String value = jTable1.getModel().getColumnName(z);
+//                    jLabel.setText(value);
+//                }
+//            }
+//        });
+    }
+
+    private void addItem() {
+        model.addRow(new Object[]{jcb_matailieu.getSelectedItem(),jcb_macabiet.getSelectedItem(), jtf_nhande.getText(), jtf_soLuong.getText()});
+    }
+
+    private void insertDb() {
+        Z36 z36;
+
+        BusZ36 busZ36 = new BusZ36(dbConn);
+        for (int i = 0; i < model.getRowCount(); i++) {
+            listOneTableZ30 = busZ30.getOneTable_REC_KEY(model.getValueAt(i, 0).toString());
+            itemStatus = listOneTableZ30.get(0).getZ30_ITEM_STATUS();
+            Z30_PRICE = listOneTableZ30.get(0).getZ30_PRICE();
+
+            z36 = new Z36();
+            z36.setZ36_ID(iD);
+            z36.setZ36_REC_KEY(model.getValueAt(i, 0).toString());
+            z36.setZ36_BARCODE(model.getValueAt(i, 1).toString());
+            z36.setZ36_PARTRON_ID((String) jcb_madocgia.getSelectedItem());
+            z36.setZ36_NUMBER("1");//số lần mượn
+            z36.setZ36_SUB_LIBRARY("HAUI");//Kí hiệu thư viện
+            z36.setZ36_STATUS("A");//A là đang mượn, C là đã trả, M đã làm mất
+            z36.setZ36_LOAN_DATE(timeStamp);//Ngày mượn
+            z36.setZ36_DUE_DATE(jtf_ngayTra.getText());//Ngày Hạn trả
+            z36.setZ36_ITEM_STATUS(itemStatus);//tình Trạng của ITEM_STATUS Z30
+            z36.setZ36_MONEY(Z30_PRICE);//tiền
+            z36.setZ36_PROCESS_STATUS("M");//R đang được đoc, L mất,M Mượn
+
+            busZ36.addTable(z36);
+            System.out.println(z36);
+        }
     }
 }

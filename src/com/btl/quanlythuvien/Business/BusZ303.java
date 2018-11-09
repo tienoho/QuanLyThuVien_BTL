@@ -103,7 +103,7 @@ public class BusZ303 {
 
     public ArrayList<Z303> getAllTable() {
         ArrayList<Z303> list = new ArrayList<>();
-        String sql = "SELECT * FROM Z36";
+        String sql = "SELECT * FROM Z303";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);

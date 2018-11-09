@@ -173,7 +173,7 @@ public class BusZ30 {
 
     public ArrayList<ItemOne> getOneTable_REC_KEY(String Z_ID) {
         ArrayList<ItemOne> list = new ArrayList<>();
-        String sql = "SELECT z30.Z30_REC_KEY,z30.Z30_BARCODE,Z00R_TITLE,Z00R_AUTHOR FROM z30,z00r " +
+        String sql = "SELECT Z30_REC_KEY,Z30_BARCODE,Z00R_TITLE,Z00R_AUTHOR,Z30_ITEM_STATUS,Z30_PRICE FROM z30,z00r " +
                 "WHERE z30.Z30_REC_KEY=z00r.Z00r_DOC_NUMBER and z30.Z30_REC_KEY=?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -184,8 +184,10 @@ public class BusZ30 {
                 String Z30_BARCODE=rs.getString("Z30_BARCODE");
                 String Z00R_TITLE=rs.getString("Z00R_TITLE");
                 String Z00R_AUTHOR=rs.getString("Z00R_AUTHOR");
+                String Z30_ITEM_STATUS=rs.getString("Z30_ITEM_STATUS");
+                float Z30_PRICE=rs.getFloat("Z30_PRICE");
 
-                ItemOne z = new ItemOne(Z30_REC_KEY,Z30_BARCODE,Z00R_TITLE,Z00R_AUTHOR);
+                ItemOne z = new ItemOne(Z30_REC_KEY,Z30_BARCODE,Z00R_TITLE,Z00R_AUTHOR,Z30_ITEM_STATUS,Z30_PRICE);
                 list.add(z);
             }
         } catch (Exception ex) {
