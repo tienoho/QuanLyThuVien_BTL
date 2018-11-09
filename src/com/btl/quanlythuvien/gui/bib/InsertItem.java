@@ -5,8 +5,10 @@
  */
 package com.btl.quanlythuvien.gui.bib;
 
+import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.Business.BusZ30;
 import com.btl.quanlythuvien.Enity.Z30;
+import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -14,15 +16,18 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
  * @author Admin
  */
 public class InsertItem extends javax.swing.JFrame {
-    private String value, table, timeStamp;
+    private String value, table, timeStamp, loaiTaiLieu, boSuuTap;
     private DefaultTableModel model = null;
-
+    private ArrayList<com.btl.quanlythuvien.Enity.type> listLoaiTaiLieu = null;
+    private ArrayList<com.btl.quanlythuvien.Enity.type> listBoSuuTap = null;
+    private BusALl bus = null;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -54,12 +59,53 @@ public class InsertItem extends javax.swing.JFrame {
         this.value = value;
         this.table = table;
         initComponents();
+        getData();
         dateNow();
         EventAddItem();
         setDisplayTable();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+    }
+
+    private void getData() {
+        bus = new BusALl(dbConn);
+        listLoaiTaiLieu = listShowComm(jcb_loaitailieu, "SELECT * FROM Material", listLoaiTaiLieu);
+        listBoSuuTap = listShowComm(jcb_bosuutap, "SELECT * FROM collection", listBoSuuTap);
+        loaiTaiLieu = listLoaiTaiLieu.get(0).getSymbol();
+        boSuuTap = listBoSuuTap.get(0).getSymbol();
+    }
+
+    public ArrayList<com.btl.quanlythuvien.Enity.type> listShowComm(JComboBox jcb, String sql, ArrayList<type> list) {
+        list = bus.getAllTable(jcb, sql);
+        return list;
+    }
+
+    private void EventSelectCombobox() {
+//        jcb_041.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                s041 = "";
+//                if (jcb_041.getSelectedIndex() != -1) {
+//                    s041 = list041.get(jcb_041.getSelectedIndex()).getSymbol();
+//                }
+//            }
+//        });
+//        jcb_925.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                s925 = "";
+//                if (jcb_925.getSelectedIndex() != -1) {
+//                    s925 = list925.get(jcb_925.getSelectedIndex()).getSymbol();
+//                }
+//            }
+//        });
+//        jcb_927.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                s927 = "";
+//                if (jcb_927.getSelectedIndex() != -1) {
+//                    s927 = list927.get(jcb_927.getSelectedIndex()).getSymbol();
+//                }
+//            }
+//        });
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +136,7 @@ public class InsertItem extends javax.swing.JFrame {
         jta_mota = new javax.swing.JTextArea();
         jbtn_save = new javax.swing.JButton();
         jlb_bib = new javax.swing.JLabel();
-
+        reload();
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
 
@@ -301,13 +347,7 @@ public class InsertItem extends javax.swing.JFrame {
         });
         jbtn_refesh.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jtf_barcode.setText("");
-                jtf_maThuVien.setText("");
-                jcb_loaitailieu.setSelectedIndex(0);
-                jcb_trangthai.setSelectedIndex(0);
-                jcb_bosuutap.setSelectedIndex(0);
-                jtf_gia.setText("");
-                jtf_soluong.setText("");
+                reload();
             }
         });
 //        jTable1.addMouseListener(new MouseAdapter() {
@@ -322,16 +362,27 @@ public class InsertItem extends javax.swing.JFrame {
 //        });
     }
 
+    private void reload() {
+        jtf_barcode.setText(value);
+        jtf_maThuVien.setText("HAUI");
+//        jcb_loaitailieu.setSelectedIndex(0);
+//        jcb_trangthai.setSelectedIndex(0);
+//        jcb_bosuutap.setSelectedIndex(0);
+        jtf_gia.setText("");
+        jtf_soluong.setText("");
+    }
+
     private void dateNow() {
         timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
         timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 4, "/").toString();
         timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 7, "/").toString();
     }
 
+
     private void insertDb() {
-        while (model.getRowCount() < 0) {
+        for (int i = 0; i < model.getRowCount(); i++) {
             Z30 z30 = new Z30();
-            z30.setZ30_BARCODE(jtf_barcode.getText());
+            z30.setZ30_BARCODE(jtf_barcode.getText() + String.format("%02d", i));
             z30.setZ30_REC_KEY("");
             z30.setZ30_SUB_LIBRARY("");
             z30.setZ30_MATERIAL("");
