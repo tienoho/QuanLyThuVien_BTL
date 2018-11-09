@@ -91,7 +91,9 @@ public class PatronI_U extends javax.swing.JFrame {
     private javax.swing.JTextField jtf_opendate;
     private javax.swing.JTextField jtf_profile;
     private javax.swing.JTextField jtf_updateDate;
+    private Random random;
     private String fileImg;
+    private String imagePath;
 
     /**
      * Creates new form PatronI_U
@@ -191,7 +193,7 @@ public class PatronI_U extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        random = new Random();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -454,86 +456,6 @@ public class PatronI_U extends javax.swing.JFrame {
                                         .addComponent(jLabel8)
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
-
-        imgLabel.setText("imgLabel");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(imgLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jbtn_Insert.setText("Insert");
-        jbtn_Insert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtn_InsertActionPerformed(evt);
-                InsertUpdate();
-            }
-        });
-
-        jbtn_Update.setText("Update");
-        jbtn_Update.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtn_UpdateActionPerformed(evt);
-                InsertUpdate();
-            }
-        });
-
-        jbtn_refresh.setText("Refresh");
-        jbtn_refresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtn_refreshActionPerformed(evt);
-            }
-        });
-
-        jbtn_pic.setText("Upload Pic");
-        jbtn_pic.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "JPG & GIF Images", "jpg", "png", "jpeg", "gif");
-                chooser.setFileFilter(filter);
-                int returnVal = chooser.showOpenDialog(null);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    String path = chooser.getSelectedFile().getPath();
-                    imgLabel.setText("");
-                    imgLabel.setIcon(new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_SMOOTH)));
-                    InputStream inputStream = null;
-                    OutputStream outputStream = null;
-                    try {
-                        Random random = new Random();
-                        inputStream = new FileInputStream(path);
-                        fileImg = System.getProperty("user.dir") + "\\DATA\\image" + patronId + random.nextInt(5000) + ".jpg";
-                        outputStream = new FileOutputStream(new File(fileImg));
-                        byte[] buffer = new byte[1024];
-                        int length;
-                        while ((length = inputStream.read(buffer)) > 0) {
-                            outputStream.write(buffer, 0, length);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            inputStream.close();
-                            outputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -606,7 +528,85 @@ public class PatronI_U extends javax.swing.JFrame {
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        imgLabel.setText("imgLabel");
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(imgLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jbtn_Insert.setText("Insert");
+        jbtn_Insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn_InsertActionPerformed(evt);
+                InsertUpdate();
+            }
+        });
+
+        jbtn_Update.setText("Update");
+        jbtn_Update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn_UpdateActionPerformed(evt);
+                InsertUpdate();
+            }
+        });
+
+        jbtn_refresh.setText("Refresh");
+        jbtn_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn_refreshActionPerformed(evt);
+            }
+        });
+
+        jbtn_pic.setText("Upload Pic");
+        jbtn_pic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "JPG & GIF Images", "jpg", "png", "jpeg", "gif");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    String path = chooser.getSelectedFile().getPath();
+                    imgLabel.setText("");
+                    imgLabel.setIcon(new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_SMOOTH)));
+                    InputStream inputStream = null;
+                    OutputStream outputStream = null;
+                    try {
+                        inputStream = new FileInputStream(path);
+                        imagePath = random.nextInt(5000) + ".jpg";
+                        fileImg = System.getProperty("user.dir") + "\\DATA\\image" + patronId + imagePath;
+                        System.out.println(imagePath);
+                        outputStream = new FileOutputStream(new File(fileImg));
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = inputStream.read(buffer)) > 0) {
+                            outputStream.write(buffer, 0, length);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            inputStream.close();
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -686,7 +686,10 @@ public class PatronI_U extends javax.swing.JFrame {
         jtf_name.setText(listZ303.get(0).getZ303_NAME());
         jtf_profile.setText(listZ303.get(0).getZ303_PROFILE_ID());
         jtf_opendate.setText(listZ303.get(0).getZ303_OPEN_DATE());
-
+        imgLabel.setText("");
+        fileImg = System.getProperty("user.dir") + "\\DATA\\";
+        System.out.println(fileImg + listZ303.get(0).getZ303_IMAGE());
+        imgLabel.setIcon(new ImageIcon(new ImageIcon(fileImg + listZ303.get(0).getZ303_IMAGE()).getImage().getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_SMOOTH)));
         jcb_block.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_DELINQ_1(), listBlock));
         jcb_gender.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_GENDER(), listGender));
         jcb_language.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_CON_LNG(), listLag));
@@ -724,6 +727,7 @@ public class PatronI_U extends javax.swing.JFrame {
         z303.setZ303_NOTE_1(jtf_Note1.getText());
         z303.setZ303_NOTE_2(jtf_Note2.getText());
         z303.setZ303_SALUTATION("Xin chòa");
+        z303.setZ303_IMAGE("image" + patronId + imagePath);
         z303.setZ303_BIRTH_DATE(jtf_DateBirth.getText());
         z303.setZ303_PLACE_BIRTH(jtf_PlaceBirth.getText());
         z303.setZ303_GENDER(gender);

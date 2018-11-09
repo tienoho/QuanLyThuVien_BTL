@@ -47,7 +47,7 @@ public class BusZ303 {
             pst.setString(22, z.getZ303_BIRTH_DATE());
             pst.setString(23,z.getZ303_PLACE_BIRTH());
             pst.setString(24, z.getZ303_GENDER());
-            pst.setString(25, z.getZ303_GENDER());
+            pst.setString(25, z.getZ303_IMAGE());
             pst.setString(26, z.getZ303_UPD_TIME_STAMP());
             pst.executeUpdate();
             pst.close();

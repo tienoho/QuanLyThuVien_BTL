@@ -213,7 +213,6 @@ public class HomePanel extends BasePanel {
         c.setSize(width, height);
         c.setVisible(true);
         add(c);
-
     }
 
     public JScrollPane makeTable(String sql, String title) {
