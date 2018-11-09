@@ -34,11 +34,12 @@ public class PatronI_U extends javax.swing.JFrame {
     String block = "";
     String gender = "";
     String value;
+    String table = "";
+    String timeStamp = "";
     private ArrayList<type> listLag = new ArrayList<>();
     private ArrayList<type> listGender = new ArrayList<>();
     private ArrayList<type> listTitle = new ArrayList<>();
     private ArrayList<type> listBlock = new ArrayList<>();
-    String timeStamp = "";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Gender;
     private javax.swing.JLabel imgLabel;
@@ -93,6 +94,7 @@ public class PatronI_U extends javax.swing.JFrame {
     public PatronI_U(String table, String value) {
         initComponents();
         this.value = value;
+        this.table = table;
         dbConn = new DBConnection();
         bus = new BusALl(dbConn);
         busZ303 = new BusZ303(dbConn);
@@ -110,32 +112,6 @@ public class PatronI_U extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }
-
-    private void Default() {
-        language = listLag.get(0).getSymbol();
-        title = listTitle.get(0).getSymbol();
-        block = listBlock.get(0).getSymbol();
-        gender = listGender.get(0).getSymbol();
-        timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
-        String str = timeStamp;
-        str = new StringBuilder(str).insert(str.length() - 4, "/").toString();
-        str = new StringBuilder(str).insert(str.length() - 7, "/").toString();
-        if (value.equals("")) {
-            jtf_opendate.setText(str);
-            jtf_opendate.enable(false);
-            jbtn_Insert.enable(true);
-            jbtn_Update.enable(false);
-            jtf_PatronID.setText(patron);
-            jtf_barcode.setText("Haui-" + patron);
-        }else {
-            jbtn_Insert.enable(false);
-            jbtn_Update.enable(true);
-        }
-        jtf_updateDate.setText(str);
-        jtf_updateDate.enable(false);
-        jtf_PatronID.enable(false);
-        jtf_barcode.enable(false);
     }
 
     /**
@@ -171,6 +147,33 @@ public class PatronI_U extends javax.swing.JFrame {
                 new PatronI_U("", "").setVisible(true);
             }
         });
+    }
+
+    private void Default() {
+        language = listLag.get(0).getSymbol();
+        title = listTitle.get(0).getSymbol();
+        block = listBlock.get(0).getSymbol();
+        gender = listGender.get(0).getSymbol();
+        timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
+        String str = timeStamp;
+        str = new StringBuilder(str).insert(str.length() - 4, "/").toString();
+        str = new StringBuilder(str).insert(str.length() - 7, "/").toString();
+        if (value.equals("")) {
+            jtf_opendate.setText(str);
+            jtf_opendate.enable(false);
+            jbtn_Insert.enable(true);
+            jbtn_Update.enable(false);
+            jtf_PatronID.setText(patron);
+            jtf_barcode.setText("Haui-" + patron);
+        } else {
+            jbtn_Insert.enable(false);
+            jbtn_Update.enable(true);
+            reloadUpdate();
+        }
+        jtf_updateDate.setText(str);
+        jtf_updateDate.enable(false);
+        jtf_PatronID.enable(false);
+        jtf_barcode.enable(false);
     }
 
     /**
@@ -261,7 +264,7 @@ public class PatronI_U extends javax.swing.JFrame {
 
         jLabel12.setText("Date of Birth");
 
-        jtf_DateBirth.setText("jTextField1");
+        jtf_DateBirth.setText("01/01/1990");
 
         jtf_PlaceBirth.setText("jTextField1");
 
@@ -656,8 +659,8 @@ public class PatronI_U extends javax.swing.JFrame {
     }
 
     private void reloadUpdate() {
+
         ArrayList<Z303> listZ303 = busZ303.getOneTable(value);
-        String data = listZ303.get(0).getZ303_NAME_KEY();
         jtf_DateBirth.setText(listZ303.get(0).getZ303_BIRTH_DATE());
         jtf_Field1.setText(listZ303.get(0).getZ303_FIELD_1());
         jtf_Field2.setText(listZ303.get(0).getZ303_FIELD_2());
@@ -666,7 +669,7 @@ public class PatronI_U extends javax.swing.JFrame {
         jtf_Note2.setText(listZ303.get(0).getZ303_FIELD_2());
         jtf_PatronID.setText(value);
         jtf_PlaceBirth.setText(listZ303.get(0).getZ303_PLACE_BIRTH());
-        jtf_barcode.setText("");
+        jtf_barcode.setText(listZ303.get(0).getZ303_BARCODE());
         jtf_name.setText(listZ303.get(0).getZ303_NAME());
         jtf_profile.setText(listZ303.get(0).getZ303_PROFILE_ID());
         jtf_opendate.setText(listZ303.get(0).getZ303_OPEN_DATE());
@@ -675,6 +678,7 @@ public class PatronI_U extends javax.swing.JFrame {
         jcb_gender.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_GENDER(), listGender));
         jcb_language.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_CON_LNG(), listLag));
         jcb_title.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_TITLE(), listTitle));
+        jLabel2.setText(listZ303.get(0).getZ303_NAME() + "/" + listZ303.get(0).getZ303_REC_KEY() + "/" + listZ303.get(0).getZ303_BARCODE());
     }
 
     private String selectJCombo(String key, List<type> types) {
@@ -690,6 +694,7 @@ public class PatronI_U extends javax.swing.JFrame {
     private void InsertUpdate() {
         Z303 z303 = new Z303();
         z303.setZ303_REC_KEY(jtf_PatronID.getText());
+        z303.setZ303_BARCODE(jtf_barcode.getText());
         z303.setZ303_NAME_KEY(jtf_name.getText());
         z303.setZ303_USER_TYPE("REG");
         z303.setZ303_USER_LIBRARY("HAUI");

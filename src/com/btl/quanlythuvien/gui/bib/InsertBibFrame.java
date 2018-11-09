@@ -170,9 +170,9 @@ public class InsertBibFrame extends javax.swing.JFrame {
         } else {
             reloadUpdate();
         }
+
         jButton2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-//
+            public void actionPerformed(ActionEvent evt) {//
                 insertDb();
             }
         });
