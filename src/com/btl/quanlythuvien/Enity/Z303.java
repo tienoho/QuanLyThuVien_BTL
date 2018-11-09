@@ -25,12 +25,14 @@ public class Z303 {
     private String Z303_BIRTH_DATE;
     private String Z303_PLACE_BIRTH;
     private String Z303_GENDER;
+    private String Z303_IMAGE;
+
     private String Z303_UPD_TIME_STAMP;
 
     public Z303() {
     }
 
-    public Z303(String z303_REC_KEY, String Z303_BARCODE, String z303_NAME_KEY, String z303_USER_TYPE, String z303_USER_LIBRARY, String z303_OPEN_DATE, String z303_UPDATE_DATE, String z303_CON_LNG, String z303_NAME, String z303_TITLE, String z303_DELINQ_1, String z303_DELINQ_N_1, String z303_DELINQ_1_UPDATE_DATE, String z303_DELINQ_1_CAT_NAME, String z303_PROFILE_ID, String z303_FIELD_1, String z303_FIELD_2, String z303_FIELD_3, String z303_NOTE_1, String z303_NOTE_2, String z303_SALUTATION, String z303_BIRTH_DATE, String Z303_PLACE_BIRTH, String z303_GENDER, String z303_UPD_TIME_STAMP) {
+    public Z303(String z303_REC_KEY, String Z303_BARCODE, String z303_NAME_KEY, String z303_USER_TYPE, String z303_USER_LIBRARY, String z303_OPEN_DATE, String z303_UPDATE_DATE, String z303_CON_LNG, String z303_NAME, String z303_TITLE, String z303_DELINQ_1, String z303_DELINQ_N_1, String z303_DELINQ_1_UPDATE_DATE, String z303_DELINQ_1_CAT_NAME, String z303_PROFILE_ID, String z303_FIELD_1, String z303_FIELD_2, String z303_FIELD_3, String z303_NOTE_1, String z303_NOTE_2, String z303_SALUTATION, String z303_BIRTH_DATE, String Z303_PLACE_BIRTH, String z303_GENDER, String Z303_IMAGE,String z303_UPD_TIME_STAMP) {
         Z303_REC_KEY = z303_REC_KEY;
         this.Z303_BARCODE = Z303_BARCODE;
         Z303_NAME_KEY = z303_NAME_KEY;
@@ -55,6 +57,7 @@ public class Z303 {
         Z303_BIRTH_DATE = z303_BIRTH_DATE;
         this.Z303_PLACE_BIRTH = Z303_PLACE_BIRTH;
         Z303_GENDER = z303_GENDER;
+        this.Z303_IMAGE=Z303_IMAGE;
         Z303_UPD_TIME_STAMP = z303_UPD_TIME_STAMP;
     }
 
@@ -248,6 +251,14 @@ public class Z303 {
 
     public void setZ303_GENDER(String z303_GENDER) {
         Z303_GENDER = z303_GENDER;
+    }
+
+    public String getZ303_IMAGE() {
+        return Z303_IMAGE;
+    }
+
+    public void setZ303_IMAGE(String z303_IMAGE) {
+        Z303_IMAGE = z303_IMAGE;
     }
 
     public String getZ303_UPD_TIME_STAMP() {

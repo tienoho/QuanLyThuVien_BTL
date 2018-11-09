@@ -1,5 +1,6 @@
 package com.btl.quanlythuvien.Business;
 
+import com.btl.quanlythuvien.Enity.ItemOne;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.model.DBConnection;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BusALl {
     DBConnection dbConn;
