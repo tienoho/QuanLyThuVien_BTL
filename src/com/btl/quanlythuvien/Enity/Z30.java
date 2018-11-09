@@ -1,8 +1,8 @@
 package com.btl.quanlythuvien.Enity;
 
 public class Z30 {
-    private String Z30_REC_KEY;
     private String Z30_BARCODE;
+    private String Z30_REC_KEY;
     private String Z30_SUB_LIBRARY;
     private String Z30_MATERIAL;
     private String Z30_ITEM_STATUS;//01 mượn 20 ngày, 02 mượn 1 khóa học.03 chỉ được đọc trong thư viện
@@ -33,7 +33,7 @@ public class Z30 {
     public Z30() {
     }
 
-    public Z30(String z30_REC_KEY, String z30_BARCODE, String z30_SUB_LIBRARY, String z30_MATERIAL, String z30_ITEM_STATUS, String z30_UPDATE_DATE, String z30_CATALOGER, String z30_DATE_LAST_RETURN, String z30_HOUR_LAST_RETURN, int z30_NO_LOANS, String z30_COLLECTION, String z30_DESCRIPTION, String z30_NOTE_OPAC, String z30_NOTE_CIRCULATION, String z30_NOTE_INTERNAL, String z30_ORDER_NUMBER, String z30_INVENTORY_NUMBER, String z30_INVENTORY_NUMBER_DATE, String z30_LAST_SHELF_REPORT_DATE, String z30_PRICE, String z30_REC_KEY_2, String z30_REC_KEY_3, String z30_PAGES, String z30_ISSUE_DATE, String z30_EXPECTED_ARRIVAL_DATE, String z30_ARRIVAL_DATE, String z30_ITEM_STATISTIC, String z30_ITEM_PROCESS_STATUS) {
+    public Z30(String z30_BARCODE,String z30_REC_KEY,  String z30_SUB_LIBRARY, String z30_MATERIAL, String z30_ITEM_STATUS, String z30_UPDATE_DATE, String z30_CATALOGER, String z30_DATE_LAST_RETURN, String z30_HOUR_LAST_RETURN, int z30_NO_LOANS, String z30_COLLECTION, String z30_DESCRIPTION, String z30_NOTE_OPAC, String z30_NOTE_CIRCULATION, String z30_NOTE_INTERNAL, String z30_ORDER_NUMBER, String z30_INVENTORY_NUMBER, String z30_INVENTORY_NUMBER_DATE, String z30_LAST_SHELF_REPORT_DATE, String z30_PRICE, String z30_REC_KEY_2, String z30_REC_KEY_3, String z30_PAGES, String z30_ISSUE_DATE, String z30_EXPECTED_ARRIVAL_DATE, String z30_ARRIVAL_DATE, String z30_ITEM_STATISTIC, String z30_ITEM_PROCESS_STATUS) {
         Z30_REC_KEY = z30_REC_KEY;
         Z30_BARCODE = z30_BARCODE;
         Z30_SUB_LIBRARY = z30_SUB_LIBRARY;
