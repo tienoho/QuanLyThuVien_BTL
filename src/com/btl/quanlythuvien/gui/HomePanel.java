@@ -2,6 +2,7 @@ package com.btl.quanlythuvien.gui;
 
 import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.gui.bib.InsertBibFrame;
+import com.btl.quanlythuvien.gui.bib.InsertItem;
 import com.btl.quanlythuvien.gui.bib.PatronI_U;
 import com.btl.quanlythuvien.model.DBConnection;
 
@@ -23,7 +24,7 @@ public class HomePanel extends BasePanel {
 
     public static final int SIZE_BUTTON_WIDTH = 220;
     public static final int SIZE_BUTTON_HEIGHT = 50;
-    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia, btnThem;
+    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia, btnThem, btnThemItem;
     private JTextField txtTimKiem, txtData, dTable, colunm;
     private Connection connection;
     private PreparedStatement statement;
@@ -142,6 +143,20 @@ public class HomePanel extends BasePanel {
             }
         };
         btnCapNhat.addMouseListener(clickCapNhat);
+
+        MouseListener clickThemItem = new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!getDataRow()) {
+                    JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần thêm item!!");
+                } else {
+                    InsertItem insertItem = new InsertItem(dTable.getText(), txtData.getText());
+                    insertItem.show();
+                }
+            }
+        };
+        btnThemItem.addMouseListener(clickThemItem);
     }
 
     @Override
@@ -167,6 +182,7 @@ public class HomePanel extends BasePanel {
 
         btnTacGia = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
 
+        btnThemItem = new JButton("Thêm Item Sách");
         txtTimKiem = new JTextField();
         txtData = new JTextField();
         table = new JTable();
@@ -258,6 +274,8 @@ public class HomePanel extends BasePanel {
     }
 
     private void reloadQuanLySach() {
+        makeComp(btnThemItem, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
                 "Z00R_TITLE AS 'Nhan đề'," +
                 "Z00R_AUTHOR AS 'Tác giả' From z00r";
@@ -269,6 +287,7 @@ public class HomePanel extends BasePanel {
     }
 
     private void reloadDocGia() {
+        btnThemItem.setVisible(false);
         String sql = "Select Z303_REC_Key AS 'Mã độc giả'," +
                 "Z303_NAME AS 'Tên độc giả'," +
                 "Z303_BIRTH_DATE AS 'Ngày sinh'," +
