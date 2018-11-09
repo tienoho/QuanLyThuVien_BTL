@@ -5,25 +5,66 @@
  */
 package com.btl.quanlythuvien.gui.bib;
 
+import com.btl.quanlythuvien.Business.BusZ30;
+import com.btl.quanlythuvien.Enity.Z30;
+import com.btl.quanlythuvien.model.DBConnection;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * @author Admin
  */
 public class InsertItem extends javax.swing.JFrame {
-    private String value, table;
+    private String value, table, timeStamp;
+    private DefaultTableModel model = null;
+
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbtn_add;
+    private javax.swing.JButton jbtn_del;
+    private javax.swing.JButton jbtn_refesh;
+    private javax.swing.JButton jbtn_save;
+    private javax.swing.JButton jbtn_update;
+    private javax.swing.JComboBox<String> jcb_bosuutap;
+    private javax.swing.JComboBox<String> jcb_loaitailieu;
+    private javax.swing.JComboBox<String> jcb_trangthai;
+    private javax.swing.JLabel jlb_bib;
+    private javax.swing.JTextArea jta_mota;
+    private javax.swing.JTextField jtf_barcode;
+    private javax.swing.JTextField jtf_gia;
+    private javax.swing.JTextField jtf_maThuVien;
+    private javax.swing.JTextField jtf_soluong;
+    private DBConnection dbConn;
 
     public InsertItem(String table, String value) {
         this.value = value;
         this.table = table;
         initComponents();
+        dateNow();
+        EventAddItem();
+        setDisplayTable();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        dbConn = new DBConnection();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -139,7 +180,7 @@ public class InsertItem extends javax.swing.JFrame {
                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                                         .addComponent(jLabel8)
                                                                                         .addComponent(jLabel7))
-                                                                                .addGap(18, 18, 18)
+                                                                                .addGap(20, 20, 20)
                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                                                         .addComponent(jtf_gia)
                                                                                         .addComponent(jcb_bosuutap, 0, 222, Short.MAX_VALUE))))
@@ -156,9 +197,9 @@ public class InsertItem extends javax.swing.JFrame {
                                                                                         .addComponent(jtf_barcode, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addComponent(jLabel4)
-                                                                .addGap(22, 22, 22)
+                                                                .addGap(25, 25, 25)
                                                                 .addComponent(jcb_trangthai, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(31, 31, 31)
+                                                .addGap(30, 30, 30)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(56, 56, 56)
@@ -174,7 +215,7 @@ public class InsertItem extends javax.swing.JFrame {
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addGap(121, 121, 121)
                                                                 .addComponent(jlb_bib)))
-                                                .addGap(19, 19, 19))))
+                                                .addGap(18, 18, 18))))
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(215, 215, 215)
                                 .addComponent(jbtn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,6 +279,96 @@ public class InsertItem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void EventAddItem() {
+        jbtn_add.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                addItem();
+            }
+        });
+        jbtn_del.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    model.removeRow(jTable1.getSelectedRow());
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Không có gì để xóa");
+                }
+            }
+        });
+        jbtn_save.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                insertDb();
+            }
+        });
+        jbtn_refesh.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jtf_barcode.setText("");
+                jtf_maThuVien.setText("");
+                jcb_loaitailieu.setSelectedIndex(0);
+                jcb_trangthai.setSelectedIndex(0);
+                jcb_bosuutap.setSelectedIndex(0);
+                jtf_gia.setText("");
+                jtf_soluong.setText("");
+            }
+        });
+//        jTable1.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int z = jTable1.getSelectedRow();
+//                if (z <= -1) {
+//                    String value = jTable1.getModel().getColumnName(z);
+//                    jLabel.setText(value);
+//                }
+//            }
+//        });
+    }
+
+    private void dateNow() {
+        timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
+        timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 4, "/").toString();
+        timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 7, "/").toString();
+    }
+
+    private void insertDb() {
+        while (model.getRowCount() < 0) {
+            Z30 z30 = new Z30();
+            z30.setZ30_BARCODE(jtf_barcode.getText());
+            z30.setZ30_REC_KEY("");
+            z30.setZ30_SUB_LIBRARY("");
+            z30.setZ30_MATERIAL("");
+            z30.setZ30_ITEM_STATUS("");
+            z30.setZ30_UPDATE_DATE(timeStamp);
+            z30.setZ30_CATALOGER("");
+            z30.setZ30_DATE_LAST_RETURN("");
+            z30.setZ30_NO_LOANS("");
+            z30.setZ30_COLLECTION("");
+            z30.setZ30_DESCRIPTION(jta_mota.getText());
+            z30.setZ30_ORDER_NUMBER(jtf_soluong.getText());
+            z30.setZ30_PRICE("");
+
+            BusZ30 busZ30 = new BusZ30(dbConn);
+            busZ30.updateTable(z30);
+            System.out.println(z30);
+        }
+    }
+
+    private void setDisplayTable() {
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(320);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(4).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(5).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(6).setPreferredWidth(120);
+        jTable1.getColumnModel().getColumn(7).setPreferredWidth(120);
+    }
+
+    private void addItem() {
+        model.addRow(new Object[]{jtf_barcode.getText(), jtf_maThuVien.getText(), jcb_loaitailieu.getSelectedItem(), jcb_trangthai.getSelectedItem(),
+                jcb_bosuutap.getSelectedItem(), jtf_gia.getText(), jtf_soluong.getText()});
+    }
+
     private void jtf_barcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_barcodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_barcodeActionPerformed
@@ -245,63 +376,31 @@ public class InsertItem extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new InsertItem().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InsertItem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton jbtn_add;
-    private javax.swing.JButton jbtn_del;
-    private javax.swing.JButton jbtn_refesh;
-    private javax.swing.JButton jbtn_save;
-    private javax.swing.JButton jbtn_update;
-    private javax.swing.JComboBox<String> jcb_bosuutap;
-    private javax.swing.JComboBox<String> jcb_loaitailieu;
-    private javax.swing.JComboBox<String> jcb_trangthai;
-    private javax.swing.JLabel jlb_bib;
-    private javax.swing.JTextArea jta_mota;
-    private javax.swing.JTextField jtf_barcode;
-    private javax.swing.JTextField jtf_gia;
-    private javax.swing.JTextField jtf_maThuVien;
-    private javax.swing.JTextField jtf_soluong;
-    // End of variables declaration//GEN-END:variables
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new InsertItem("", "").setVisible(true);
+            }
+        });
+    }
+
 }

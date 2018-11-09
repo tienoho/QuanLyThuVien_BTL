@@ -4,6 +4,7 @@ import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.gui.bib.InsertBibFrame;
 import com.btl.quanlythuvien.gui.bib.InsertItem;
 import com.btl.quanlythuvien.gui.bib.PatronI_U;
+import com.btl.quanlythuvien.gui.bib.PhieuMuon;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -157,6 +158,15 @@ public class HomePanel extends BasePanel {
             }
         };
         btnThemItem.addMouseListener(clickThemItem);
+
+        MouseListener clickQuanLyMuon = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PhieuMuon phieuMuon = new PhieuMuon();
+                phieuMuon.show();
+            }
+        };
+        btnMuon.addMouseListener(clickQuanLyMuon);
     }
 
     @Override
