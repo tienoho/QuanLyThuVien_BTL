@@ -200,7 +200,7 @@ public class HomePanel extends BasePanel {
                     JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần thêm item!!");
                 } else {
                     if (dTable.getText().equals("z303")) {
-                        PhieuTra phieuTra = new PhieuTra();
+                        PhieuTra phieuTra = new PhieuTra(dTable.getText(), txtData.getText());
                         phieuTra.show();
                     } else {
                         InsertItem insertItem = new InsertItem(dTable.getText(), txtData.getText());

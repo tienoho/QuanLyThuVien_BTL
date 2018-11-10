@@ -36,9 +36,9 @@ public class PhieuTra extends javax.swing.JFrame {
     List<Z303> z303List = null;
     List<Z36> z36List = null;
     List<type> listtype = null;
-    String timeStamp="";
+    String timeStamp = "";
     DefaultTableModel model = null;
-    String tinhTrang="";
+    String tinhTrang = "";
     private Vector<Vector<String>> vData;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -74,6 +74,8 @@ public class PhieuTra extends javax.swing.JFrame {
         ShowDisplay();
         ClickTable();
         updateTable();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     /**
@@ -139,8 +141,8 @@ public class PhieuTra extends javax.swing.JFrame {
                     z.getZ36_STATUS(), z.getZ36_LOAN_DATE(), z.getZ36_DUE_DATE()});
         }
     }
-    private void ClickTable()
-    {
+
+    private void ClickTable() {
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -153,18 +155,19 @@ public class PhieuTra extends javax.swing.JFrame {
             }
         });
     }
+
     private boolean getDataRow() {
         int selectedrow = jTable1.getSelectedRow();
         if (selectedrow != -1) {
-            jtf_barcode.setText(jTable1.getModel().getValueAt(selectedrow,0).toString());
-            jtf_bib.setText(jTable1.getModel().getValueAt(selectedrow,1).toString());
-            jbc_tinhtrang.setSelectedItem(jTable1.getModel().getValueAt(selectedrow,2).toString());
+            jtf_barcode.setText(jTable1.getModel().getValueAt(selectedrow, 0).toString());
+            jtf_bib.setText(jTable1.getModel().getValueAt(selectedrow, 1).toString());
+            jbc_tinhtrang.setSelectedItem(jTable1.getModel().getValueAt(selectedrow, 2).toString());
             return true;
         }
         return false;
     }
-    private void updateTable()
-    {
+
+    private void updateTable() {
         timeStamp = new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTime());
         timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 4, "/").toString();
         timeStamp = new StringBuilder(timeStamp).insert(timeStamp.length() - 7, "/").toString();
@@ -178,14 +181,14 @@ public class PhieuTra extends javax.swing.JFrame {
         });
         jbtn_upload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(busZ36.updateZ36TinhTrang(value,jtf_bib.getText(),tinhTrang,timeStamp)){
+                if (busZ36.updateZ36TinhTrang(value, jtf_bib.getText(), tinhTrang, timeStamp)) {
                     JOptionPane.showMessageDialog(null, "Cập thông tin thành công!!");
                     int rowCount = model.getRowCount();
                     for (int i = rowCount - 1; i >= 0; i--) {
                         model.removeRow(i);
                     }
                     addItem();
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Cập nhập không thành công!!");
                 }
 
@@ -221,8 +224,6 @@ public class PhieuTra extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jbl_img = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("PatronId");
 
