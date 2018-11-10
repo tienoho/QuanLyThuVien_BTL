@@ -11,8 +11,15 @@ import com.btl.quanlythuvien.controler.Marc2;
 import com.btl.quanlythuvien.controler.MarcBean2;
 import com.btl.quanlythuvien.model.DBConnection;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @author Admin
@@ -25,7 +32,13 @@ public class ViewItem extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTA_bib;
     private javax.swing.JTable jtable_item;
-    private DBConnection connection;
+    private Connection connection;
+    private DBConnection conn;
+    private PreparedStatement statement;
+    private Vector vTitle;
+    private JTable jTable;
+    private Vector vData;
+    private JScrollPane tableResult;
     private List<Z00> z00s;
 
     /**
@@ -35,10 +48,49 @@ public class ViewItem extends javax.swing.JFrame {
         this.table = table;
         this.value = value;
         z00s = new ArrayList<>();
-        connection = new DBConnection();
-        getData();
+        conn = new DBConnection();
         initComponents();
+        getData();
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+
+    public JScrollPane makeTable(String sql) {
+        if (jScrollPane1 != null) {
+            remove(jScrollPane1);
+        }
+        vTitle = new Vector<String>();
+        vData = new Vector<>();
+        try {
+            vTitle.clear();
+            vData.clear();
+            connection = new DBConnection().getConnection();
+            statement = connection.prepareStatement(sql);
+            ResultSet rst = statement.executeQuery();
+            ResultSetMetaData metaData = statement.getMetaData();
+            int column = metaData.getColumnCount();
+            for (int i = 1; i <= column; i++) {
+                vTitle.add(metaData.getColumnLabel(i));
+            }
+
+            while (rst.next()) {
+                Vector<String> row = new Vector<String>(column);
+                for (int i = 1; i <= column; i++)
+                    row.add(rst.getString(i));
+                vData.add(row);
+            }
+            rst.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        DefaultTableModel defaultTableModel = new DefaultTableModel(vData, vTitle);
+        jtable_item = new JTable(defaultTableModel);
+        jScrollPane1 = new JScrollPane(jtable_item);
+        jtable_item.setShowGrid(true);
+        jtable_item.setFillsViewportHeight(true);
+        return jScrollPane1;
     }
 
     /**
@@ -56,8 +108,6 @@ public class ViewItem extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable_item = new javax.swing.JTable();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTA_bib.setColumns(20);
         jTA_bib.setRows(5);
@@ -83,7 +133,14 @@ public class ViewItem extends javax.swing.JFrame {
                 }
         ));
         jScrollPane1.setViewportView(jtable_item);
-
+        String sql = "Select Z30_BARCODE AS 'Barcode'," +
+                "Z30_REC_KEY AS 'Mã sách'," +
+                "Z30_SUB_LIBRARY AS 'Mã thư viện'," +
+                "Z30_MATERIAL AS 'Loại tài liệu'," +
+                "Z30_ITEM_STATUS AS 'Trạng thái'," +
+                "Z30_COLLECTION AS 'Bộ sưu tập'," +
+                "Z30_PRICE AS 'Giá' From z30 where Z30_REC_KEY=" + value;
+        makeTable(sql);
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -122,11 +179,12 @@ public class ViewItem extends javax.swing.JFrame {
 
     private void getData() {
         String data = "";
-        BusZ00 busZ00 = new BusZ00(connection);
+        BusZ00 busZ00 = new BusZ00(conn);
         z00s = busZ00.getOneTable(value);
         data = z00s.get(0).getZ00_DATA();
 
         MarcBean2 marcBean2 = Marc2.marcBeans(value, data);
+        System.out.println(marcBean2);
         jTA_bib.setText(marcBean2.toString());
     }
 
