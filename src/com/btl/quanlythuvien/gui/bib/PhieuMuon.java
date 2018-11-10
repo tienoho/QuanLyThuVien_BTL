@@ -86,6 +86,9 @@ public class PhieuMuon extends javax.swing.JFrame {
         selectCombox();
         dateNow();
         EventAddItem();
+        jButton1.hide();
+        jButton2.hide();
+        jButton5.hide();
     }
 
     /**

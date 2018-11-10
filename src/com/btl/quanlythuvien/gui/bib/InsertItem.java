@@ -400,7 +400,7 @@ public class InsertItem extends javax.swing.JFrame {
     private void insertDb() {
         for (int i = 0; i < model.getRowCount(); i++) {
             Z30 z30 = new Z30();
-            z30.setZ30_REC_KEY("0");
+            z30.setZ30_REC_KEY(value);
             z30.setZ30_BARCODE((String) model.getValueAt(i,0));
             z30.setZ30_SUB_LIBRARY(jtf_maThuVien.getText());
             z30.setZ30_MATERIAL(selectJCombo(jcb_loaitailieu.getSelectedItem().toString(), listLoaiTaiLieu));
