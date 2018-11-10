@@ -26,10 +26,10 @@ import java.util.Objects;
  * @author Admin
  */
 public class InsertItem extends javax.swing.JFrame {
-    private String value, table, timeStamp, loaiTaiLieu, boSuuTap, trangThai, itemStatus;
+    private String value, table, timeStamp, loaiTaiLieu, boSuuTap, trangThai, itemStatus, barCode;
     float Z30_PRICE = 0;
     private DefaultTableModel model = null;
-    private ArrayList<ItemOne> listOneTableZ30 = null;
+    private ArrayList<Z30> listOneTableZ30 = null;
     BusZ30 busZ30 = null;
 
     private ArrayList<com.btl.quanlythuvien.Enity.type> listLoaiTaiLieu = null;
@@ -397,26 +397,48 @@ public class InsertItem extends javax.swing.JFrame {
     }
 
 
-    private void insertDb() {
-        for (int i = 0; i < model.getRowCount(); i++) {
-            Z30 z30 = new Z30();
-            z30.setZ30_REC_KEY(value);
-            z30.setZ30_BARCODE((String) model.getValueAt(i,0));
-            z30.setZ30_SUB_LIBRARY(jtf_maThuVien.getText());
-            z30.setZ30_MATERIAL(selectJCombo(jcb_loaitailieu.getSelectedItem().toString(), listLoaiTaiLieu));
-            z30.setZ30_ITEM_STATUS(selectJCombo(jcb_trangthai.getSelectedItem().toString(), listTrangThai));
-            z30.setZ30_UPDATE_DATE(timeStamp);
-            z30.setZ30_CATALOGER("MASTER");
-            z30.setZ30_DATE_LAST_RETURN("");
-            z30.setZ30_NO_LOANS("1");
-            z30.setZ30_COLLECTION(selectJCombo(jcb_bosuutap.getSelectedItem().toString(), listBoSuuTap));
-            z30.setZ30_DESCRIPTION(jta_mota.getText());
-            z30.setZ30_ORDER_NUMBER(jtf_soluong.getText());
-            z30.setZ30_PRICE(jtf_gia.getText());
+    public boolean stringContainsItemFromList(String inputStr, String[] items) {
+        for (int i = 0; i < items.length; i++) {
+            if (inputStr.contains(items[i])) {
+                barCode = items[i];
+                return true;
+            }
+        }
+        return false;
+    }
 
-            BusZ30 busZ30 = new BusZ30(dbConn);
-            busZ30.addTable(z30);
-            System.out.println(z30);
+    private void insertDb() {
+        listOneTableZ30 = new ArrayList<>();
+        listOneTableZ30 = new BusZ30(dbConn).getAllTable();
+        String item[] = new String[listOneTableZ30.size()];
+        for (int i = 0; i < listOneTableZ30.size(); i++) {
+            item[i] = listOneTableZ30.get(i).getZ30_BARCODE();
+        }
+        int j = item.length;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (stringContainsItemFromList((String) model.getValueAt(i, 0), item)) {
+                JOptionPane.showMessageDialog(null, "Barcode: " + (String) model.getValueAt(i, 0) + " đã tồn tại!");
+            } else {
+                Z30 z30 = new Z30();
+                z30.setZ30_REC_KEY(value);
+                String z = (String) model.getValueAt(i, 0);
+                z30.setZ30_BARCODE(z.substring(0, z.lastIndexOf("-") + 1) + i + j);
+                z30.setZ30_SUB_LIBRARY(jtf_maThuVien.getText());
+                z30.setZ30_MATERIAL((String) model.getValueAt(i, 2));
+                z30.setZ30_ITEM_STATUS((String) model.getValueAt(i, 3));
+                z30.setZ30_UPDATE_DATE(timeStamp);
+                z30.setZ30_CATALOGER("MASTER");
+                z30.setZ30_DATE_LAST_RETURN("");
+                z30.setZ30_NO_LOANS("1");
+                z30.setZ30_COLLECTION((String) model.getValueAt(i, 4));
+                z30.setZ30_DESCRIPTION((String) model.getValueAt(i, 6));
+                z30.setZ30_ORDER_NUMBER(jtf_soluong.getText());
+                z30.setZ30_PRICE((String) model.getValueAt(i, 5));
+
+                BusZ30 busZ30 = new BusZ30(dbConn);
+                busZ30.addTable(z30);
+                System.out.println(z30);
+            }
         }
     }
 

@@ -562,10 +562,10 @@ public class PhieuMuon extends javax.swing.JFrame {
             z36.setZ36_MONEY(Z30_PRICE);//tiền
             z36.setZ36_PROCESS_STATUS("M");//R đang được đoc, L mất,M Mượn
             busZ36.addTable(z36);
-            JOptionPane.showMessageDialog(null, "Thêm thông tin thành công!!");
             //System.out.println(z36);
             setVisible(false);
             dispose();
         }
+        JOptionPane.showMessageDialog(null, "Thêm thông tin thành công!!");
     }
 }
