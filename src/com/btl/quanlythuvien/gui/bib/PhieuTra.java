@@ -104,11 +104,11 @@ public class PhieuTra extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PhieuTra("", "000000001").setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new PhieuTra("", "000000001").setVisible(true);
+//            }
+//        });
     }
 
     private void getData() {
