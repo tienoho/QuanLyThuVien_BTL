@@ -171,7 +171,7 @@ public class PatronI_U extends javax.swing.JFrame {
             jbtn_Insert.enable(true);
             jbtn_Update.setVisible(false);
             jtf_PatronID.setText(patron);
-            jtf_barcode.setText("Haui-" + patron);
+            jtf_barcode.setText("HAUI-" + patron);
         } else {
             jtf_updateDate.setText(str);
             jtf_updateDate.enable(true);

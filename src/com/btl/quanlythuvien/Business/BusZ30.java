@@ -18,8 +18,7 @@ public class BusZ30 {
         this.dbConn = dbConn;
         conn = dbConn.getConnection();
     }
-    public boolean addTable(Z30 z) {
-        boolean bl = false;
+    public void addTable(Z30 z) {
         String sql = "INSERT INTO Z30 VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -31,17 +30,16 @@ public class BusZ30 {
             pst.setString(6, z.getZ30_UPDATE_DATE());
             pst.setString(7, z.getZ30_CATALOGER());
             pst.setString(8, z.getZ30_DATE_LAST_RETURN());
-            pst.setString(9, z.getZ30_NO_LOANS());
+            pst.setInt(9, Integer.parseInt(z.getZ30_NO_LOANS()));
             pst.setString(10, z.getZ30_COLLECTION());
             pst.setString(11, z.getZ30_DESCRIPTION());
             pst.setString(12, z.getZ30_ORDER_NUMBER());
             pst.setString(13, z.getZ30_PRICE());
             pst.executeUpdate();
-            bl = true;
+            System.out.println(sql);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return bl;
     }
 
     public boolean updateTable(Z30 z) {

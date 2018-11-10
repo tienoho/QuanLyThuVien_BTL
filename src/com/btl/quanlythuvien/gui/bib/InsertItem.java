@@ -7,6 +7,7 @@ package com.btl.quanlythuvien.gui.bib;
 
 import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.Business.BusZ30;
+import com.btl.quanlythuvien.Enity.ItemOne;
 import com.btl.quanlythuvien.Enity.Z30;
 import com.btl.quanlythuvien.Enity.type;
 import com.btl.quanlythuvien.model.DBConnection;
@@ -18,22 +19,28 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Admin
  */
 public class InsertItem extends javax.swing.JFrame {
-    private String value, table, timeStamp, loaiTaiLieu, boSuuTap;
+    private String value, table, timeStamp, loaiTaiLieu, boSuuTap, trangThai, itemStatus;
+    float Z30_PRICE = 0;
     private DefaultTableModel model = null;
+    private ArrayList<ItemOne> listOneTableZ30 = null;
+    BusZ30 busZ30 = null;
+
     private ArrayList<com.btl.quanlythuvien.Enity.type> listLoaiTaiLieu = null;
     private ArrayList<com.btl.quanlythuvien.Enity.type> listBoSuuTap = null;
+    private ArrayList<com.btl.quanlythuvien.Enity.type> listTrangThai = null;
     private BusALl bus = null;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
@@ -59,19 +66,25 @@ public class InsertItem extends javax.swing.JFrame {
         this.value = value;
         this.table = table;
         initComponents();
+        jtf_barcode.enable(false);
+        jtf_maThuVien.enable(false);
         getData();
         dateNow();
+        reload();
         EventAddItem();
         setDisplayTable();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
+        jtf_soluong.setVisible(false);
+
     }
 
     private void getData() {
         bus = new BusALl(dbConn);
         listLoaiTaiLieu = listShowComm(jcb_loaitailieu, "SELECT * FROM Material", listLoaiTaiLieu);
         listBoSuuTap = listShowComm(jcb_bosuutap, "SELECT * FROM collection", listBoSuuTap);
+        listTrangThai = listShowComm(jcb_trangthai, "SELECT * FROM itemstatus", listTrangThai);
         loaiTaiLieu = listLoaiTaiLieu.get(0).getSymbol();
         boSuuTap = listBoSuuTap.get(0).getSymbol();
     }
@@ -82,30 +95,30 @@ public class InsertItem extends javax.swing.JFrame {
     }
 
     private void EventSelectCombobox() {
-//        jcb_041.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                s041 = "";
-//                if (jcb_041.getSelectedIndex() != -1) {
-//                    s041 = list041.get(jcb_041.getSelectedIndex()).getSymbol();
-//                }
-//            }
-//        });
-//        jcb_925.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                s925 = "";
-//                if (jcb_925.getSelectedIndex() != -1) {
-//                    s925 = list925.get(jcb_925.getSelectedIndex()).getSymbol();
-//                }
-//            }
-//        });
-//        jcb_927.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                s927 = "";
-//                if (jcb_927.getSelectedIndex() != -1) {
-//                    s927 = list927.get(jcb_927.getSelectedIndex()).getSymbol();
-//                }
-//            }
-//        });
+        jcb_bosuutap.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boSuuTap = "";
+                if (jcb_bosuutap.getSelectedIndex() != -1) {
+                    boSuuTap = listBoSuuTap.get(jcb_bosuutap.getSelectedIndex()).getSymbol();
+                }
+            }
+        });
+        jcb_trangthai.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                trangThai = "";
+                if (jcb_trangthai.getSelectedIndex() != -1) {
+                    trangThai = listTrangThai.get(jcb_trangthai.getSelectedIndex()).getSymbol();
+                }
+            }
+        });
+        jcb_loaitailieu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loaiTaiLieu = "";
+                if (jcb_loaitailieu.getSelectedIndex() != -1) {
+                    loaiTaiLieu = listLoaiTaiLieu.get(jcb_loaitailieu.getSelectedIndex()).getSymbol();
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -120,7 +133,7 @@ public class InsertItem extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jtf_gia = new javax.swing.JTextField();
@@ -136,13 +149,12 @@ public class InsertItem extends javax.swing.JFrame {
         jta_mota = new javax.swing.JTextArea();
         jbtn_save = new javax.swing.JButton();
         jlb_bib = new javax.swing.JLabel();
-        reload();
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
 
                 },
                 new String[]{
-                        "Barcode", "Mã Thư viện", "Loại tài liệu", "Trạng thái", "Bộ sưu tập", "Giá", "Số lượng", "Mô tả"
+                        "Barcode", "Mã Thư viện", "Loại tài liệu", "Trạng thái", "Bộ sưu tập", "Giá", "Mô tả"
                 }
         ) {
             Class[] types = new Class[]{
@@ -178,7 +190,6 @@ public class InsertItem extends javax.swing.JFrame {
 
         jLabel5.setText("Mô tả");
 
-        jLabel6.setText("Số lượng");
 
         jLabel7.setText("Giá");
 
@@ -219,7 +230,6 @@ public class InsertItem extends javax.swing.JFrame {
                                                                         .addComponent(jcb_loaitailieu, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                                                .addComponent(jLabel6)
                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                                                                                 .addComponent(jtf_soluong, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -300,7 +310,6 @@ public class InsertItem extends javax.swing.JFrame {
                                                         .addComponent(jtf_gia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel6)
                                                         .addComponent(jtf_soluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jbtn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -325,10 +334,20 @@ public class InsertItem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private String selectJCombo(String key, List<type> types) {
+        String value = "";
+        for (com.btl.quanlythuvien.Enity.type type : types) {
+            if (Objects.equals(key, type.getContent())) {
+                value = type.getSymbol();
+            }
+        }
+        return value;
+    }
+
     private void EventAddItem() {
         jbtn_add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                addItem();
+                addItem(model.getRowCount() + 1);
             }
         });
         jbtn_del.addActionListener(new ActionListener() {
@@ -365,11 +384,10 @@ public class InsertItem extends javax.swing.JFrame {
     private void reload() {
         jtf_barcode.setText(value);
         jtf_maThuVien.setText("HAUI");
-//        jcb_loaitailieu.setSelectedIndex(0);
-//        jcb_trangthai.setSelectedIndex(0);
-//        jcb_bosuutap.setSelectedIndex(0);
+        jcb_loaitailieu.setSelectedIndex(0);
+        jcb_trangthai.setSelectedIndex(0);
+        jcb_bosuutap.setSelectedIndex(0);
         jtf_gia.setText("");
-        jtf_soluong.setText("");
     }
 
     private void dateNow() {
@@ -382,22 +400,22 @@ public class InsertItem extends javax.swing.JFrame {
     private void insertDb() {
         for (int i = 0; i < model.getRowCount(); i++) {
             Z30 z30 = new Z30();
-            z30.setZ30_BARCODE(jtf_barcode.getText() + String.format("%02d", i));
-            z30.setZ30_REC_KEY("");
-            z30.setZ30_SUB_LIBRARY("");
-            z30.setZ30_MATERIAL("");
-            z30.setZ30_ITEM_STATUS("");
+            z30.setZ30_REC_KEY("0");
+            z30.setZ30_BARCODE((String) model.getValueAt(i,0));
+            z30.setZ30_SUB_LIBRARY(jtf_maThuVien.getText());
+            z30.setZ30_MATERIAL(selectJCombo(jcb_loaitailieu.getSelectedItem().toString(), listLoaiTaiLieu));
+            z30.setZ30_ITEM_STATUS(selectJCombo(jcb_trangthai.getSelectedItem().toString(), listTrangThai));
             z30.setZ30_UPDATE_DATE(timeStamp);
-            z30.setZ30_CATALOGER("");
+            z30.setZ30_CATALOGER("MASTER");
             z30.setZ30_DATE_LAST_RETURN("");
-            z30.setZ30_NO_LOANS("");
-            z30.setZ30_COLLECTION("");
+            z30.setZ30_NO_LOANS("1");
+            z30.setZ30_COLLECTION(selectJCombo(jcb_bosuutap.getSelectedItem().toString(), listBoSuuTap));
             z30.setZ30_DESCRIPTION(jta_mota.getText());
             z30.setZ30_ORDER_NUMBER(jtf_soluong.getText());
-            z30.setZ30_PRICE("");
+            z30.setZ30_PRICE(jtf_gia.getText());
 
             BusZ30 busZ30 = new BusZ30(dbConn);
-            busZ30.updateTable(z30);
+            busZ30.addTable(z30);
             System.out.println(z30);
         }
     }
@@ -412,12 +430,12 @@ public class InsertItem extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(4).setPreferredWidth(120);
         jTable1.getColumnModel().getColumn(5).setPreferredWidth(120);
         jTable1.getColumnModel().getColumn(6).setPreferredWidth(120);
-        jTable1.getColumnModel().getColumn(7).setPreferredWidth(120);
     }
 
-    private void addItem() {
+    private void addItem(int i) {
+        jtf_barcode.setText(value + "-" + jtf_maThuVien.getText() + "-" + i);
         model.addRow(new Object[]{jtf_barcode.getText(), jtf_maThuVien.getText(), jcb_loaitailieu.getSelectedItem(), jcb_trangthai.getSelectedItem(),
-                jcb_bosuutap.getSelectedItem(), jtf_gia.getText(), jtf_soluong.getText()});
+                jcb_bosuutap.getSelectedItem(), jtf_gia.getText()});
     }
 
     private void jtf_barcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_barcodeActionPerformed

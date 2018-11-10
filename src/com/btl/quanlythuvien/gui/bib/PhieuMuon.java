@@ -38,7 +38,7 @@ public class PhieuMuon extends javax.swing.JFrame {
     DefaultTableModel model = null;
     String itemStatus = "";
     float Z30_PRICE = 0;
-    String iD="";
+    String iD = "";
     int z = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JLabel jLabel;
@@ -78,6 +78,8 @@ public class PhieuMuon extends javax.swing.JFrame {
      */
     public PhieuMuon() {
         initComponents();
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
         setDisplayTable();
         getData();
         setComboBox();
@@ -139,8 +141,8 @@ public class PhieuMuon extends javax.swing.JFrame {
         listZ00 = busZ00.getAllTable();
         listOneTableZ30 = busZ30.getOneTable_REC_KEY(listZ00.get(0).getZ00_DOC_NUMBER());
         jtf_tendocgia.setText(listZ303.get(0).getZ303_NAME());
-        int count=bus.getCountZ00("SELECT count(DISTINCT Z36_ID) FROM z36");
-        iD=String.format("%09d",count+1);
+        int count = bus.getCountZ00("SELECT count(DISTINCT Z36_ID) FROM z36");
+        iD = String.format("%09d", count + 1);
         jtf_maphieu.setText(iD);
     }
 
@@ -179,6 +181,7 @@ public class PhieuMuon extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        listOneTableZ30 = new ArrayList<>();
         jLabel = new JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -530,7 +533,7 @@ public class PhieuMuon extends javax.swing.JFrame {
     }
 
     private void addItem() {
-        model.addRow(new Object[]{jcb_matailieu.getSelectedItem(),jcb_macabiet.getSelectedItem(), jtf_nhande.getText(), jtf_soLuong.getText()});
+        model.addRow(new Object[]{jcb_matailieu.getSelectedItem(), jcb_macabiet.getSelectedItem(), jtf_nhande.getText(), jtf_soLuong.getText()});
     }
 
     private void insertDb() {
