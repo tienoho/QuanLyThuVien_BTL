@@ -6,10 +6,10 @@ import java.sql.DriverManager;
 public class DBConnection {
     private Connection conn = null;
     private final String user = "root";
-   // private final String pass = "root";
-    private final String pass = "";
-  //  private final String cs = "jdbc:mysql://192.168.1.221:3306/QuanLyThuVien";
-    private final String cs = "jdbc:mysql://localhost:3306/QuanLyThuVien";
+    private final String pass = "root";
+   // private final String pass = "";
+    private final String cs = "jdbc:mysql://192.168.1.221:3306/QuanLyThuVien";
+  //  private final String cs = "jdbc:mysql://localhost:3306/QuanLyThuVien";
 
     public DBConnection() {
         try {
