@@ -43,15 +43,17 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void registerListener() {
-        if (getDataRow()) {
-            btnChiTiet.setVisible(true);
-        }
-        MouseListener clickChiTiet=new MouseAdapter() {
+
+        MouseListener clickChiTiet = new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewItem viewItem=new ViewItem(dTable.getText(), txtData.getText());
-                viewItem.show();
+                if (!getDataRow()) {
+                    JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần xem chi tiết!!");
+                } else {
+                    ViewItem viewItem = new ViewItem(dTable.getText(), txtData.getText());
+                    viewItem.show();
+                }
             }
         };
         btnChiTiet.addMouseListener(clickChiTiet);
@@ -188,7 +190,7 @@ public class HomePanel extends BasePanel {
 
         btnMuon = new JButton("Quản lí mượn trả sách....", new ImageIcon(
                 "image/mt.png"));
-        btnQuanLyNXB = new JButton("Quản lí NXB....", new ImageIcon(
+        btnQuanLyNXB = new JButton("Quản lí Item sách...", new ImageIcon(
                 "image/nxb.png"));
         btnDocGia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
 
@@ -230,7 +232,6 @@ public class HomePanel extends BasePanel {
         makeComp(btnCapNhat, btnThem.getX(), btnThem.getY() + btnThem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         makeComp(btnXoa, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
-        makeComp(btnChiTiet, btnThemItem.getX(), btnThemItem.getY() + btnThemItem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         dTable.setText("z00r");
         colunm.setText("Z00R_DOC_NUMBER");
@@ -297,6 +298,7 @@ public class HomePanel extends BasePanel {
 
     private void reloadQuanLySach() {
         makeComp(btnThemItem, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(btnChiTiet, btnThemItem.getX(), btnThemItem.getY() + btnThemItem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
                 "Z00R_TITLE AS 'Nhan đề'," +
@@ -310,6 +312,7 @@ public class HomePanel extends BasePanel {
 
     private void reloadDocGia() {
         btnThemItem.setVisible(false);
+        btnChiTiet.setVisible(false);
         String sql = "Select Z303_REC_Key AS 'Mã độc giả'," +
                 "Z303_NAME AS 'Tên độc giả'," +
                 "Z303_BIRTH_DATE AS 'Ngày sinh'," +
@@ -321,8 +324,11 @@ public class HomePanel extends BasePanel {
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
     }
+
     private void reloadItemSach() {
         btnThemItem.setVisible(false);
+        btnChiTiet.setVisible(false);
+
         String sql = "Select Z30_BARCODE AS 'Barcode'," +
                 "Z30_REC_KEY AS 'Mã sách'," +
                 "Z30_SUB_LIBRARY AS 'Mã thư viện'," +
@@ -335,6 +341,7 @@ public class HomePanel extends BasePanel {
         colunm.setText("Z30_BARCODE");
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+
     }
 
     private boolean getDataRow() {
