@@ -39,6 +39,8 @@ public class PatronI_U extends javax.swing.JFrame {
     String value;
     String table = "";
     String timeStamp = "";
+    String namePic = "";
+    boolean blPic = false;
     private ArrayList<type> listLag = new ArrayList<>();
     private ArrayList<type> listGender = new ArrayList<>();
     private ArrayList<type> listTitle = new ArrayList<>();
@@ -593,6 +595,7 @@ public class PatronI_U extends javax.swing.JFrame {
                         while ((length = inputStream.read(buffer)) > 0) {
                             outputStream.write(buffer, 0, length);
                         }
+                        blPic = true;
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -688,6 +691,7 @@ public class PatronI_U extends javax.swing.JFrame {
         imgLabel.setText("");
         fileImg = System.getProperty("user.dir") + "\\DATA\\";
         System.out.println(fileImg + listZ303.get(0).getZ303_IMAGE());
+        namePic = listZ303.get(0).getZ303_IMAGE();
         imgLabel.setIcon(new ImageIcon(new ImageIcon(fileImg + listZ303.get(0).getZ303_IMAGE()).getImage().getScaledInstance(imgLabel.getWidth(), imgLabel.getHeight(), Image.SCALE_SMOOTH)));
         jcb_block.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_DELINQ_1(), listBlock));
         jcb_gender.setSelectedItem(selectJCombo(listZ303.get(0).getZ303_GENDER(), listGender));
@@ -726,7 +730,11 @@ public class PatronI_U extends javax.swing.JFrame {
         z303.setZ303_NOTE_1(jtf_Note1.getText());
         z303.setZ303_NOTE_2(jtf_Note2.getText());
         z303.setZ303_SALUTATION("Xin chòa");
-        z303.setZ303_IMAGE("image" + patronId + imagePath);
+        if (blPic) {
+            z303.setZ303_IMAGE("image" + patronId + imagePath);
+        } else {
+            z303.setZ303_IMAGE(namePic);
+        }
         z303.setZ303_BIRTH_DATE(jtf_DateBirth.getText());
         z303.setZ303_PLACE_BIRTH(jtf_PlaceBirth.getText());
         z303.setZ303_GENDER(gender);
