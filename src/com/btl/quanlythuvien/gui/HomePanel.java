@@ -1,10 +1,7 @@
 package com.btl.quanlythuvien.gui;
 
 import com.btl.quanlythuvien.Business.BusALl;
-import com.btl.quanlythuvien.gui.bib.InsertBibFrame;
-import com.btl.quanlythuvien.gui.bib.InsertItem;
-import com.btl.quanlythuvien.gui.bib.PatronI_U;
-import com.btl.quanlythuvien.gui.bib.PhieuMuon;
+import com.btl.quanlythuvien.gui.bib.*;
 import com.btl.quanlythuvien.model.DBConnection;
 
 import javax.swing.*;
@@ -25,7 +22,7 @@ public class HomePanel extends BasePanel {
 
     public static final int SIZE_BUTTON_WIDTH = 220;
     public static final int SIZE_BUTTON_HEIGHT = 50;
-    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia, btnThem, btnThemItem;
+    private JButton btnQuanLy, btnXoa, btnCapNhat, btnMuon, btnQuanLyNXB, btnDocGia, btnTimkKiem, btnTacGia, btnThem, btnThemItem, btnChiTiet;
     private JTextField txtTimKiem, txtData, dTable, colunm;
     private Connection connection;
     private PreparedStatement statement;
@@ -46,6 +43,18 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void registerListener() {
+        if (getDataRow()) {
+            btnChiTiet.setVisible(true);
+        }
+        MouseListener clickChiTiet=new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ViewItem viewItem=new ViewItem(dTable.getText(), txtData.getText());
+                viewItem.show();
+            }
+        };
+        btnChiTiet.addMouseListener(clickChiTiet);
 
         MouseListener clickQuanLy = new MouseAdapter() {
             @Override
@@ -68,6 +77,7 @@ public class HomePanel extends BasePanel {
         MouseListener clickQuanLyNXB = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                reloadItemSach();
             }
         };
         btnQuanLyNXB.addMouseListener(clickQuanLyNXB);
@@ -171,6 +181,7 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void addComponents() {
+        btnChiTiet = new JButton("Chi tiết sách");
 
         btnQuanLy = new JButton("Quản lí sách", new ImageIcon(
                 "image/qls2.png"));
@@ -219,6 +230,7 @@ public class HomePanel extends BasePanel {
         makeComp(btnCapNhat, btnThem.getX(), btnThem.getY() + btnThem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         makeComp(btnXoa, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(btnChiTiet, btnThemItem.getX(), btnThemItem.getY() + btnThemItem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         dTable.setText("z00r");
         colunm.setText("Z00R_DOC_NUMBER");
@@ -306,6 +318,21 @@ public class HomePanel extends BasePanel {
         String title = "Chi tiết độc giả";
         dTable.setText("z303");
         colunm.setText("Z303_REC_KEY");
+        tableResult = makeTable(sql, title);
+        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+    }
+    private void reloadItemSach() {
+        btnThemItem.setVisible(false);
+        String sql = "Select Z30_BARCODE AS 'Barcode'," +
+                "Z30_REC_KEY AS 'Mã sách'," +
+                "Z30_SUB_LIBRARY AS 'Mã thư viện'," +
+                "Z30_MATERIAL AS 'Loại tài liệu'," +
+                "Z30_ITEM_STATUS AS 'Trạng thái'," +
+                "Z30_COLLECTION AS 'Bộ sưu tập'," +
+                "Z30_PRICE AS 'Giá' From z30";
+        String title = "Chi tiết Item sách";
+        dTable.setText("z30");
+        colunm.setText("Z30_BARCODE");
         tableResult = makeTable(sql, title);
         makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
     }
