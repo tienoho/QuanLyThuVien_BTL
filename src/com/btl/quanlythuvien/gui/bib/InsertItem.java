@@ -73,6 +73,7 @@ public class InsertItem extends javax.swing.JFrame {
         dateNow();
         reload();
         EventAddItem();
+        EventSelectCombobox();
         setDisplayTable();
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
