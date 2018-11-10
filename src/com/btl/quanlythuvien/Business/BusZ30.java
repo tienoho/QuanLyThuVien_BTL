@@ -22,8 +22,8 @@ public class BusZ30 {
         String sql = "INSERT INTO Z30 VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, z.getZ30_REC_KEY());
-            pst.setString(2, z.getZ30_BARCODE());
+            pst.setString(1, z.getZ30_BARCODE());
+            pst.setString(2, z.getZ30_REC_KEY());
             pst.setString(3, z.getZ30_SUB_LIBRARY());
             pst.setString(4, z.getZ30_MATERIAL());
             pst.setString(5, z.getZ30_ITEM_STATUS());

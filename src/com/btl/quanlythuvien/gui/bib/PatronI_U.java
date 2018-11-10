@@ -9,16 +9,15 @@ import com.btl.quanlythuvien.Business.BusALl;
 import com.btl.quanlythuvien.Business.BusZ303;
 import com.btl.quanlythuvien.Enity.Z303;
 import com.btl.quanlythuvien.Enity.type;
+import com.btl.quanlythuvien.gui.HintTextFieldUI;
 import com.btl.quanlythuvien.model.DBConnection;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -272,17 +271,17 @@ public class PatronI_U extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jtf_Note2);
 
 
-        jtf_opendate.setText("jTextField1");
-        jtf_PatronID.setText("jTextField1");
-        jtf_barcode.setText("jTextField1");
-        jtf_name.setText("jTextField1");
-        jtf_DateBirth.setText("01/01/1990");
-        jtf_PlaceBirth.setText("jTextField1");
-        jtf_profile.setText("jTextField1");
-        jtf_updateDate.setText("jTextField1");
-        jtf_Field1.setText("jTextField1");
-        jtf_Field2.setText("jTextField1");
-        jtf_Field3.setText("jTextField1");
+        jtf_opendate.setText("");
+        jtf_PatronID.setText("");
+        jtf_barcode.setText("");
+        jtf_name.setUI(new HintTextFieldUI("Le Van A"));
+        jtf_DateBirth.setUI(new HintTextFieldUI("01/01/1990"));
+        jtf_PlaceBirth.setUI(new HintTextFieldUI("Địa chỉ"));
+        jtf_profile.setText("");
+        jtf_updateDate.setText("");
+        jtf_Field1.setText("");
+        jtf_Field2.setText("");
+        jtf_Field3.setText("");
 
         jtf_Field1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

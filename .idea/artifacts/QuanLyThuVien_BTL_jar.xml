@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="QuanLyThuVien_BTL:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/QuanLyThuVien_BTL_jar</output-path>
+    <root id="archive" name="QuanLyThuVien_BTL.jar">
+      <element id="module-output" name="QuanLyThuVien_BTL" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/Driver/com.mysql.jdbc_5.1.5.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
