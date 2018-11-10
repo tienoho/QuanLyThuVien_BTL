@@ -73,7 +73,24 @@ public class BusZ36 {
         }
         return bl;
     }
+    public boolean updateZ36TinhTrang(String PatronID,String REC_KEY,String Status,String date) {
+        boolean bl = false;
+        String sql = "Update Z36 SET  Z36_STATUS=? ,Z36_RETURNED_DATE=? WHERE Z36_REC_KEY=? AND Z36_PARTRON_ID=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(3, REC_KEY);
+            pst.setString(4, PatronID);
+            pst.setString(1, Status);
+            pst.setString(2, date);
 
+            pst.executeUpdate();
+            pst.close();
+            bl = true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return bl;
+    }
     public ArrayList<Z36> getAllTable() {
         ArrayList<Z36> list = new ArrayList<>();
         String sql = "SELECT * FROM Z36";
@@ -137,6 +154,32 @@ public class BusZ36 {
                 Z36 z = new Z36(Z36_ID,Z36_REC_KEY,Z36_BARCODE, Z36_PARTRON_ID, Z36_NUMBER, Z36_SUB_LIBRARY, Z36_STATUS, Z36_LOAN_DATE,
                         Z36_DUE_DATE, Z36_RETURNED_DATE, Z36_ITEM_STATUS,
                         Z36_NOTE_1,Z36_MONEY,Z36_MONEY_FINE, Z36_PROCESS_STATUS);
+                list.add(z);
+            }
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    public ArrayList<Z36> getTablePatron(String Z_ID) {
+        ArrayList<Z36> list = new ArrayList<>();
+        String sql = "SELECT * FROM z36 WHERE Z36_PARTRON_ID=?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, Z_ID);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String Z36_REC_KEY = rs.getString("Z36_REC_KEY");
+                String Z36_BARCODE = rs.getString("Z36_BARCODE");
+                String Z36_STATUS = rs.getString("Z36_STATUS");
+                String Z36_LOAN_DATE = rs.getString("Z36_LOAN_DATE");
+                String Z36_DUE_DATE = rs.getString("Z36_DUE_DATE");
+
+                Z36 z = new Z36("",Z36_REC_KEY,Z36_BARCODE, "", "", "", Z36_STATUS, Z36_LOAN_DATE,
+                        Z36_DUE_DATE, "", "",
+                        "",0,0, "");
                 list.add(z);
             }
             rs.close();
