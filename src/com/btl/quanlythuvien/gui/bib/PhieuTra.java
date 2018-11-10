@@ -178,12 +178,17 @@ public class PhieuTra extends javax.swing.JFrame {
         });
         jbtn_upload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                busZ36.updateZ36TinhTrang(value,jtf_bib.getText(),tinhTrang,timeStamp);
-                int rowCount = model.getRowCount();
-                for (int i = rowCount - 1; i >= 0; i--) {
-                    model.removeRow(i);
+                if(busZ36.updateZ36TinhTrang(value,jtf_bib.getText(),tinhTrang,timeStamp)){
+                    JOptionPane.showMessageDialog(null, "Cập thông tin thành công!!");
+                    int rowCount = model.getRowCount();
+                    for (int i = rowCount - 1; i >= 0; i--) {
+                        model.removeRow(i);
+                    }
+                    addItem();
+                }else {
+                    JOptionPane.showMessageDialog(null, "Cập nhập không thành công!!");
                 }
-                addItem();
+
             }
         });
     }
