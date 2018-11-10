@@ -28,7 +28,7 @@ public class HomePanel extends BasePanel {
     private PreparedStatement statement;
     private JViewport viewport;
     private JTable table;
-    private JLabel label;
+    private JLabel label, timkiem;
     private JFrame jFrame;
     private Vector<String> vTitle;
     private Vector<Vector<String>> vData;
@@ -43,7 +43,6 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void registerListener() {
-
         MouseListener clickChiTiet = new MouseAdapter() {
 
             @Override
@@ -114,7 +113,43 @@ public class HomePanel extends BasePanel {
                 if (txtTimKiem.getText().equals("") || txtTimKiem.getText() == null) {
                     JOptionPane.showMessageDialog(null, "Bạn cần nhâp giá trị tìm kiếm!!!");
                 } else {
+                    if (dTable.getText().equals("z00r")) {
 
+                        String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
+                                "Z00R_TITLE AS 'Nhan đề'," +
+                                "Z00R_AUTHOR AS 'Tác giả' From z00r where Z00R_DOC_NUMBER='" + String.format("%09d", Integer.parseInt(txtTimKiem.getText())) + "'";
+                        String title = "Xem chi tiết";
+                        tableResult = makeTable(sql, title);
+                        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+                    }
+                    if (dTable.getText().equals("z30")) {
+                        btnThemItem.setVisible(false);
+                        btnChiTiet.setVisible(false);
+
+                        String sql = "Select Z30_BARCODE AS 'Barcode'," +
+                                "Z30_REC_KEY AS 'Mã sách'," +
+                                "Z30_SUB_LIBRARY AS 'Mã thư viện'," +
+                                "Z30_MATERIAL AS 'Loại tài liệu'," +
+                                "Z30_ITEM_STATUS AS 'Trạng thái'," +
+                                "Z30_COLLECTION AS 'Bộ sưu tập'," +
+                                "Z30_PRICE AS 'Giá' From z30 where Z30_REC_KEY='" + String.format("%09d", Integer.parseInt(txtTimKiem.getText())) + "'";
+                        String title = "Chi tiết Item sách";
+                        tableResult = makeTable(sql, title);
+                        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+                    }
+                    if (dTable.getText().equals("z303")) {
+                        btnThemItem.setVisible(false);
+                        btnChiTiet.setVisible(false);
+                        String sql = "Select Z303_REC_Key AS 'Mã độc giả'," +
+                                "Z303_NAME AS 'Tên độc giả'," +
+                                "Z303_BIRTH_DATE AS 'Ngày sinh'," +
+                                "Z303_GENDER AS 'Giới tính'," +
+                                "Z303_DELINQ_1 AS 'Trạng thái' From z303 where Z303_REC_Key='" + String.format("%09d", Integer.parseInt(txtTimKiem.getText())) + "'";
+                        String title = "Chi tiết độc giả";
+                        tableResult = makeTable(sql, title);
+                        makeComp(tableResult, btnCapNhat.getX() + btnCapNhat.getWidth() + 25, btnQuanLy.getY() + btnQuanLy.getHeight() + 50, SIZE_BUTTON_WIDTH * 3 + 50, 400);
+
+                    }
 
                 }
             }
@@ -164,8 +199,13 @@ public class HomePanel extends BasePanel {
                 if (!getDataRow()) {
                     JOptionPane.showMessageDialog(null, "Bạn cần chọn dòng cần thêm item!!");
                 } else {
-                    InsertItem insertItem = new InsertItem(dTable.getText(), txtData.getText());
-                    insertItem.show();
+                    if (dTable.getText().equals("z303")) {
+                        PhieuTra phieuTra = new PhieuTra();
+                        phieuTra.show();
+                    } else {
+                        InsertItem insertItem = new InsertItem(dTable.getText(), txtData.getText());
+                        insertItem.show();
+                    }
                 }
             }
         };
@@ -183,29 +223,32 @@ public class HomePanel extends BasePanel {
 
     @Override
     public void addComponents() {
+        timkiem = new JLabel("Nhập mã sách ");
         btnChiTiet = new JButton("Chi tiết sách");
 
-        btnQuanLy = new JButton("Quản lí sách", new ImageIcon(
-                "image/qls2.png"));
+        btnQuanLy = new JButton("Quản lý sách", new ImageIcon(
+                "image/qlysach.png"));
 
-        btnMuon = new JButton("Quản lí mượn trả sách....", new ImageIcon(
-                "image/mt.png"));
-        btnQuanLyNXB = new JButton("Quản lí Item sách...", new ImageIcon(
-                "image/nxb.png"));
-        btnDocGia = new JButton("Quản lí độc giả....", new ImageIcon("image/qldg.png"));
+        btnDocGia = new JButton("Quản lý độc giả", new ImageIcon("image/qlydocgia.png"));
 
-        btnThem = new JButton("Thêm thông tin...");
+        btnMuon = new JButton("Quản lý mượn trả sách", new ImageIcon(
+                "image/qlymuontra.png"));
 
-        btnXoa = new JButton("Xoá thông tin....", new ImageIcon("image/xoa.png"));
+        btnQuanLyNXB = new JButton("Quản lý item sách", new ImageIcon(
+                "image/qlitemsach.png"));
 
-        btnCapNhat = new JButton("Cập nhật thông tin....", new ImageIcon(
-                "image/cn.png"));
+        btnThem = new JButton("Thêm thông tin", new ImageIcon("image/themsach.png"));
 
-        btnTimkKiem = new JButton("Tìm kiếm", new ImageIcon("image/tk2.png"));
+        btnXoa = new JButton("Xoá thông tin", new ImageIcon("image/xoasach.png"));
+
+        btnCapNhat = new JButton("Cập nhật thông tin", new ImageIcon(
+                "image/chinhsua.png"));
+
+        btnTimkKiem = new JButton("Tìm kiếm", new ImageIcon("image/timkiem.png"));
 
         btnTacGia = new JButton("Thông tin tác giả", new ImageIcon("image/qltg.png"));
 
-        btnThemItem = new JButton("Thêm Item Sách");
+        btnThemItem = new JButton("Thêm item sách");
         txtTimKiem = new JTextField();
         txtData = new JTextField();
         table = new JTable();
@@ -225,13 +268,19 @@ public class HomePanel extends BasePanel {
 
         makeComp(btnTimkKiem, btnQuanLy.getX(), btnQuanLy.getY() + btnQuanLy.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
-        makeComp(txtTimKiem, btnTimkKiem.getX(), btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        makeComp(txtTimKiem, btnTimkKiem.getX(), btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, SIZE_BUTTON_WIDTH - 100, SIZE_BUTTON_HEIGHT - 20);
 
-        makeComp(btnThem, txtTimKiem.getX(), txtTimKiem.getY() + txtTimKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 20);
+        makeComp(timkiem, txtTimKiem.getX() + txtTimKiem.getWidth() + 5, btnTimkKiem.getY() + btnTimkKiem.getHeight() + 25, 100, SIZE_BUTTON_HEIGHT - 20);
+
+        makeComp(btnThem, txtTimKiem.getX(), txtTimKiem.getY() + txtTimKiem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         makeComp(btnCapNhat, btnThem.getX(), btnThem.getY() + btnThem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         makeComp(btnXoa, btnCapNhat.getX(), btnCapNhat.getY() + btnCapNhat.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+
+        makeComp(btnThemItem, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+
+        makeComp(btnChiTiet, btnThemItem.getX(), btnThemItem.getY() + btnThemItem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
 
         dTable.setText("z00r");
         colunm.setText("Z00R_DOC_NUMBER");
@@ -297,8 +346,10 @@ public class HomePanel extends BasePanel {
     }
 
     private void reloadQuanLySach() {
-        makeComp(btnThemItem, btnXoa.getX(), btnXoa.getY() + btnXoa.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
-        makeComp(btnChiTiet, btnThemItem.getX(), btnThemItem.getY() + btnThemItem.getHeight() + 25, SIZE_BUTTON_WIDTH, SIZE_BUTTON_HEIGHT - 10);
+        btnThemItem.setText("Thêm item sách");
+        btnThemItem.setVisible(true);
+        btnChiTiet.setVisible(true);
+        timkiem.setText("Nhập mã sách");
 
         String sql = "Select Z00R_DOC_NUMBER AS 'Mã tài liệu'," +
                 "Z00R_TITLE AS 'Nhan đề'," +
@@ -311,7 +362,8 @@ public class HomePanel extends BasePanel {
     }
 
     private void reloadDocGia() {
-        btnThemItem.setVisible(false);
+        timkiem.setText("Nhập mã độc giả");
+        btnThemItem.setText("Phiếu trả");
         btnChiTiet.setVisible(false);
         String sql = "Select Z303_REC_Key AS 'Mã độc giả'," +
                 "Z303_NAME AS 'Tên độc giả'," +
@@ -328,6 +380,7 @@ public class HomePanel extends BasePanel {
     private void reloadItemSach() {
         btnThemItem.setVisible(false);
         btnChiTiet.setVisible(false);
+        timkiem.setText("Nhập mã sách");
 
         String sql = "Select Z30_BARCODE AS 'Barcode'," +
                 "Z30_REC_KEY AS 'Mã sách'," +
