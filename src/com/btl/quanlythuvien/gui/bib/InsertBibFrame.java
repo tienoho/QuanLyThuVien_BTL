@@ -156,6 +156,7 @@ public class InsertBibFrame extends javax.swing.JFrame {
         jtf_082_b = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jtf_008.enable(false);
         list041 = listShowComm(jcb_041, "SELECT * FROM Language", list041);
         list925 = listShowComm(jcb_925, "SELECT * FROM Material", list925);
         list927 = listShowComm(jcb_927, "SELECT * FROM collection", list927);
@@ -247,8 +248,8 @@ public class InsertBibFrame extends javax.swing.JFrame {
 
     private void reloadInsert() {
         jButton2.setText("Thêm");
-        jtf_082_a.setUI(new HintTextFieldUI("jTextField11"));
-        jtf_082_b.setUI(new HintTextFieldUI("jTextField11"));
+        jtf_082_a.setUI(new HintTextFieldUI(""));
+        jtf_082_b.setUI(new HintTextFieldUI(""));
         jtf_100_a.setUI(new HintTextFieldUI("tên tác giả"));
         jtf_100_e.setUI(new HintTextFieldUI("vai trò"));
         jtf_245_a.setUI(new HintTextFieldUI("Tên nhan đề"));
@@ -264,7 +265,7 @@ public class InsertBibFrame extends javax.swing.JFrame {
     }
 
     private void view() {
-        jLabel1.setText("008");
+        jLabel1.setText("");
         jLabel2.setText("Ngôn ngữ");
         jLabel3.setText("082");
         jLabel7.setText("$$a");
